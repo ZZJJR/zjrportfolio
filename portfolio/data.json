@@ -162,13 +162,13 @@
     },
     {
       "id": "tech-talk",
-      "title": "口播栏目《科技半月谈》",
+      "title": "口播",
       "category": "口播栏目",
       "year": "2026",
       "duration": "04:18",
       "desc": "知识科普口播，去气口与信息密度优化。",
       "cover": "images/work-tech.png",
-      "video": "https://zuopingji-1515570789.cos.ap-beijing.myqcloud.com/%E5%8F%A3%E6%92%AD%E7%B4%A0%E6%9D%90%EF%BC%88INFP%29.mp4",
+      "video": "",
       "detail": null
     },
     {
@@ -291,7 +291,7 @@
     "title": "有项目或机会，\n随时聊聊。",
     "sub": "目前正在寻找视频剪辑相关岗位，也欢迎商业短片、口播与广告合作委托。期待你的消息。",
     "email": "zhangjunrui@foxmail.com",
-    "phone": "微信 / 电话：邮件联系后提供",
+    "phone": "+86 138-0000-0000",
     "location": "山西太原 · 接受远程合作",
     "socials": [
       {
