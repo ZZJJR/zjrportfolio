@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>后台管理 — 剪辑师作品集</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%239EFF00'/%3E%3C/svg%3E" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="admin-body">
+
+  <!-- 登录 -->
+  <div class="admin-login-wrap" id="loginWrap">
+    <div class="admin-login-box">
+      <div class="admin-login-title">作品集后台管理</div>
+      <p class="admin-login-sub">请输入管理员密码以进入内容管理系统。初始密码为 admin123，登录后请立即在「设置」中修改。</p>
+      <div class="admin-field">
+        <label class="admin-label">管理员密码</label>
+        <input class="admin-input" id="loginPwd" type="password" placeholder="请输入密码" autocomplete="current-password" />
+      </div>
+      <div class="admin-err" id="loginErr"></div>
+      <button class="btn btn-primary" id="loginBtn" style="width:100%;">登 录</button>
+      <a href="/" style="font-size:12px;color:#737373;text-align:center;">← 返回网站前台</a>
+    </div>
+  </div>
+
+  <!-- 管理界面 -->
+  <div class="admin-app" id="adminApp">
+    <div class="admin-topbar">
+      <span class="t">作品集后台管理</span>
+      <div class="ops">
+        <span class="admin-save-tip" id="saveTip">已保存 ✓</span>
+        <button class="admin-save-btn" id="saveBtn">保存全部修改</button>
+        <button class="admin-logout-btn" id="logoutBtn">退出登录</button>
+      </div>
+    </div>
+    <div class="admin-layout">
+      <aside class="admin-side" id="adminSide">
+        <button class="admin-tab on" data-tab="profile">基本信息</button>
+        <button class="admin-tab" data-tab="specialty">擅长方向</button>
+        <button class="admin-tab" data-tab="works">作品管理</button>
+        <button class="admin-tab" data-tab="case">案例详情</button>
+        <button class="admin-tab" data-tab="skills">技能与软件</button>
+        <button class="admin-tab" data-tab="contact">联系方式</button>
+        <button class="admin-tab" data-tab="access">访问记录</button>
+          <button class="admin-tab" data-tab="settings">设置</button>
+      </aside>
+      <main class="admin-main">
+
+        <!-- 基本信息 -->
+        <section class="admin-panel on" data-panel="profile">
+          <div class="admin-panel-title">基本信息</div>
+          <p class="admin-panel-desc">导航栏、首屏主标题、个人简介与数据统计的内容。</p>
+          <div class="admin-card">
+            <div class="admin-grid-2">
+              <div class="admin-field"><label class="admin-label">姓名</label><input class="admin-input" data-bind="profile.name" /></div>
+              <div class="admin-field"><label class="admin-label">职位头衔</label><input class="admin-input" data-bind="profile.role" /></div>
+            </div>
+            <div class="admin-field"><label class="admin-label">首屏眉标（小字）</label><input class="admin-input" data-bind="profile.kicker" /></div>
+            <div class="admin-field"><label class="admin-label">首屏主标题（支持换行）</label><textarea class="admin-input" data-bind="profile.headline"></textarea></div>
+            <div class="admin-field"><label class="admin-label">首屏副标题</label><textarea class="admin-input" data-bind="profile.sub"></textarea></div>
+            <div class="admin-field"><label class="admin-label">擅长方向标签（逗号分隔）</label><input class="admin-input" data-bind="profile.tags" data-type="array" /></div>
+            <div class="admin-grid-2">
+              <div class="admin-field"><label class="admin-label">Showreel 封面图路径</label><input class="admin-input" data-bind="profile.showreel.cover" />
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px;">
+                <button class="admin-mini-btn" id="scUploadBtn" type="button">上传封面图</button>
+                <input type="file" id="scUploadFile" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" style="display:none;" />
+                <span class="admin-panel-desc" id="scUploadTip">png / jpg / webp，≤10MB</span>
+              </div>
+            </div>
+              <div class="admin-field"><label class="admin-label">Showreel 视频地址（mp4/webm，可留空）</label><input class="admin-input" data-bind="profile.showreel.video" /></div>
+            </div>
+            <div class="admin-field"><label class="admin-label">或上传 Showreel 本地视频（mp4 / webm，不超过 200MB）</label>
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                <button class="admin-mini-btn" id="srUploadBtn" type="button">选择文件上传</button>
+                <input type="file" id="srUploadFile" accept=".mp4,.webm,video/mp4,video/webm" style="display:none;" />
+                <span class="admin-panel-desc" id="srUploadTip">上传后自动填入上方视频地址</span>
+              </div>
+            </div>
+            <div class="admin-grid-3">
+              <div class="admin-field"><label class="admin-label">时长标签文字</label><input class="admin-input" data-bind="profile.showreel.duration" /></div>
+              <div class="admin-field"><label class="admin-label">封面角标</label><input class="admin-input" data-bind="profile.showreel.label" /></div>
+              <div class="admin-field"><label class="admin-label">封面说明</label><input class="admin-input" data-bind="profile.showreel.caption" /></div>
+            </div>
+            <div class="admin-field"><label class="admin-label">个人照片路径</label><input class="admin-input" data-bind="profile.portrait" />
+              <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px;">
+                <button class="admin-mini-btn" id="ptUploadBtn" type="button">上传个人照片</button>
+                <input type="file" id="ptUploadFile" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" style="display:none;" />
+                <span class="admin-panel-desc" id="ptUploadTip">png / jpg / webp，≤10MB</span>
+              </div>
+            </div>
+            <div class="admin-field"><label class="admin-label">简介段落一</label><textarea class="admin-input" data-bind="profile.bio1"></textarea></div>
+            <div class="admin-field"><label class="admin-label">简介段落二</label><textarea class="admin-input" data-bind="profile.bio2"></textarea></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">求职意向（三行）</div>
+            <div id="intentEditor"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">数据统计（四格）</div>
+            <div id="statsEditor" class="admin-grid-2"></div>
+          </div>
+        </section>
+
+        <!-- 擅长方向 -->
+        <section class="admin-panel" data-panel="specialty">
+          <div class="admin-panel-title">擅长方向</div>
+          <p class="admin-panel-desc">个人简介区的三张方向卡片。图标可选：mic（口播）/ film（短片）/ megaphone（广告）。</p>
+          <div id="specEditor" class="admin-grid-3"></div>
+        </section>
+
+        <!-- 作品管理 -->
+        <section class="admin-panel" data-panel="works">
+          <div class="admin-panel-title">作品管理</div>
+          <p class="admin-panel-desc">新增、编辑、删除作品。封面路径指向 images/ 目录下的文件；视频地址留空时点击播放仅展示封面。</p>
+          <div style="display:flex;justify-content:flex-end;"><button class="admin-mini-btn primary" id="addWorkBtn">+ 新增作品</button></div>
+          <div id="worksEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+        </section>
+
+        <!-- 案例详情 -->
+        <section class="admin-panel" data-panel="case">
+          <div class="admin-panel-title">案例详情</div>
+          <p class="admin-panel-desc">编辑指定作品的案例详情页内容（项目背景、信息卡、剪辑手法、使用软件）。</p>
+          <div class="admin-card">
+            <div class="admin-field"><label class="admin-label">选择要编辑的作品</label><div id="caseWorkPicker"></div></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-field"><label class="admin-label">背景段落（每行一段）</label><textarea class="admin-input" data-case-bg style="min-height:140px;"></textarea></div>
+            <div class="admin-card-title">项目信息卡（四行）</div>
+            <div id="caseInfoEditor" class="admin-grid-2"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">剪辑手法条目</div>
+            <div id="techEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-field"><label class="admin-label">使用软件（逗号分隔）</label><input class="admin-input" data-case-tools /></div>
+          </div>
+        </section>
+
+        <!-- 技能与软件 -->
+        <section class="admin-panel" data-panel="skills">
+          <div class="admin-panel-title">技能与软件</div>
+          <p class="admin-panel-desc">核心能力列表（含熟练度百分比）与常用软件网格。</p>
+          <div class="admin-card">
+            <div class="admin-card-title">核心剪辑能力</div>
+            <div id="skillEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">常用软件</div>
+            <div id="softEditor" class="admin-grid-3"></div>
+            <div class="admin-field" style="margin-top:14px;"><label class="admin-label">软件区备注</label><input class="admin-input" data-bind="softwareNote" /></div>
+          </div>
+        </section>
+
+        <!-- 联系方式 -->
+        <section class="admin-panel" data-panel="contact">
+          <div class="admin-panel-title">联系方式</div>
+          <p class="admin-panel-desc">联系板块的标题、文案与联系方式。</p>
+          <div class="admin-card">
+            <div class="admin-field"><label class="admin-label">联系大标题（支持换行）</label><textarea class="admin-input" data-bind="contact.title"></textarea></div>
+            <div class="admin-field"><label class="admin-label">联系副文案</label><textarea class="admin-input" data-bind="contact.sub"></textarea></div>
+            <div class="admin-grid-2">
+              <div class="admin-field"><label class="admin-label">邮箱</label><input class="admin-input" data-bind="contact.email" /></div>
+              <div class="admin-field"><label class="admin-label">电话</label><input class="admin-input" data-bind="contact.phone" /></div>
+            </div>
+            <div class="admin-field"><label class="admin-label">所在地</label><input class="admin-input" data-bind="contact.location" /></div>
+            <div class="admin-card-title">社交媒体链接</div>
+            <div id="socialEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">页脚</div>
+            <div class="admin-grid-2">
+              <div class="admin-field"><label class="admin-label">页脚品牌行</label><input class="admin-input" data-bind="footer.brand" /></div>
+              <div class="admin-field"><label class="admin-label">页脚备注</label><input class="admin-input" data-bind="footer.note" /></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 设置 -->
+        <section class="admin-panel" data-panel="access">
+          <div class="admin-panel-title">访问记录</div>
+          <p class="admin-panel-desc">服务端记录的全部访客访问与后台操作时间（覆盖所有浏览器的访客），持久化保存于服务器 access-log.json，上限 500 条。</p>
+          <div class="log-summary" id="accessSummary"></div>
+          <div class="admin-card">
+            <div class="admin-card-title">访问与操作明细<button class="admin-mini-btn danger" id="accessClear">清空记录</button></div>
+            <div id="accessList" style="display:flex;flex-direction:column;"></div>
+          </div>
+        </section>
+
+        <section class="admin-panel" data-panel="settings">
+          <div class="admin-panel-title">设置</div>
+          <p class="admin-panel-desc">修改后台登录密码。修改成功后需重新登录。</p>
+          <div class="admin-card" style="max-width:420px;">
+            <div class="admin-field"><label class="admin-label">原密码</label><input class="admin-input" id="oldPwd" type="password" /></div>
+            <div class="admin-field"><label class="admin-label">新密码（至少 6 位）</label><input class="admin-input" id="newPwd" type="password" /></div>
+            <div class="admin-field"><label class="admin-label">确认新密码</label><input class="admin-input" id="newPwd2" type="password" /></div>
+            <div class="admin-err" id="pwdErr"></div>
+            <button class="btn btn-primary" id="changePwdBtn" style="width:100%;">修改密码</button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
