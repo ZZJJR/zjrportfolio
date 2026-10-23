@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>张君睿 · 视频剪辑师 — 求职作品集</title>
+  <meta name="description" content="专注口播、短片与广告三大方向的视频剪辑师求职作品集" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%239EFF00'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" /></noscript>
+  <style>
+/* ============================================================
+   剪辑师个人作品集 — 样式表
+   设计令牌严格还原自 Ardot 设计稿：
+   画布 #0A0A0A / 导航与区块 #141414 / 卡片 #1A1A1A / 图标底 #242424
+   发丝线 #292929 / 信号绿 #9EFF00 / 正文 #A3A3A3 / 弱文本 #737373
+   大区块圆角 0 / 按钮 6px / 胶囊 100px
+   ============================================================ */
+
+:root {
+  --bg: #0A0A0A;
+  --bg-nav: #141414;
+  --bg-section: #141414;
+  --bg-works: #101010;
+  --card: #1A1A1A;
+  --card-2: #242424;
+  --line: #292929;
+  --accent: #9EFF00;
+  --text: #FFFFFF;
+  --text-2: #A3A3A3;
+  --text-3: #737373;
+  --text-4: #525252;
+  --font-cjk: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-en: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-cjk);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+::selection { background: var(--accent); color: #000; }
+
+/* ---------- 通用 ---------- */
+.container { max-width: 1440px; margin: 0 auto; }
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-en); font-size: 12px; font-weight: 500;
+  letter-spacing: 2px; color: var(--text-3);
+}
+.kicker::before { content: ''; width: 24px; height: 2px; background: var(--accent); flex: none; }
+.kicker-dot { width: 8px; height: 8px; background: var(--accent); flex: none; }
+.kicker-dot-wrap { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-en); font-size: 12px; font-weight: 500; letter-spacing: 2px; color: var(--text-2); }
+
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.sec-title { font-size: 40px; font-weight: 600; line-height: 1.15; letter-spacing: 0.5px; }
+.sec-index { font-family: var(--font-en); font-size: 11px; font-weight: 500; letter-spacing: 2px; color: var(--text-4); padding-bottom: 8px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  height: 52px; padding: 0 28px; border-radius: 6px;
+  font-size: 15px; font-weight: 500; letter-spacing: 0.5px;
+  transition: transform .18s ease, opacity .18s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--accent); color: #000; }
+.btn-primary:hover { opacity: 0.88; }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.25); color: var(--text); }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.5); }
+.btn-nav { height: 38px; padding: 0 22px; font-size: 13px; background: var(--accent); color: #000; border-radius: 6px; font-weight: 500; }
+
+.tag-pill {
+  display: inline-flex; align-items: center; height: 34px; padding: 0 18px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 100px;
+  font-size: 13px; color: var(--text-2);
+}
+
+.card { background: var(--card); border: 1px solid var(--line); }
+
+/* ---------- 导航栏 ---------- */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  height: 64px; background: var(--bg-nav);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 80px;
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; }
+.nav-brand-glyph { width: 14px; height: 14px; background: var(--accent); flex: none; }
+.nav-brand-text { display: flex; flex-direction: column; gap: 2px; line-height: 1; }
+.nav-brand-name { font-size: 15px; font-weight: 600; }
+.nav-brand-role { font-family: var(--font-en); font-size: 9px; font-weight: 500; letter-spacing: 1.5px; color: var(--text-3); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-link { font-size: 14px; color: var(--text-2); transition: color .15s; position: relative; padding: 4px 0; }
+.nav-link:hover, .nav-link.active { color: var(--text); }
+.nav-link.active::after {
+  content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: -6px; width: 16px; height: 2px; background: var(--accent);
+}
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-menu-btn { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; }
+.nav-menu-btn svg { width: 20px; height: 14px; }
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+  background: var(--bg-nav); border-bottom: 1px solid var(--line);
+  padding: 12px 20px 20px;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a { display: block; padding: 14px 4px; font-size: 15px; color: var(--text-2); border-bottom: 1px solid var(--line); }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a.active { color: var(--text); }
+
+/* ---------- Hero 首屏 ---------- */
+.hero {
+  display: flex; align-items: center; gap: 56px;
+  padding: 88px 80px 64px;
+}
+.hero-left { width: 620px; flex: none; display: flex; flex-direction: column; gap: 26px; }
+.hero-headline { font-size: 72px; font-weight: 600; line-height: 1.12; letter-spacing: 1px; white-space: pre-line; }
+.hero-sub { font-size: 16px; color: var(--text-2); line-height: 1.75; max-width: 540px; }
+.hero-cta { display: flex; gap: 16px; }
+.hero-tags { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-right { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.showreel {
+  position: relative; aspect-ratio: 16/9; background: var(--card);
+  border: 1px solid var(--line); overflow: hidden;
+}
+.showreel img { transition: transform .6s ease; }
+.showreel:hover img { transform: scale(1.03); }
+.play-btn {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 76px; height: 76px; border-radius: 100px; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  transition: transform .2s ease;
+}
+.play-btn:hover { transform: translate(-50%, -50%) scale(1.06); }
+.play-btn svg { width: 22px; height: 18px; margin-left: 3px; }
+.dur-pill {
+  position: absolute; right: 20px; bottom: 20px; height: 30px; padding: 0 14px;
+  background: rgba(0,0,0,0.6); border-radius: 100px;
+  display: inline-flex; align-items: center;
+  font-family: var(--font-en); font-size: 10px; font-weight: 500; letter-spacing: 1px; color: #fff;
+}
+.showreel-caption { display: flex; justify-content: space-between; align-items: center; }
+.showreel-caption .cap-l { font-size: 13px; color: var(--text-2); }
+.showreel-caption .cap-r { font-size: 12px; color: var(--text-3); display: inline-flex; align-items: center; gap: 6px; }
+
+.scroll-hint {
+  height: 56px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-en); font-size: 10px; font-weight: 500; letter-spacing: 2px; color: var(--text-4);
+}
+.scroll-hint::after { content: ''; width: 1px; height: 14px; background: var(--text-4); animation: drop 1.6s ease infinite; }
+@keyframes drop { 0%,100% { transform: scaleY(0.4); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } }
+
+/* ---------- 个人简介 ---------- */
+.about { background: var(--bg-section); padding: 88px 80px 64px; display: flex; flex-direction: column; gap: 44px; }
+.about-body { display: flex; gap: 56px; align-items: flex-start; }
+.portrait-col { width: 300px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+.portrait { width: 300px; height: 375px; background: #1F1F1F; border: 1px solid var(--line); overflow: hidden; }
+.portrait-name { font-size: 20px; font-weight: 600; }
+.portrait-role { font-size: 13px; color: var(--text-2); }
+.about-text-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.bio { font-size: 15px; color: #C9C9C9; line-height: 1.8; }
+.intent-card { background: var(--card); border: 1px solid var(--line); }
+.intent-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; }
+.intent-row + .intent-row { border-top: 1px solid var(--line); }
+.intent-row .l { font-size: 12px; color: var(--text-3); }
+.intent-row .v { font-size: 14px; font-weight: 500; }
+
+.spec-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.spec-card { background: var(--card); border: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 14px; transition: border-color .2s; }
+.spec-card:hover { border-color: #3A3A3A; }
+.spec-icon-box { width: 44px; height: 44px; background: var(--card-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.spec-icon-box svg { width: 22px; height: 22px; }
+.spec-name { font-size: 20px; font-weight: 600; }
+.spec-desc { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+.spec-tags { font-size: 12px; color: var(--text-4); margin-top: auto; }
+
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stat-cell { background: var(--card); border: 1px solid var(--line); padding: 22px 24px; display: flex; flex-direction: column; gap: 6px; }
+.stat-num { font-family: var(--font-en); font-size: 30px; font-weight: 600; line-height: 1.1; }
+.stat-label { font-size: 12px; color: var(--text-2); }
+
+/* ---------- 精选作品 ---------- */
+.works { background: var(--bg-works); padding: 88px 80px; display: flex; flex-direction: column; gap: 40px; }
+.works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.work-card { background: #141414; border: 1px solid var(--line); display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
+.work-card:hover { border-color: #3A3A3A; transform: translateY(-2px); }
+.work-cover { position: relative; aspect-ratio: 16/9; background: var(--card); overflow: hidden; }
+.work-cover img { transition: transform .6s ease; }
+.work-card:hover .work-cover img { transform: scale(1.04); }
+.work-cover .play-btn { width: 56px; height: 56px; }
+.work-cover .play-btn svg { width: 20px; height: 16px; }
+.work-cover .dur-pill { height: 26px; padding: 0 12px; right: 16px; bottom: 16px; }
+.work-meta { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.work-meta-top { display: flex; justify-content: space-between; align-items: center; }
+.work-cat { font-size: 12px; color: var(--text-3); }
+.work-year { font-family: var(--font-en); font-size: 11px; font-weight: 500; color: var(--text-4); }
+.work-title { font-size: 17px; font-weight: 600; line-height: 1.4; }
+.work-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.work-link-arrow { color: var(--accent); font-size: 12px; margin-left: auto; }
+
+/* ---------- 技能与软件 ---------- */
+.skills { background: var(--bg-section); padding: 88px 80px; display: flex; flex-direction: column; gap: 40px; }
+.skills-body { display: flex; gap: 48px; align-items: flex-start; }
+.skills-list { flex: 1; min-width: 0; }
+.skill-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; }
+.skill-row + .skill-row { border-top: 1px solid var(--line); }
+.skill-num { font-family: var(--font-en); font-size: 13px; font-weight: 500; color: var(--text-4); flex: none; }
+.skill-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.skill-name { font-size: 16px; font-weight: 500; }
+.skill-desc { font-size: 12px; color: var(--text-3); }
+.skill-track { width: 110px; height: 4px; background: var(--card-2); flex: none; }
+.skill-fill { height: 4%; background: #fff; height: 4px; }
+
+.soft-col { width: 460px; flex: none; display: flex; flex-direction: column; gap: 16px; }
+.soft-title { font-size: 18px; font-weight: 600; }
+.soft-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.soft-cell { background: var(--card); border: 1px solid var(--line); padding: 18px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.soft-glyph-box { width: 40px; height: 40px; background: var(--card-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-size: 13px; font-weight: 600; }
+.soft-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
+.soft-level { font-size: 11px; color: var(--text-3); }
+.soft-note { font-size: 12px; color: var(--text-4); line-height: 1.6; }
+
+/* ---------- 联系方式 ---------- */
+.contact { background: #000; padding: 96px 80px; display: flex; flex-direction: column; gap: 44px; }
+.contact-body { display: flex; gap: 64px; align-items: center; }
+.contact-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.contact-title { font-size: 44px; font-weight: 600; line-height: 1.25; white-space: pre-line; }
+.contact-sub { font-size: 15px; color: var(--text-2); line-height: 1.8; max-width: 520px; }
+.contact-card { width: 480px; flex: none; background: #0F0F0F; border: 1px solid var(--line); }
+.contact-row { display: flex; align-items: center; gap: 16px; padding: 22px 24px; }
+.contact-row + .contact-row { border-top: 1px solid var(--line); }
+.contact-icon-box { width: 36px; height: 36px; background: var(--card); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex: none; }
+.contact-icon-box svg { width: 16px; height: 16px; }
+.contact-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.contact-label { font-size: 12px; color: var(--text-3); }
+.contact-value { font-family: var(--font-en); font-size: 17px; font-weight: 500; word-break: break-all; }
+.contact-value.cn { font-family: var(--font-cjk); }
+.social-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.social-chip {
+  display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 16px;
+  border: 1px solid #333; border-radius: 100px; font-size: 12px; color: #C9C9C9;
+  transition: border-color .15s, color .15s;
+}
+.social-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 页脚 ---------- */
+.footer { background: #000; border-top: 1px solid var(--line); padding: 36px 80px; display: flex; flex-direction: column; gap: 18px; }
+.footer-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.footer-brand { font-family: var(--font-en); font-size: 13px; font-weight: 500; color: var(--text-2); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: var(--text-3); }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { font-size: 12px; color: var(--text-4); }
+.footer-note { font-size: 11px; color: var(--text-4); }
+
+/* ---------- 案例详情页 ---------- */
+.back-bar { display: flex; align-items: center; gap: 10px; padding: 36px 80px 0; }
+.back-bar a { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); }
+.back-bar a:hover { color: var(--text); }
+.back-bar svg { width: 16px; height: 16px; }
+
+.case-header { padding: 28px 80px 0; display: flex; flex-direction: column; gap: 18px; }
+.case-meta-row { display: flex; gap: 32px; flex-wrap: wrap; }
+.case-meta { display: inline-flex; align-items: center; gap: 8px; }
+.case-meta .l { font-size: 12px; color: var(--text-4); }
+.case-meta .v { font-size: 13px; font-weight: 500; color: #C9C9C9; }
+.case-title { font-size: 48px; font-weight: 600; line-height: 1.2; }
+
+.player-section { padding: 24px 80px 0; }
+.player {
+  position: relative; aspect-ratio: 16/9; background: #000;
+  border: 1px solid var(--line); overflow: hidden;
+}
+.player video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; /* 保持原始宽高比，绝不拉伸或裁切 */
+  background: #000; display: none;
+}
+.player.playing video { display: block; }
+.player .player-poster { transition: opacity .35s ease; }
+.player.playing .player-poster { opacity: 0; }
+.player.playing .player-note { display: none; }
+.player .play-btn { width: 88px; height: 88px; }
+.player .play-btn svg { width: 30px; height: 24px; }
+.player.playing .play-btn { display: none; }
+.control-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 72px;
+  background: rgba(0,0,0,0.72);
+  display: flex; align-items: center; gap: 20px; padding: 0 32px;
+}
+.control-bar button { background: none; border: none; padding: 0; color: inherit; cursor: pointer; font: inherit; }
+.ctrl-track {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.25); position: relative;
+  cursor: pointer; touch-action: none;
+}
+.ctrl-track::before { content: ''; position: absolute; left: 0; right: 0; top: -10px; bottom: -10px; }
+.ctrl-track.dragging { background: rgba(255,255,255,0.4); }
+.ctrl-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: #fff; }
+.ctrl-track:not(.dragging) .ctrl-fill { transition: width .2s linear; }
+.ctrl-time { font-family: var(--font-en); font-size: 12px; font-weight: 500; white-space: nowrap; }
+.ctrl-ic { width: 18px; height: 18px; flex: none; opacity: 0.85; }
+.ctrl-ic:hover { opacity: 1; }
+.player-note { position: absolute; left: 50%; top: 62%; transform: translateX(-50%); font-size: 11px; color: var(--text-3); white-space: nowrap; }
+
+.case-content { padding: 48px 80px 0; display: flex; flex-direction: column; gap: 40px; }
+.case-two-col { display: flex; gap: 64px; align-items: flex-start; }
+.case-col-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.case-col-right { width: 560px; flex: none; display: flex; flex-direction: column; gap: 22px; }
+.case-block-title { font-size: 26px; font-weight: 600; }
+.case-para { font-size: 15px; color: #C9C9C9; line-height: 1.8; max-width: 640px; }
+.case-info-card { background: var(--bg-section); border: 1px solid var(--line); }
+
+.tech-item { display: flex; gap: 16px; padding: 16px 0; align-items: flex-start; }
+.tech-item + .tech-item { border-top: 1px solid var(--line); }
+.tech-num { font-family: var(--font-en); font-size: 13px; font-weight: 500; color: var(--text-4); flex: none; padding-top: 2px; }
+.tech-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.tech-name { font-size: 16px; font-weight: 500; }
+.tech-desc { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+.tools-block { display: flex; flex-direction: column; gap: 12px; }
+.tools-label { font-size: 12px; color: var(--text-3); }
+.tools-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.tool-chip {
+  display: inline-flex; align-items: center; height: 32px; padding: 0 16px;
+  border: 1px solid #333; border-radius: 100px; font-size: 12px; color: #C9C9C9;
+}
+
+.more-section { background: var(--bg-works); padding: 56px 80px; display: flex; flex-direction: column; gap: 24px; margin-top: 56px; }
+.more-title-row { display: flex; justify-content: space-between; align-items: center; }
+.more-title { font-size: 22px; font-weight: 600; }
+.more-link { font-size: 13px; color: var(--text-2); }
+.more-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mini-card { background: #141414; border: 1px solid var(--line); display: flex; flex-direction: column; }
+.mini-cover { aspect-ratio: 16/9; max-height: 132px; background: var(--card); overflow: hidden; }
+.mini-meta { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.mini-title { font-size: 15px; font-weight: 500; }
+.mini-cat { font-size: 12px; color: var(--text-3); }
+
+/* ---------- 视频弹窗 ---------- */
+.video-modal {
+  position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.88);
+  display: none; align-items: center; justify-content: center; padding: 24px;
+}
+.video-modal.open { display: flex; }
+.video-modal-inner { width: min(960px, 100%); background: #000; border: 1px solid #2A2A2A; position: relative; }
+.video-modal-inner video {
+  display: block; width: 100%; max-height: 76vh;
+  object-fit: contain; /* 按原始宽高比完整显示，不裁切不变形 */
+  background: #000;
+}
+.video-modal-inner img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.video-modal-close {
+  position: absolute; top: -44px; right: 0; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px;
+}
+.video-modal-tip { padding: 14px 20px; font-size: 12px; color: var(--text-3); border-top: 1px solid var(--line); }
+
+/* ---------- 后台管理 ---------- */
+.admin-body { background: #101010; min-height: 100vh; }
+.admin-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.admin-login-box { width: 400px; max-width: 100%; background: var(--card); border: 1px solid var(--line); padding: 40px; display: flex; flex-direction: column; gap: 20px; }
+.admin-login-title { font-size: 22px; font-weight: 600; }
+.admin-login-sub { font-size: 13px; color: var(--text-3); line-height: 1.6; }
+.admin-input {
+  width: 100%; height: 46px; background: #0F0F0F; border: 1px solid var(--line);
+  color: var(--text); padding: 0 16px; font-size: 14px; font-family: inherit; border-radius: 6px; outline: none;
+}
+.admin-input:focus { border-color: var(--accent); }
+textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-height: 1.6; resize: vertical; }
+.admin-label { font-size: 12px; color: var(--text-3); display: block; margin-bottom: 6px; }
+.admin-field { display: flex; flex-direction: column; }
+.admin-err { font-size: 12px; color: #FF6B6B; min-height: 16px; }
+
+.admin-app { display: none; }
+.admin-app.on { display: block; }
+.admin-topbar {
+  position: sticky; top: 0; z-index: 50; height: 60px; background: var(--bg-nav);
+  border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+}
+.admin-topbar .t { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.admin-topbar .t::before { content: ''; width: 12px; height: 12px; background: var(--accent); }
+.admin-topbar .ops { display: flex; gap: 12px; align-items: center; }
+.admin-save-btn { height: 36px; padding: 0 20px; background: var(--accent); color: #000; font-size: 13px; font-weight: 500; border-radius: 6px; }
+.admin-logout-btn { height: 36px; padding: 0 16px; border: 1px solid var(--line); font-size: 12px; color: var(--text-2); border-radius: 6px; }
+/* 静态版后台提示：修改只保存在当前浏览器，默认隐藏，由 SPA 脚本点亮 */
+.admin-static-note {
+  display: none; font-size: 12px; color: var(--text-3);
+  border: 1px solid var(--line); border-radius: 100px; padding: 4px 12px; margin-left: 12px;
+}
+.admin-static-note.on { display: inline-block; }
+.admin-save-tip { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity .3s; }
+.admin-save-tip.show { opacity: 1; }
+
+.admin-layout { display: flex; min-height: calc(100vh - 60px); }
+.admin-side { width: 200px; flex: none; background: var(--bg-nav); border-right: 1px solid var(--line); padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
+.admin-tab {
+  text-align: left; padding: 11px 14px; font-size: 13px; color: var(--text-2); border-radius: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.admin-tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.admin-tab.on { color: #000; background: var(--accent); font-weight: 500; }
+.admin-main { flex: 1; min-width: 0; padding: 28px; display: flex; flex-direction: column; gap: 24px; }
+.admin-panel { display: none; flex-direction: column; gap: 20px; }
+.admin-panel.on { display: flex; }
+.admin-panel-title { font-size: 20px; font-weight: 600; }
+.admin-panel-desc { font-size: 12px; color: var(--text-3); }
+.admin-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.admin-card { background: var(--card); border: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.admin-card-title { font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.admin-mini-btn { height: 30px; padding: 0 14px; font-size: 12px; border: 1px solid var(--line); border-radius: 6px; color: var(--text-2); }
+.admin-mini-btn:hover { color: var(--text); border-color: #3A3A3A; }
+.admin-mini-btn.danger:hover { color: #FF6B6B; border-color: #FF6B6B; }
+.admin-mini-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 500; }
+.admin-work-item { display: flex; gap: 14px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: #0F0F0F; }
+.admin-work-item .thumb { width: 96px; height: 54px; flex: none; background: var(--card-2); border-radius: 4px; overflow: hidden; position: relative; }
+.admin-work-item .info { flex: 1; min-width: 0; }
+.admin-work-item .info .tt { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-work-item .info .cc { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.admin-work-item .ops { display: flex; gap: 8px; flex: none; }
+
+/* ---------- 响应式（还原设计稿移动端） ---------- */
+@media (max-width: 1100px) {
+  .nav { padding: 0 24px; }
+  .hero { padding: 48px 24px 40px; gap: 32px; }
+  .hero-left { width: 520px; }
+  .hero-headline { font-size: 56px; }
+  .about, .works, .skills { padding: 64px 24px; }
+  .contact { padding: 72px 24px; }
+  .footer { padding: 32px 24px; }
+  .skills-body { gap: 32px; }
+  .soft-col { width: 380px; }
+  .case-header, .back-bar, .player-section, .case-content { padding-left: 24px; padding-right: 24px; }
+  .more-section { padding: 48px 24px; }
+  .case-two-col { gap: 40px; }
+  .case-col-right { width: 440px; }
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-right .btn-nav { display: none; }
+  .nav-menu-btn { display: flex; }
+
+  .hero { flex-direction: column; padding: 44px 20px 36px; gap: 22px; }
+  .hero-left { width: 100%; }
+  .hero-headline { font-size: 42px; }
+  .hero-sub { max-width: none; }
+  .hero-cta { flex-direction: column; }
+  .hero-cta .btn { width: 100%; }
+  .hero-right { width: 100%; }
+  .showreel .play-btn { width: 56px; height: 56px; }
+  .showreel .play-btn svg { width: 20px; height: 16px; }
+
+  .about, .works, .skills { padding: 56px 20px; gap: 26px; }
+  .sec-title { font-size: 28px; }
+  .sec-index { display: none; }
+  .about-body { flex-direction: column; gap: 22px; }
+  .portrait-col { width: 100%; flex-direction: row; align-items: center; gap: 16px; }
+  .portrait { width: 130px; height: 163px; flex: none; }
+  .spec-cards { grid-template-columns: 1fr; }
+  .spec-card { flex-direction: row; align-items: flex-start; gap: 14px; }
+  .spec-icon-box { flex: none; }
+  .spec-tags { margin-top: 0; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+
+  .works-grid { grid-template-columns: 1fr; }
+  .skills-body { flex-direction: column; gap: 28px; }
+  .soft-col { width: 100%; }
+
+  .contact { padding: 56px 20px; }
+  .contact-body { flex-direction: column; gap: 28px; }
+  .contact-title { font-size: 32px; }
+  .contact-sub { max-width: none; }
+  .contact-card { width: 100%; }
+
+  .footer { padding: 32px 20px; }
+  .footer-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+
+  .back-bar { padding: 28px 20px 0; }
+  .case-header { padding: 20px 20px 0; }
+  .case-title { font-size: 26px; }
+  .player-section { padding: 20px 20px 0; }
+  .player .play-btn { width: 56px; height: 56px; }
+  .player .play-btn svg { width: 20px; height: 16px; }
+  .control-bar { height: 56px; padding: 0 16px; gap: 12px; }
+  .case-content { padding: 28px 20px 0; gap: 28px; }
+  .case-two-col { flex-direction: column; gap: 30px; }
+  .case-col-right { width: 100%; }
+  .case-block-title { font-size: 20px; }
+  .case-para { max-width: none; }
+  .more-section { padding: 32px 20px; margin-top: 32px; }
+  .more-row { grid-template-columns: 1fr; }
+  .mini-cover { max-height: none; }
+
+  .admin-side { width: 140px; }
+  .admin-main { padding: 16px; }
+  .admin-grid-2, .admin-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   过渡动画与交互效果
+   ============================================================ */
+
+/* 滚动进入动画（IntersectionObserver 添加 .in） */
+.reveal {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal[data-d="1"] { transition-delay: .07s; }
+.reveal[data-d="2"] { transition-delay: .14s; }
+.reveal[data-d="3"] { transition-delay: .21s; }
+.reveal[data-d="4"] { transition-delay: .28s; }
+
+/* 首屏/视图载入动画 */
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+main > section, main > header, main > div.back-bar { animation: viewIn .55s cubic-bezier(.22,1,.36,1) both; }
+#workModal { animation: viewIn .28s ease both; }
+
+/* 导航 hover 下划线 */
+.nav-link:not(.active)::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+  background: rgba(255,255,255,.45); transform: scaleX(0); transform-origin: center;
+  transition: transform .25s ease;
+}
+.nav-link:not(.active):hover::after { transform: scaleX(1); }
+
+/* 按钮交互增强 */
+.btn { transition: transform .18s ease, opacity .18s ease, box-shadow .25s ease, border-color .2s ease; }
+.btn-primary:hover { opacity: .9; box-shadow: 0 8px 28px rgba(158,255,0,.22); }
+.btn-ghost:hover { border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.04); }
+.btn-nav { transition: transform .18s ease, opacity .18s ease; }
+.btn-nav:hover { opacity: .9; transform: translateY(-1px); }
+
+/* 作品卡悬浮 */
+.work-card { transition: border-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease; }
+.work-card:hover { border-color: #3D3D3D; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,.5); }
+
+/* 方向卡 / 软件格悬浮 */
+.spec-card, .soft-cell { transition: border-color .25s ease, transform .25s cubic-bezier(.22,1,.36,1), background .25s ease; }
+.spec-card:hover, .soft-cell:hover { border-color: #3D3D3D; transform: translateY(-2px); }
+.soft-cell:hover { background: #1F1F1F; }
+
+/* Showreel 播放按钮呼吸脉冲 */
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.32), 0 8px 32px rgba(0,0,0,.45); }
+  70%  { box-shadow: 0 0 0 16px rgba(255,255,255,0), 0 8px 32px rgba(0,0,0,.45); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0), 0 8px 32px rgba(0,0,0,.45); }
+}
+.showreel .play-btn { animation: pulseRing 2.6s cubic-bezier(.22,1,.36,1) infinite; }
+
+/* 技能条填充过渡 */
+.skill-fill { transition: width 1.1s cubic-bezier(.22,1,.36,1); }
+
+/* 视频弹窗淡入缩放 */
+.video-modal {
+  position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.88);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.video-modal.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.video-modal-inner { transform: scale(.96) translateY(10px); transition: transform .32s cubic-bezier(.22,1,.36,1); }
+.video-modal.open .video-modal-inner { transform: none; }
+
+/* 后台访问记录 */
+.log-row {
+  display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+  border: 1px solid var(--line); border-radius: 6px; background: #0F0F0F; font-size: 13px;
+}
+.log-row + .log-row { margin-top: 8px; }
+.log-badge {
+  height: 22px; padding: 0 10px; border-radius: 100px; font-size: 11px;
+  display: inline-flex; align-items: center; flex: none;
+}
+.log-badge.visit { background: rgba(255,255,255,.08); color: #C9C9C9; }
+.log-badge.action { background: rgba(158,255,0,.12); color: var(--accent); }
+.log-time { font-family: var(--font-en); color: var(--text-3); flex: none; }
+.log-action { color: var(--text); font-weight: 500; flex: none; }
+.log-detail { color: var(--text-3); margin-left: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40%; text-align: right; }
+.log-summary { display: flex; gap: 12px; flex-wrap: wrap; }
+.log-summary-cell { background: var(--card); border: 1px solid var(--line); padding: 14px 18px; border-radius: 6px; display: flex; flex-direction: column; gap: 4px; min-width: 130px; }
+.log-summary-cell .n { font-family: var(--font-en); font-size: 20px; font-weight: 600; }
+.log-summary-cell .t { font-size: 11px; color: var(--text-3); }
+
+/* 降低动态偏好时关闭动画 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   补充交互（导航滚动态 / 技能条入场 / 统计数字滚动）
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .skill-fill { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+.nav { transition: background .3s ease, box-shadow .3s ease, backdrop-filter .3s ease; }
+.nav.scrolled {
+  background: rgba(20, 20, 20, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+.skill-row .skill-fill { width: 0; }
+.skill-row.in .skill-fill { width: var(--w, 0%); }
+.stat-cell, .mini-card { transition: border-color .25s ease, transform .25s ease; }
+.stat-cell:hover, .mini-card:hover { transform: translateY(-2px); border-color: #3A3A3A; }
+.play-btn { transition: transform .25s ease; }
+.work-card:hover .play-btn { transform: translate(-50%, -50%) scale(1.1); }
+.showreel .play-btn { transform: translate(-50%, -50%); }
+.showreel:hover .play-btn { transform: translate(-50%, -50%) scale(1.06); }
+.nav-brand-glyph { transition: transform .3s ease; }
+.nav-brand:hover .nav-brand-glyph { transform: rotate(90deg); }
+
+  </style>
+</head>
+<body>
+
+  <!-- 导航栏（全站共用） -->
+  <nav class="nav">
+    <a class="nav-brand" href="#/">
+      <span class="nav-brand-glyph"></span>
+      <span class="nav-brand-text">
+        <span class="nav-brand-name" id="navName">张君睿</span>
+        <span class="nav-brand-role">VIDEO EDITOR</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" data-nav="home" href="#/">首页</a>
+      <a class="nav-link" href="#about">关于</a>
+      <a class="nav-link" data-nav="works" href="#works">作品</a>
+      <a class="nav-link" href="#skills">技能</a>
+      <a class="nav-link" href="#contact">联系</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-nav" href="#contact">联系我</a>
+      <button class="nav-menu-btn" id="menuBtn" aria-label="菜单">
+        <svg viewBox="0 0 20 14" fill="none"><path d="M1 1H19M1 7H19M1 13H19" stroke="#FFFFFF" stroke-width="1.8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#/">首页</a>
+    <a href="#about">关于</a>
+    <a href="#works">作品</a>
+    <a href="#skills">技能</a>
+    <a href="#contact">联系</a>
+  </div>
+
+  <!-- ==================== 视图一：首页 ==================== -->
+  <main id="view-home">
+    <section class="hero">
+      <div class="hero-left">
+        <span class="kicker-dot-wrap" id="heroKicker"></span>
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <p class="hero-sub" id="heroSub"></p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#works">查看精选作品</a>
+          <a class="btn btn-ghost" href="#contact">联系我</a>
+        </div>
+        <div class="hero-tags" id="heroTags"></div>
+      </div>
+      <div class="hero-right">
+        <div class="showreel" id="showreel">
+          <img id="showreelImg" src="" alt="个人 Showreel 封面" />
+          <button class="play-btn" data-video="" data-poster="" aria-label="播放">
+            <svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>
+          </button>
+          <span class="dur-pill" id="showreelDur"></span>
+        </div>
+        <div class="showreel-caption">
+          <span class="cap-l" id="showreelCap"></span>
+          <span class="cap-r">点击播放 ▸</span>
+        </div>
+      </div>
+    </section>
+    <div class="scroll-hint">SCROLL — 向下探索</div>
+
+    <section class="about" id="about">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">关于我 · ABOUT</span>
+          <h2 class="sec-title" style="margin-top:16px;">个人简介</h2>
+        </div>
+        <span class="sec-index">SECTION 01</span>
+      </div>
+      <div class="about-body">
+        <div class="portrait-col">
+          <div class="portrait"><img id="portraitImg" src="" alt="个人照片" /></div>
+          <div>
+            <div class="portrait-name" id="portraitName"></div>
+            <div class="portrait-role" id="portraitRole"></div>
+          </div>
+        </div>
+        <div class="about-text-col">
+          <p class="bio" id="bio1"></p>
+          <p class="bio" id="bio2"></p>
+          <div class="intent-card" id="intentCard"></div>
+        </div>
+      </div>
+      <div class="spec-cards" id="specCards"></div>
+      <div class="stats-row" id="statsRow"></div>
+    </section>
+
+    <section class="works" id="works">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">精选作品 · SELECTED WORKS</span>
+          <h2 class="sec-title" style="margin-top:16px;">精选作品</h2>
+        </div>
+        <a class="more-link" href="#works">查看全部 →</a>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+    </section>
+
+    <section class="skills" id="skills">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">技能清单 · SKILLS &amp; TOOLS</span>
+          <h2 class="sec-title" style="margin-top:16px;">技能与常用软件</h2>
+        </div>
+        <span class="sec-index">SECTION 03</span>
+      </div>
+      <div class="skills-body">
+        <div class="skills-list" id="skillsList"></div>
+        <div class="soft-col">
+          <div class="soft-title">常用软件</div>
+          <div class="soft-grid" id="softGrid"></div>
+          <p class="soft-note" id="softNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <span class="kicker">联系我 · CONTACT</span>
+      <div class="contact-body">
+        <div class="contact-left">
+          <h2 class="contact-title" id="contactTitle"></h2>
+          <p class="contact-sub" id="contactSub"></p>
+          <div><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a></div>
+        </div>
+        <div class="contact-card" id="contactCard"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 视图二：案例详情（JS 渲染） ==================== -->
+  <main id="view-case" style="display:none;"></main>
+
+  <!-- ==================== 视图三：后台管理 ==================== -->
+  <main id="view-admin" class="admin-view" style="display:none;">
+    <div class="admin-login-wrap" id="loginWrap">
+      <div class="admin-login-box">
+        <div class="admin-login-title">作品集后台管理</div>
+        <p class="admin-login-sub">请输入管理员密码以进入内容管理系统。初始密码为 admin123，登录后请立即在「设置」中修改。</p>
+        <div class="admin-field">
+          <label class="admin-label">管理员密码</label>
+          <input class="admin-input" id="loginPwd" type="password" placeholder="请输入密码" autocomplete="current-password" />
+        </div>
+        <div class="admin-err" id="loginErr"></div>
+        <button class="btn btn-primary" id="loginBtn" style="width:100%;">登 录</button>
+        <a href="#/" style="font-size:12px;color:#737373;text-align:center;">← 返回网站前台</a>
+      </div>
+    </div>
+    <div class="admin-app" id="adminApp">
+      <div class="admin-topbar">
+        <span class="t">作品集后台管理</span>
+        <span class="admin-static-note">静态版后台：修改只保存在当前浏览器，不会改变线上页面；鉴权仅为防误触，不具备安全边界</span>
+        <div class="ops">
+          <span class="admin-save-tip" id="saveTip">已保存 ✓</span>
+          <button class="admin-save-btn" id="saveBtn">保存全部修改</button>
+          <button class="admin-logout-btn" id="logoutBtn">退出登录</button>
+        </div>
+      </div>
+      <div class="admin-layout">
+        <aside class="admin-side">
+          <button class="admin-tab on" data-tab="profile">基本信息</button>
+          <button class="admin-tab" data-tab="specialty">擅长方向</button>
+          <button class="admin-tab" data-tab="works">作品管理</button>
+          <button class="admin-tab" data-tab="case">案例详情</button>
+          <button class="admin-tab" data-tab="skills">技能与软件</button>
+          <button class="admin-tab" data-tab="contact">联系方式</button>
+          <button class="admin-tab" data-tab="activity">访问记录</button>
+          <button class="admin-tab" data-tab="settings">设置</button>
+        </aside>
+        <div class="admin-main">
+          <section class="admin-panel on" data-panel="profile">
+            <div class="admin-panel-title">基本信息</div>
+            <p class="admin-panel-desc">导航栏、首屏主标题、个人简介与数据统计的内容。</p>
+            <div class="admin-card">
+              <div class="admin-grid-2">
+                <div class="admin-field"><label class="admin-label">姓名</label><input class="admin-input" data-bind="profile.name" /></div>
+                <div class="admin-field"><label class="admin-label">职位头衔</label><input class="admin-input" data-bind="profile.role" /></div>
+              </div>
+              <div class="admin-field"><label class="admin-label">首屏眉标（小字）</label><input class="admin-input" data-bind="profile.kicker" /></div>
+              <div class="admin-field"><label class="admin-label">首屏主标题（支持换行）</label><textarea class="admin-input" data-bind="profile.headline"></textarea></div>
+              <div class="admin-field"><label class="admin-label">首屏副标题</label><textarea class="admin-input" data-bind="profile.sub"></textarea></div>
+              <div class="admin-field"><label class="admin-label">擅长方向标签（逗号分隔）</label><input class="admin-input" data-bind="profile.tags" data-type="array" /></div>
+              <div class="admin-grid-2">
+                <div class="admin-field"><label class="admin-label">Showreel 封面图路径</label><input class="admin-input" data-bind="profile.showreel.cover" /></div>
+                <div class="admin-field"><label class="admin-label">Showreel 视频地址（mp4/webm，可留空）</label><input class="admin-input" data-bind="profile.showreel.video" /></div>
+              </div>
+              <div class="admin-grid-3">
+                <div class="admin-field"><label class="admin-label">时长标签文字</label><input class="admin-input" data-bind="profile.showreel.duration" /></div>
+                <div class="admin-field"><label class="admin-label">封面角标</label><input class="admin-input" data-bind="profile.showreel.label" /></div>
+                <div class="admin-field"><label class="admin-label">封面说明</label><input class="admin-input" data-bind="profile.showreel.caption" /></div>
+              </div>
+              <div class="admin-field"><label class="admin-label">个人照片路径</label><input class="admin-input" data-bind="profile.portrait" /></div>
+              <div class="admin-field"><label class="admin-label">简介段落一</label><textarea class="admin-input" data-bind="profile.bio1"></textarea></div>
+              <div class="admin-field"><label class="admin-label">简介段落二</label><textarea class="admin-input" data-bind="profile.bio2"></textarea></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-card-title">求职意向（三行）</div>
+              <div id="intentEditor"></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-card-title">数据统计（四格）</div>
+              <div id="statsEditor" class="admin-grid-2"></div>
+            </div>
+          </section>
+
+          <section class="admin-panel" data-panel="specialty">
+            <div class="admin-panel-title">擅长方向</div>
+            <p class="admin-panel-desc">个人简介区的三张方向卡片。图标可选：mic（口播）/ film（短片）/ megaphone（广告）。</p>
+            <div id="specEditor" class="admin-grid-3"></div>
+          </section>
+
+          <section class="admin-panel" data-panel="works">
+            <div class="admin-panel-title">作品管理</div>
+            <p class="admin-panel-desc">新增、编辑、删除作品。封面路径指向 images/ 目录下的文件；视频地址留空时点击播放仅展示封面。</p>
+            <div style="display:flex;justify-content:flex-end;"><button class="admin-mini-btn primary" id="addWorkBtn">+ 新增作品</button></div>
+            <div id="worksEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </section>
+
+          <section class="admin-panel" data-panel="case">
+            <div class="admin-panel-title">案例详情</div>
+            <p class="admin-panel-desc">编辑首部作品（案例详情页的完整内容：项目背景、信息卡、剪辑手法、使用软件）。</p>
+            <div class="admin-card">
+              <div class="admin-field"><label class="admin-label">背景段落（每行一段）</label><textarea class="admin-input" data-case-bg style="min-height:140px;"></textarea></div>
+              <div class="admin-card-title">项目信息卡（四行）</div>
+              <div id="caseInfoEditor" class="admin-grid-2"></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-card-title">剪辑手法条目</div>
+              <div id="techEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-field"><label class="admin-label">使用软件（逗号分隔）</label><input class="admin-input" data-case-tools /></div>
+            </div>
+          </section>
+
+          <section class="admin-panel" data-panel="skills">
+            <div class="admin-panel-title">技能与软件</div>
+            <p class="admin-panel-desc">核心能力列表（含熟练度百分比）与常用软件网格。</p>
+            <div class="admin-card">
+              <div class="admin-card-title">核心剪辑能力</div>
+              <div id="skillEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-card-title">常用软件</div>
+              <div id="softEditor" class="admin-grid-3"></div>
+              <div class="admin-field" style="margin-top:14px;"><label class="admin-label">软件区备注</label><input class="admin-input" data-bind="softwareNote" /></div>
+            </div>
+          </section>
+
+          <section class="admin-panel" data-panel="contact">
+            <div class="admin-panel-title">联系方式</div>
+            <p class="admin-panel-desc">联系板块的标题、文案与联系方式。</p>
+            <div class="admin-card">
+              <div class="admin-field"><label class="admin-label">联系大标题（支持换行）</label><textarea class="admin-input" data-bind="contact.title"></textarea></div>
+              <div class="admin-field"><label class="admin-label">联系副文案</label><textarea class="admin-input" data-bind="contact.sub"></textarea></div>
+              <div class="admin-grid-2">
+                <div class="admin-field"><label class="admin-label">邮箱</label><input class="admin-input" data-bind="contact.email" /></div>
+                <div class="admin-field"><label class="admin-label">电话</label><input class="admin-input" data-bind="contact.phone" /></div>
+              </div>
+              <div class="admin-field"><label class="admin-label">所在地</label><input class="admin-input" data-bind="contact.location" /></div>
+              <div class="admin-card-title">社交媒体链接</div>
+              <div id="socialEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+            <div class="admin-card">
+              <div class="admin-card-title">页脚</div>
+              <div class="admin-grid-2">
+                <div class="admin-field"><label class="admin-label">页脚品牌行</label><input class="admin-input" data-bind="footer.brand" /></div>
+                <div class="admin-field"><label class="admin-label">页脚备注</label><input class="admin-input" data-bind="footer.note" /></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="admin-panel" data-panel="activity">
+            <div class="admin-panel-title">访问记录</div>
+            <p class="admin-panel-desc">自动记录网站访问与后台操作的时间（保存在本浏览器 localStorage，最多保留最近 500 条）。</p>
+            <div class="log-summary" id="activitySummary"></div>
+            <div class="admin-card">
+              <div class="admin-card-title">
+                记录明细
+                <button class="admin-mini-btn danger" id="clearLogBtn">清空记录</button>
+              </div>
+              <div id="activityList" style="display:flex;flex-direction:column;"></div>
+            </div>
+          </section>
+
+          <section class="admin-panel" data-panel="settings">
+            <div class="admin-panel-title">设置</div>
+            <p class="admin-panel-desc">所有修改保存在当前浏览器 localStorage。换设备/换浏览器前，请先「导出内容」保存 JSON，再在目标浏览器「导入内容」。</p>
+            <div class="admin-card" style="max-width:420px;">
+              <div class="admin-field"><label class="admin-label">原密码</label><input class="admin-input" id="oldPwd" type="password" /></div>
+              <div class="admin-field"><label class="admin-label">新密码（至少 6 位）</label><input class="admin-input" id="newPwd" type="password" /></div>
+              <div class="admin-field"><label class="admin-label">确认新密码</label><input class="admin-input" id="newPwd2" type="password" /></div>
+              <div class="admin-err" id="pwdErr"></div>
+              <button class="btn btn-primary" id="changePwdBtn" style="width:100%;">修改密码</button>
+            </div>
+            <div class="admin-card" style="max-width:420px;">
+              <div class="admin-card-title">内容迁移</div>
+              <p class="admin-panel-desc">导出 = 下载当前全部内容（JSON 文件）；导入 = 从 JSON 文件恢复内容；重置 = 清除本浏览器全部修改，恢复网站默认内容。</p>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="admin-mini-btn primary" id="exportBtn">导出内容</button>
+                <button class="admin-mini-btn" id="importBtn">导入内容</button>
+                <button class="admin-mini-btn danger" id="resetBtn">重置为默认</button>
+                <input type="file" id="importFile" accept=".json,application/json" style="display:none;" />
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚（全站共用） -->
+  <footer class="footer">
+    <div class="footer-row">
+      <span class="footer-brand" id="footerBrand"></span>
+      <div class="footer-links">
+        <a href="#/">首页</a><a href="#about">关于</a><a href="#works">作品</a><a href="#skills">技能</a><a href="#contact">联系</a>
+      </div>
+      <span class="footer-copy">© 2026 张君睿 · 求职作品集</span>
+    </div>
+    <p class="footer-note" id="footerNote"></p>
+  </footer>
+
+  <!-- 视频播放弹窗 -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-inner">
+      <button class="video-modal-close" id="videoModalClose" aria-label="关闭">✕</button>
+      <div id="videoModalBody"></div>
+      <div class="video-modal-tip" id="videoModalTip"></div>
+    </div>
+  </div>
+
+  <style>
+.admin-view { background:#101010; min-height:100vh; }
+.admin-login-wrap { min-height:100vh; }
+  </style>
+  <script>
+window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / Video Editor", "kicker": "求职作品集 · PORTFOLIO 2026", "headline": "把素材，\n剪成故事。", "sub": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "tags": ["口播剪辑", "短片剪辑", "广告剪辑"], "showreel": {"cover": "portfolio-spa/images/showreel.png", "duration": "01:30", "label": "SHOWREEL", "caption": "个人 Showreel · 混剪预览", "video": ""}, "portrait": "portfolio-spa/images/portrait.png", "bio1": "你好，我是张君睿，2026 年毕业于广东科学技术职业学院。在校期间系统自学视频剪辑，从软件基础到完整项目交付，累计完成 20 余部练习与模拟商业作品，涵盖口播栏目、叙事短片与品牌广告三类内容。", "bio2": "我相信剪辑的本质是「服务叙事」：口播重信息密度，短片重情绪结构，广告重转化节奏。除了剪辑本身，我也能独立完成调色、混音与花字包装，让每条视频以完整的状态交付。", "intent": [{"label": "求职意向", "value": "视频剪辑 / 后期制作"}, {"label": "期望城市", "value": "太原 · 接受远程"}, {"label": "到岗时间", "value": "随时到岗"}], "stats": [{"num": "20+", "label": "练习与模拟商业作品"}, {"num": "3", "label": "大擅长剪辑方向"}, {"num": "10+", "label": "款熟练剪辑与设计软件"}, {"num": "2026", "label": "届毕业生 · 随时到岗"}]}, "specialties": [{"icon": "mic", "name": "口播剪辑", "desc": "知识科普与带货口播全流程剪辑：去气口、调语速、卡点与花字包装，在信息密度与观看体验之间找平衡。", "tags": "去气口 · 卡点 · 花字包装"}, {"icon": "film", "name": "短片剪辑", "desc": "叙事短片与 Vlog 剪辑：注重结构铺陈与情绪节奏，从素材整理、粗剪到精剪输出的全流程把控。", "tags": "结构铺陈 · 情绪节奏 · 精剪"}, {"icon": "megaphone", "name": "广告剪辑", "desc": "品牌与电商广告剪辑：强钩子开头、快节奏切换与卖点可视化，一切处理都服务于转化目标。", "tags": "钩子开头 · 卖点可视化 · 快节奏"}], "works": [{"id": "city-morning", "title": "《城市晨光》城市文旅宣传片", "category": "品牌广告", "year": "2026", "duration": "01:32", "desc": "以晨光为线索的城市叙事，光影与节奏的呼吸感。", "cover": "portfolio-spa/images/work-city.png", "video": "", "detail": {"meta": [{"label": "类别", "value": "品牌广告"}, {"label": "年份", "value": "2026"}, {"label": "担任", "value": "剪辑 / 调色"}, {"label": "时长", "value": "01:32"}], "bgTitle": "项目背景", "bgParas": ["《城市晨光》是为城市文旅局制作的季度宣传短片，目标是在 90 秒内建立观众对城市「清晨气质」的认知，并带动春季旅游搜索。客户提供 3.5 小时、覆盖 6 个地标的航拍与地面素材，交付平台包括文旅局官网、抖音与视频号。", "我的工作从素材整理开始：先按「地标 / 人物 / 空镜」三类建立素材库，再与编导确认叙事线——以一位晨跑者的动线，串联城市从苏醒到繁忙的全过程。"], "info": [{"label": "客户类型", "value": "城市文旅宣传片"}, {"label": "交付周期", "value": "5 个工作日"}, {"label": "素材规模", "value": "3.5 小时 · 42 条素材"}, {"label": "成片规格", "value": "1920×1080 · 24fps"}], "techTitle": "剪辑手法", "techniques": [{"num": "01", "name": "三幕式城市叙事", "desc": "「苏醒—奔跑—繁忙」三幕推进，前 8 秒以航拍建立空间感。"}, {"num": "02", "name": "呼吸感节奏", "desc": "长镜头与快剪交替，情绪高点前留 0.5 秒呼吸。"}, {"num": "03", "name": "匹配转场", "desc": "以形状与运动方向做匹配剪辑，全片仅 3 次特效转场。"}, {"num": "04", "name": "三层声音设计", "desc": "环境声、音乐、动效分层混音，晨跑段做低频滤波处理。"}, {"num": "05", "name": "晨光暖调调色", "desc": "高光暖橙、阴影青蓝，逐帧校正多机位色偏。"}], "tools": ["Premiere Pro", "DaVinci Resolve", "Audition"]}}, {"id": "tech-talk", "title": "口播栏目《科技半月谈》", "category": "口播栏目", "year": "2026", "duration": "04:18", "desc": "知识科普口播，去气口与信息密度优化。", "cover": "portfolio-spa/images/work-tech.png", "video": "", "detail": null}, {"id": "boundary", "title": "毕业短片《边界》", "category": "叙事短片", "year": "2026", "duration": "08:45", "desc": "非线性叙事结构，城市与荒野的情绪对照。", "cover": "portfolio-spa/images/work-boundary.png", "video": "", "detail": null}, {"id": "coffee-ad", "title": "电商广告 · 智能咖啡机", "category": "产品广告", "year": "2025", "duration": "00:45", "desc": "卖点可视化，快节奏钩子与转化导向。", "cover": "portfolio-spa/images/work-coffee.png", "video": "", "detail": null}, {"id": "interview", "title": "访谈节目《对话创业者》", "category": "访谈剪辑", "year": "2025", "duration": "12:30", "desc": "双机位访谈，观点线与情绪线双轨并行。", "cover": "portfolio-spa/images/work-interview.png", "video": "", "detail": null}, {"id": "road-vlog", "title": "旅行 Vlog《向西 300 公里》", "category": "旅行短片", "year": "2025", "duration": "06:12", "desc": "公路旅行叙事，音乐卡点与匹配转场。", "cover": "portfolio-spa/images/work-road.png", "video": "", "detail": null}], "skills": [{"num": "01", "name": "叙事结构", "desc": "三幕式与非线性结构搭建，让内容有起承转合", "level": 92}, {"num": "02", "name": "节奏把控", "desc": "卡点、留白与情绪曲线设计", "level": 95}, {"num": "03", "name": "转场设计", "desc": "匹配剪辑、无缝转场与动效衔接", "level": 85}, {"num": "04", "name": "声音设计", "desc": "音效分层、混音与音乐铺陈", "level": 80}, {"num": "05", "name": "调色", "desc": "风格化调色与多机位色彩统一", "level": 78}, {"num": "06", "name": "字幕与花字", "desc": "标题包装、花字与动态图形", "level": 88}], "software": [{"glyph": "Pr", "name": "Premiere Pro", "level": "主力剪辑"}, {"glyph": "Dv", "name": "DaVinci Resolve", "level": "专业调色"}, {"glyph": "Ae", "name": "After Effects", "level": "动效包装"}, {"glyph": "剪", "name": "剪映专业版", "level": "短视频主力"}, {"glyph": "Au", "name": "Audition", "level": "音频处理"}, {"glyph": "Ps", "name": "Photoshop", "level": "封面设计"}], "softwareNote": "以上软件均在课程项目与个人练习中实际使用，可快速上手新工具。", "contact": {"title": "有项目或机会，\n随时聊聊。", "sub": "目前正在寻找视频剪辑相关岗位，也欢迎商业短片、口播与广告合作委托。期待你的消息。", "email": "zhangjunrui@foxmail.com", "phone": "+86 138-0000-0000", "location": "山西太原 · 接受远程合作", "socials": [{"name": "小红书", "url": "#"}, {"name": "哔哩哔哩", "url": "#"}, {"name": "抖音", "url": "#"}]}, "footer": {"brand": "张君睿 · VIDEO EDITOR", "note": "© 2026 张君睿 · 求职作品集 · 本页内容可在后台管理系统中随时更新"}, "settings": {}};
+  </script>
+  <script>
+/* ============================================================
+   剪辑师作品集 SPA — 单文件应用逻辑
+   视图：#home（首页）/ #case=ID（案例详情）/ #admin（后台管理）
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var CONTENT = window.__CONTENT__ || {};
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // 路径为空时不输出 src 属性：src="" 会被浏览器当作当前页面 URL 重复请求
+  function imgTag(src, alt, attrs) {
+    return src ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '"' + (attrs || '') + ' />' : '';
+  }
+
+  /* ---------- SVG 图标库 ---------- */
+  var ICONS = {
+    mic: '<svg viewBox="0 0 22 22" fill="none"><rect x="8" y="2" width="6" height="11" rx="3" stroke="#FFFFFF" stroke-width="1.8"/><path d="M5.5 10.5C5.5 13.8 8.4 16.5 12 16.5C15.6 16.5 18.5 13.8 18.5 10.5" stroke="#FFFFFF" stroke-width="1.8"/><path d="M12 16.5V20" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    film: '<svg viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="1" stroke="#FFFFFF" stroke-width="1.8"/><path d="M7 4V18M15 4V18M2 9.5H7M15 9.5H22M2 14H7M15 14H22" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    megaphone: '<svg viewBox="0 0 22 22" fill="none"><path d="M2 9V13H4.5L10 17.5V4.5L4.5 9H2Z" stroke="#FFFFFF" stroke-width="1.8"/><path d="M14 8C15.5 9.2 15.5 12.8 14 14" stroke="#FFFFFF" stroke-width="1.8"/><path d="M17 5.5C19.5 7.8 19.5 14.2 17 16.5" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    mail: '<svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="10" rx="1" stroke="#A3A3A3" stroke-width="1.5"/><path d="M2 4.5L8 9L14 4.5" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    phone: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3C2.5 2.4 3 2 3.6 2H5.8L6.8 5.2L5.2 6.2C6.3 8.4 7.9 10 10.1 11.1L11.1 9.5L14.3 10.5V12.6C14.3 13.2 13.8 13.7 13.2 13.7C7.7 13.4 2.8 8.5 2.5 3Z" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    pin: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9.8 8 14.5 8 14.5C8 14.5 12.5 9.8 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    share: '<svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="4" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="12" r="2" stroke="#A3A3A3" stroke-width="1.5"/><path d="M5.8 7L10.2 4.8M5.8 9L10.2 11.2" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>'
+  };
+
+  /* ============================================================
+     数字滚动动画（统计格进入视口时触发）
+     ============================================================ */
+  function countUp(el) {
+    if (el.dataset.counted) return;
+    var txt = el.textContent || '';
+    var m = txt.match(/^(\d+)(.*)$/);
+    if (!m) return;
+    el.dataset.counted = '1';
+    var target = parseInt(m[1], 10);
+    var suffix = m[2] || '';
+    var dur = 1100, start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ============================================================
+     过渡动画：滚动进入 + 视图切换
+     ============================================================ */
+  var revealObserver = null;
+  function observeReveals() {
+    if (!revealObserver) return;
+    document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { revealObserver.observe(el); });
+  }
+  function initRevealObserver() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    if (revealObserver) revealObserver.disconnect();
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          revealObserver.unobserve(en.target);
+          en.target.querySelectorAll('.stat-num').forEach(function (n) { countUp(n); });
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+    observeReveals();
+  }
+  function markReveals() {
+    var sels = [
+      '.hero-left > *', '.hero-right', '.sec-head', '.portrait', '.intent-card', '.bio',
+      '.spec-card', '.stat-cell', '.work-card', '.skill-row', '.soft-col', '.soft-cell',
+      '.contact-card', '.tech-item', '.case-info-card', '.tools-block', '.mini-card', '.soft-note'
+    ];
+    sels.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el, i) {
+        if (el.classList.contains('reveal')) return;
+        el.classList.add('reveal');
+        el.setAttribute('data-d', String((i % 4) + 1));
+      });
+    });
+    observeReveals();
+  }
+
+  /* ============================================================
+     访问记录与操作日志（localStorage）
+     ============================================================ */
+  var LOG_KEY = 'portfolio_activity_log';
+  var LOG_MAX = 500;
+  function loadLog() {
+    try { return JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveLog(list) {
+    try { localStorage.setItem(LOG_KEY, JSON.stringify(list)); } catch (e) { /* 存储满时忽略 */ }
+  }
+  function fmtTime(ts) {
+    var d = new Date(ts);
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) +
+      ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  }
+  function logActivity(kind, action, detail) {
+    var list = loadLog();
+    list.unshift({ ts: Date.now(), kind: kind, action: action, detail: detail || '' });
+    if (list.length > LOG_MAX) list = list.slice(0, LOG_MAX);
+    saveLog(list);
+  }
+  function renderActivity() {
+    var list = loadLog();
+    var visits = list.filter(function (r) { return r.kind === 'visit'; }).length;
+    var actions = list.filter(function (r) { return r.kind === 'action'; }).length;
+    var last = list.length ? fmtTime(list[0].ts) : '—';
+    $('activitySummary').innerHTML =
+      '<div class="log-summary-cell"><span class="n">' + visits + '</span><span class="t">访问次数</span></div>' +
+      '<div class="log-summary-cell"><span class="n">' + actions + '</span><span class="t">操作次数</span></div>' +
+      '<div class="log-summary-cell"><span class="n">' + list.length + '</span><span class="t">记录总数（上限 500）</span></div>' +
+      '<div class="log-summary-cell"><span class="n" style="font-size:14px;">' + esc(last) + '</span><span class="t">最近活动时间</span></div>';
+    $('activityList').innerHTML = list.length ? list.map(function (r) {
+      var badge = r.kind === 'visit'
+        ? '<span class="log-badge visit">访问</span>'
+        : '<span class="log-badge action">操作</span>';
+      return '<div class="log-row">' + badge +
+        '<span class="log-time">' + fmtTime(r.ts) + '</span>' +
+        '<span class="log-action">' + esc(r.action) + '</span>' +
+        '<span class="log-detail">' + esc(r.detail) + '</span></div>';
+    }).join('') : '<p class="admin-panel-desc">暂无记录。访问网站或进行后台操作后，记录将显示在这里。</p>';
+  }
+  document.querySelectorAll('.admin-tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      if (t.getAttribute('data-tab') === 'activity') renderActivity();
+    });
+  });
+  var clearLogBtn = $('clearLogBtn');
+  if (clearLogBtn) {
+    clearLogBtn.addEventListener('click', function () {
+      if (!confirm('确定清空全部访问与操作记录？此操作不可恢复。')) return;
+      saveLog([]);
+      renderActivity();
+    });
+  }
+
+  /* ============================================================
+     视频弹窗
+     ============================================================ */
+  var videoModal = $('videoModal');
+  function openVideo(videoUrl, posterUrl) {
+    var body = $('videoModalBody');
+    var tip = $('videoModalTip');
+    if (videoUrl) {
+      body.innerHTML = '<video src="' + esc(videoUrl) + '" poster="' + esc(posterUrl || '') + '" controls autoplay loop muted playsinline></video>';
+      tip.textContent = '如无法自动播放，请点击视频中央的播放按钮';
+    } else {
+      body.innerHTML = '<img src="' + esc(posterUrl || '') + '" alt="视频封面" />';
+      tip.textContent = '尚未配置视频文件地址 — 登录后台「作品管理」即可为这部作品粘贴视频链接（mp4 / webm）';
+    }
+    videoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    videoModal.classList.remove('open');
+    $('videoModalBody').innerHTML = '';
+    document.body.style.overflow = '';
+  }
+  $('videoModalClose').addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeVideo(); });
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn.closest('.player')) return; // 案例页内联播放器自行处理，不弹窗
+    e.preventDefault();
+    openVideo(btn.getAttribute('data-video'), btn.getAttribute('data-poster'));
+  });
+
+  /* ============================================================
+     视图路由
+     ============================================================ */
+  var views = { home: $('view-home'), case: $('view-case'), admin: $('view-admin') };
+  var currentView = '';
+
+  function showView(name) {
+    if (currentView === name) return;
+    currentView = name;
+    Object.keys(views).forEach(function (k) { views[k].style.display = (k === name) ? '' : 'none'; });
+    // 导航激活态
+    document.querySelectorAll('.nav-link').forEach(function (a) { a.classList.remove('active'); });
+    if (name === 'home') {
+      var first = document.querySelector('.nav-link[data-nav="home"]');
+      if (first) first.classList.add('active');
+    } else if (name === 'case') {
+      var w = document.querySelector('.nav-link[data-nav="works"]');
+      if (w) w.classList.add('active');
+    }
+    window.scrollTo(0, 0);
+    // 视图切换入场动画
+    var el = views[name];
+    if (el && typeof el.animate === 'function') {
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' }
+      );
+    }
+  }
+
+  function route() {
+    var h = location.hash || '';
+    if (h.indexOf('#admin') === 0) {
+      showView('admin');
+      initAdmin();
+      logActivity('visit', '进入后台页面', '');
+    } else if (h.indexOf('#case=') === 0) {
+      var id = decodeURIComponent(h.slice(6));
+      renderCase(id);
+      showView('case');
+      var w = (CONTENT.works || []).filter(function (x) { return x.id === id; })[0];
+      logActivity('visit', '查看作品案例', w ? w.title : id);
+      markReveals();
+    } else {
+      showView('home');
+      logActivity('visit', '访问网站首页', '');
+      markReveals();
+    }
+  }
+  window.addEventListener('hashchange', route);
+
+  // 导航锚点：非首页时先回首页再滚动
+  document.querySelectorAll('.nav-link[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var target = a.getAttribute('href');
+      if (currentView !== 'home') {
+        e.preventDefault();
+        location.hash = '#/';
+        setTimeout(function () {
+          var el = document.querySelector(target);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 60);
+      }
+    });
+  });
+  // 移动端菜单
+  var menuBtn = $('menuBtn'), mobileMenu = $('mobileMenu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', function () { mobileMenu.classList.toggle('open'); });
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { mobileMenu.classList.remove('open'); });
+    });
+  }
+
+  /* ============================================================
+     首页渲染
+     ============================================================ */
+  function renderHome() {
+    var p = CONTENT.profile || {};
+    if (!p.name) return;
+    $('navName').textContent = p.name || '张君睿';
+    document.title = (p.name || '张君睿') + ' · 视频剪辑师 — 求职作品集';
+
+    $('heroKicker').innerHTML = '<span class="kicker-dot"></span>' + esc(p.kicker || '');
+    $('heroHeadline').textContent = p.headline || '';
+    $('heroSub').textContent = p.sub || '';
+    $('heroTags').innerHTML = (p.tags || []).map(function (t) {
+      return '<span class="tag-pill">' + esc(t) + '</span>';
+    }).join('');
+
+    var sr = p.showreel || {};
+    $('showreelImg').src = sr.cover || '';
+    var sb = document.querySelector('#showreel .play-btn');
+    sb.setAttribute('data-video', sr.video || '');
+    sb.setAttribute('data-poster', sr.cover || '');
+    $('showreelDur').textContent = (sr.label ? sr.label + ' · ' : '') + (sr.duration || '');
+    $('showreelCap').textContent = sr.caption || '';
+
+    $('portraitImg').src = p.portrait || '';
+    $('portraitName').textContent = p.name || '';
+    $('portraitRole').textContent = p.role || '';
+    $('bio1').textContent = p.bio1 || '';
+    $('bio2').textContent = p.bio2 || '';
+    $('intentCard').innerHTML = (p.intent || []).map(function (r) {
+      return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
+    }).join('');
+
+    $('specCards').innerHTML = (CONTENT.specialties || []).map(function (s) {
+      return '<div class="spec-card">' +
+        '<div class="spec-icon-box">' + (ICONS[s.icon] || ICONS.film) + '</div>' +
+        '<div class="spec-name">' + esc(s.name) + '</div>' +
+        '<div class="spec-desc">' + esc(s.desc) + '</div>' +
+        '<div class="spec-tags">' + esc(s.tags || '') + '</div></div>';
+    }).join('');
+
+    $('statsRow').innerHTML = (p.stats || []).map(function (s) {
+      return '<div class="stat-cell"><span class="stat-num">' + esc(s.num) + '</span><span class="stat-label">' + esc(s.label) + '</span></div>';
+    }).join('');
+
+    $('worksGrid').innerHTML = (CONTENT.works || []).map(function (w) {
+      return '<a class="work-card" href="#case=' + encodeURIComponent(w.id) + '">' +
+        '<div class="work-cover">' +
+        imgTag(w.cover, w.title) +
+        '<button class="play-btn" data-video="' + esc(w.video || '') + '" data-poster="' + esc(w.cover || '') + '" aria-label="播放">' + ICONS.play + '</button>' +
+        '<span class="dur-pill">' + esc(w.duration || '') + '</span>' +
+        '</div>' +
+        '<div class="work-meta">' +
+        '<div class="work-meta-top"><span class="work-cat">' + esc(w.category) + '</span><span class="work-year">' + esc(w.year) + '</span></div>' +
+        '<div class="work-title">' + esc(w.title) + '</div>' +
+        '<div class="work-desc">' + esc(w.desc) + '</div>' +
+        '</div></a>';
+    }).join('');
+
+    $('skillsList').innerHTML = (CONTENT.skills || []).map(function (s) {
+      return '<div class="skill-row">' +
+        '<span class="skill-num">' + esc(s.num) + '</span>' +
+        '<div class="skill-mid"><span class="skill-name">' + esc(s.name) + '</span><span class="skill-desc">' + esc(s.desc) + '</span></div>' +
+        '<div class="skill-track"><div class="skill-fill" style="--w:' + Math.max(0, Math.min(100, s.level || 0)) + '%"></div></div>' +
+        '</div>';
+    }).join('');
+
+    $('softGrid').innerHTML = (CONTENT.software || []).map(function (s) {
+      return '<div class="soft-cell"><div class="soft-glyph-box">' + esc(s.glyph) + '</div><div class="soft-name">' + esc(s.name) + '</div><div class="soft-level">' + esc(s.level) + '</div></div>';
+    }).join('');
+    $('softNote').textContent = CONTENT.softwareNote || '';
+
+    var c = CONTENT.contact || {};
+    $('contactTitle').textContent = c.title || '';
+    $('contactSub').textContent = c.sub || '';
+    $('mailtoBtn').href = 'mailto:' + (c.email || '');
+    var rows = '';
+    if (c.email) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.mail + '</div><div class="contact-mid"><span class="contact-label">邮箱</span><span class="contact-value">' + esc(c.email) + '</span></div></div>';
+    if (c.phone) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.phone + '</div><div class="contact-mid"><span class="contact-label">电话</span><span class="contact-value">' + esc(c.phone) + '</span></div></div>';
+    if (c.location) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.pin + '</div><div class="contact-mid"><span class="contact-label">所在地</span><span class="contact-value cn">' + esc(c.location) + '</span></div></div>';
+    if (c.socials && c.socials.length) {
+      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交媒体</span><div class="social-chips">' +
+        c.socials.map(function (s) { return '<a class="social-chip" href="' + esc(s.url || '#') + '" target="_blank" rel="noopener">' + esc(s.name) + ' ↗</a>'; }).join('') +
+        '</div></div></div>';
+    }
+    $('contactCard').innerHTML = rows;
+
+    $('footerBrand').textContent = (CONTENT.footer || {}).brand || '';
+    $('footerNote').textContent = (CONTENT.footer || {}).note || '';
+  }
+
+  /* ============================================================
+     案例详情渲染
+     ============================================================ */
+  function renderCase(id) {
+    var works = CONTENT.works || [];
+    // 找不到对应 id 时不再回退到第一部作品，避免 URL 与内容不一致
+    var work = works.filter(function (w) { return w.id === id; })[0];
+    if (!work) {
+      views.case.innerHTML = '<div style="padding:120px 24px;text-align:center;color:#737373;">未找到该作品，<a href="#/" style="color:#9EFF00;">返回首页</a></div>';
+      return;
+    }
+    document.title = work.title + ' — 张君睿 · 视频剪辑师';
+
+    var meta = (work.detail && work.detail.meta) || [
+      { label: '类别', value: work.category },
+      { label: '年份', value: work.year },
+      { label: '时长', value: work.duration }
+    ];
+    var d = work.detail;
+    var left = '';
+    if (d) {
+      left += '<span class="kicker">项目背景 · BRIEF</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">' + esc(d.bgTitle || '项目背景') + '</h2>' +
+        (d.bgParas || []).map(function (t) { return '<p class="case-para">' + esc(t) + '</p>'; }).join('');
+      if (d.info && d.info.length) {
+        left += '<div class="case-info-card">' + d.info.map(function (r) {
+          return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
+        }).join('') + '</div>';
+      }
+    } else {
+      left += '<span class="kicker">项目背景 · BRIEF</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">项目概述</h2>' +
+        '<p class="case-para">' + esc(work.desc || '') + '</p>' +
+        '<p class="case-para">该作品的详细案例说明（项目背景、剪辑手法）正在整理中。作为求职方向为「' + esc(work.category || '视频') + '」的代表练习，它体现了我在节奏控制与叙事结构上的日常训练。完整 case study 可在约谈时展示工程文件与时间线。</p>';
+    }
+
+    var right = '';
+    if (d) {
+      right += '<span class="kicker">剪辑手法 · APPROACH</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">' + esc(d.techTitle || '剪辑手法') + '</h2>' +
+        (d.techniques || []).map(function (t) {
+          return '<div class="tech-item"><span class="tech-num">' + esc(t.num) + '</span><div class="tech-mid"><span class="tech-name">' + esc(t.name) + '</span><span class="tech-desc">' + esc(t.desc) + '</span></div></div>';
+        }).join('');
+      if (d.tools && d.tools.length) {
+        right += '<div class="tools-block"><span class="tools-label">使用软件</span><div class="tools-chips">' +
+          d.tools.map(function (t) { return '<span class="tool-chip">' + esc(t) + '</span>'; }).join('') + '</div></div>';
+      }
+    } else {
+      right += '<span class="kicker">剪辑思路 · APPROACH</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">通用剪辑流程</h2>' +
+        '<div class="tech-item"><span class="tech-num">01</span><div class="tech-mid"><span class="tech-name">素材整理</span><span class="tech-desc">按场景 / 人物 / 空镜分类建库，命名规范，标记可用片段。</span></div></div>' +
+        '<div class="tech-item"><span class="tech-num">02</span><div class="tech-mid"><span class="tech-name">粗剪结构</span><span class="tech-desc">先搭叙事骨架，再填充细节，保证节奏曲线成立。</span></div></div>' +
+        '<div class="tech-item"><span class="tech-num">03</span><div class="tech-mid"><span class="tech-name">精剪与包装</span><span class="tech-desc">卡点、转场、花字、音效分层，最后统一调色输出。</span></div></div>';
+    }
+
+    views.case.innerHTML =
+      '<div class="back-bar"><a href="#/"><svg viewBox="0 0 16 16" fill="none"><path d="M9.5 3L4.5 8L9.5 13" stroke="#A3A3A3" stroke-width="1.8"/></svg>返回精选作品</a></div>' +
+      '<header class="case-header">' +
+      '<div class="case-meta-row">' + meta.map(function (m) {
+        return '<span class="case-meta"><span class="l">' + esc(m.label) + '</span><span class="v">' + esc(m.value) + '</span></span>';
+      }).join('') + '</div>' +
+      '<h1 class="case-title">' + esc(work.title) + '</h1></header>' +
+      '<section class="player-section"><div class="player" id="player">' +
+      imgTag(work.cover, '视频封面', ' class="player-poster"') +
+      '<button class="play-btn" aria-label="播放"><svg viewBox="0 0 30 24" fill="none"><path d="M3 2L27 12L3 22V2Z" fill="#000000"/></svg></button>' +
+      '<span class="player-note">点击播放 · 静音循环预览</span>' +
+      '<div class="control-bar">' +
+      '<button class="ctrl-ic ctrl-toggle" aria-label="播放/暂停"><svg viewBox="0 0 18 18" fill="none"><path d="M3 2L15 9L3 16V2Z" fill="#FFFFFF"/></svg></button>' +
+      '<span class="ctrl-time">00:00 / ' + esc(work.duration || '00:00') + '</span>' +
+      '<div class="ctrl-track"><div class="ctrl-fill"></div></div>' +
+      '<button class="ctrl-ic ctrl-mute" aria-label="静音切换"><svg viewBox="0 0 18 18" fill="none"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11.5 6C12.8 7.2 12.8 10.8 11.5 12" stroke="#FFFFFF" stroke-width="1.5"/><path d="M14 4C16.2 6 16.2 12 14 14" stroke="#FFFFFF" stroke-width="1.5"/></svg></button>' +
+      '<button class="ctrl-ic ctrl-full" aria-label="全屏"><svg viewBox="0 0 18 18" fill="none"><path d="M1.5 6V1.5H6M12 1.5H16.5V6M16.5 12V16.5H12M6 16.5H1.5V12" stroke="#FFFFFF" stroke-width="1.5"/></svg></button>' +
+      '</div></div></section>' +
+      '<section class="case-content"><div class="case-two-col">' +
+      '<div class="case-col-left">' + left + '</div>' +
+      '<div class="case-col-right">' + right + '</div></div></section>' +
+      '<section class="more-section"><div class="more-title-row"><span class="more-title">更多作品</span><a class="more-link" href="#/">查看全部 →</a></div>' +
+      '<div class="more-row">' + works.filter(function (w) { return w.id !== work.id; }).slice(0, 3).map(function (w) {
+        return '<a class="mini-card" href="#case=' + encodeURIComponent(w.id) + '"><div class="mini-cover">' + imgTag(w.cover, w.title) + '</div><div class="mini-meta"><span class="mini-title">' + esc(w.title) + '</span><span class="mini-cat">' + esc(w.category) + '</span></div></a>';
+      }).join('') + '</div></section>';
+
+    setupCasePlayer(document.getElementById('player'), work.video || '', work.cover || '', work.duration || '');
+  }
+
+  /* ============================================================
+     案例页内联播放器：真实控件 + 可拖动进度条
+     ============================================================ */
+  var PLAYER_SVG = {
+    play: '<svg viewBox="0 0 18 18" fill="none"><path d="M3 2L15 9L3 16V2Z" fill="#FFFFFF"/></svg>',
+    pause: '<svg viewBox="0 0 18 18" fill="none"><path d="M4 2H7V16H4ZM11 2H14V16H11Z" fill="#FFFFFF"/></svg>',
+    vol: '<svg viewBox="0 0 18 18" fill="none"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11.5 6C12.8 7.2 12.8 10.8 11.5 12" stroke="#FFFFFF" stroke-width="1.5"/><path d="M14 4C16.2 6 16.2 12 14 14" stroke="#FFFFFF" stroke-width="1.5"/></svg>',
+    muted: '<svg viewBox="0 0 18 18" fill="none"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11 6.5L15 11.5M15 6.5L11 11.5" stroke="#FFFFFF" stroke-width="1.5"/></svg>',
+    full: '<svg viewBox="0 0 18 18" fill="none"><path d="M1.5 6V1.5H6M12 1.5H16.5V6M16.5 12V16.5H12M6 16.5H1.5V12" stroke="#FFFFFF" stroke-width="1.5"/></svg>'
+  };
+  function fmtClock(sec) {
+    sec = Math.max(0, Math.round(sec || 0));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function setupCasePlayer(player, src, posterSrc, fallbackDurationText) {
+    if (!player || player.dataset.playerReady) return;
+    player.dataset.playerReady = '1';
+    var video = document.createElement('video');
+    video.className = 'player-video';
+    video.preload = 'metadata';
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    if (src) video.src = src;
+    player.insertBefore(video, player.firstChild);
+
+    var playBtn = player.querySelector('.play-btn');
+    var toggle = player.querySelector('.ctrl-toggle');
+    var timeEl = player.querySelector('.ctrl-time');
+    var track = player.querySelector('.ctrl-track');
+    var fill = player.querySelector('.ctrl-fill');
+    var muteBtn = player.querySelector('.ctrl-mute');
+    var fullBtn = player.querySelector('.ctrl-full');
+    var duration = 0;
+    var dragging = false;
+    if (fallbackDurationText) timeEl.textContent = '00:00 / ' + fallbackDurationText;
+
+    function paint(cur) {
+      var pct = duration ? Math.min(100, (cur / duration) * 100) : 0;
+      fill.style.width = pct + '%';
+      timeEl.textContent = fmtClock(cur) + ' / ' + fmtClock(duration);
+    }
+    video.addEventListener('loadedmetadata', function () {
+      duration = video.duration || 0;
+      paint(video.currentTime);
+    });
+    video.addEventListener('timeupdate', function () {
+      if (!dragging) paint(video.currentTime);
+    });
+    video.addEventListener('play', function () { toggle.innerHTML = PLAYER_SVG.pause; });
+    video.addEventListener('pause', function () { toggle.innerHTML = PLAYER_SVG.play; });
+    video.addEventListener('ended', function () {
+      player.classList.remove('playing');
+      toggle.innerHTML = PLAYER_SVG.play;
+      video.currentTime = 0;
+    });
+
+    playBtn.addEventListener('click', function () {
+      if (!src) { openVideo('', posterSrc); return; }
+      player.classList.add('playing');
+      video.play().catch(function () {});
+    });
+    toggle.addEventListener('click', function () {
+      if (video.paused) video.play().catch(function () {}); else video.pause();
+    });
+    muteBtn.addEventListener('click', function () {
+      video.muted = !video.muted;
+      muteBtn.innerHTML = video.muted ? PLAYER_SVG.muted : PLAYER_SVG.vol;
+    });
+    fullBtn.addEventListener('click', function () {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (player.requestFullscreen) player.requestFullscreen();
+      else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+    });
+
+    // 进度条：点击定位 + 按住拖动（Pointer Events，鼠标/触屏通用），拖动时实时同步播放位置
+    function seekFromEvent(e) {
+      var rect = track.getBoundingClientRect();
+      if (!rect.width) return;
+      var x = (e.clientX - rect.left) / rect.width;
+      x = Math.max(0, Math.min(1, x));
+      fill.style.width = (x * 100) + '%';
+      if (duration) {
+        video.currentTime = x * duration;
+        timeEl.textContent = fmtClock(video.currentTime) + ' / ' + fmtClock(duration);
+      }
+    }
+    track.addEventListener('pointerdown', function (e) {
+      if (!duration) return;
+      dragging = true;
+      track.classList.add('dragging');
+      if (track.setPointerCapture) { try { track.setPointerCapture(e.pointerId); } catch (err) {} }
+      seekFromEvent(e);
+      e.preventDefault();
+    });
+    track.addEventListener('pointermove', function (e) { if (dragging) seekFromEvent(e); });
+    track.addEventListener('pointerup', function () { dragging = false; track.classList.remove('dragging'); });
+    track.addEventListener('pointercancel', function () { dragging = false; track.classList.remove('dragging'); });
+  }
+
+  /* ============================================================
+     后台管理（静态版：localStorage）
+     ============================================================ */
+  var LS_CONTENT = 'portfolio_static_content';
+  var LS_PWD = 'portfolio_static_pwd';
+  var DEFAULT_PWD = 'admin123';
+  var adminData = null;
+  var adminInited = false;
+
+  function adminLoadData() {
+    try {
+      var override = localStorage.getItem(LS_CONTENT);
+      if (override) return JSON.parse(override);
+    } catch (e) { /* ignore */ }
+    return JSON.parse(JSON.stringify(CONTENT));
+  }
+  function adminSaveData(d) { localStorage.setItem(LS_CONTENT, JSON.stringify(d)); }
+
+  function initAdmin() {
+    if (adminInited) return;
+    adminInited = true;
+    if (localStorage.getItem('portfolio_admin_token')) {
+      adminLoadContent();
+    } else {
+      $('loginWrap').style.display = 'flex';
+      $('adminApp').classList.remove('on');
+    }
+  }
+
+  function adminShowLogin() { $('loginWrap').style.display = 'flex'; $('adminApp').classList.remove('on'); }
+  function adminShowApp() {
+    $('loginWrap').style.display = 'none';
+    $('adminApp').classList.add('on');
+    // 提示这是本地预览版，改动不会影响线上页面
+    var note = document.querySelector('.admin-static-note');
+    if (note) note.classList.add('on');
+  }
+
+  $('loginBtn').addEventListener('click', function () {
+    var pwd = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
+    $('loginErr').textContent = '';
+    if ($('loginPwd').value === pwd) {
+      localStorage.setItem('portfolio_admin_token', 'static-session');
+      $('loginPwd').value = '';
+      logActivity('action', '登录后台', '密码验证通过');
+      adminLoadContent();
+    } else {
+      $('loginErr').textContent = '密码错误，请重试';
+    }
+  });
+  $('loginPwd').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('loginBtn').click(); });
+  $('logoutBtn').addEventListener('click', function () {
+    localStorage.removeItem('portfolio_admin_token');
+    logActivity('action', '退出登录', '');
+    adminShowLogin();
+  });
+
+  function adminLoadContent() {
+    adminData = adminLoadData();
+    adminRender();
+    adminShowApp();
+  }
+
+  // 选项卡
+  document.querySelectorAll('.admin-tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.admin-tab').forEach(function (x) { x.classList.remove('on'); });
+      t.classList.add('on');
+      document.querySelectorAll('.admin-panel').forEach(function (p) { p.classList.remove('on'); });
+      document.querySelector('.admin-panel[data-panel="' + t.getAttribute('data-tab') + '"]').classList.add('on');
+    });
+  });
+
+  function getByPath(obj, path) { return path.split('.').reduce(function (o, k) { return (o || {})[k]; }, obj); }
+  function setByPath(obj, path, val) {
+    var keys = path.split('.'); var o = obj;
+    for (var i = 0; i < keys.length - 1; i++) { o = o[keys[i]] = o[keys[i]] || {}; }
+    o[keys[keys.length - 1]] = val;
+  }
+  function adminFillBinds() {
+    document.querySelectorAll('[data-bind]').forEach(function (el) {
+      var v = getByPath(adminData, el.getAttribute('data-bind'));
+      var type = el.getAttribute('data-type');
+      if (type === 'array') el.value = Array.isArray(v) ? v.join('，') : (v || '');
+      else if (type === 'lines') el.value = Array.isArray(v) ? v.join('\n') : (v || '');
+      else el.value = v == null ? '' : String(v);
+    });
+  }
+  function adminReadBinds() {
+    document.querySelectorAll('[data-bind]').forEach(function (el) {
+      var v = el.value; var type = el.getAttribute('data-type');
+      if (type === 'array') v = v.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      else if (type === 'lines') v = v.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+      setByPath(adminData, el.getAttribute('data-bind'), v);
+    });
+  }
+  function rowField(label, value, attrs) {
+    attrs = attrs || '';
+    return '<div class="admin-field"><label class="admin-label">' + esc(label) + '</label><input class="admin-input" value="' + esc(value) + '" ' + attrs + ' /></div>';
+  }
+
+  function adminRender() {
+    adminFillBinds();
+    $('intentEditor').innerHTML = (adminData.profile.intent || []).map(function (r, i) {
+      return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-intent-l="' + i + '"') + rowField('内容', r.value, 'data-intent-v="' + i + '"') + '</div>';
+    }).join('');
+    $('statsEditor').innerHTML = (adminData.profile.stats || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;">' + rowField('数值', s.num, 'data-stat-n="' + i + '"') + rowField('标签', s.label, 'data-stat-l="' + i + '"') + '</div>';
+    }).join('');
+    $('specEditor').innerHTML = (adminData.specialties || []).map(function (s, i) {
+      return '<div class="admin-card"><div class="admin-grid-2">' +
+        rowField('名称', s.name, 'data-spec-n="' + i + '"') + rowField('图标（mic/film/megaphone）', s.icon, 'data-spec-i="' + i + '"') + '</div>' +
+        '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-spec-d="' + i + '">' + esc(s.desc) + '</textarea></div>' +
+        rowField('底部标签', s.tags, 'data-spec-t="' + i + '"') + '</div>';
+    }).join('');
+    adminRenderWorks();
+    var d = adminData.works[0] && adminData.works[0].detail;
+    // 案例字段不再走 data-bind（否则会被读成顶层孤儿键），改为显式读写
+    var bgEl = document.querySelector('[data-case-bg]');
+    var tlEl = document.querySelector('[data-case-tools]');
+    if (bgEl) bgEl.value = d ? (d.bgParas || []).join('\n') : '';
+    if (tlEl) tlEl.value = d ? (d.tools || []).join('，') : '';
+    if (d) {
+      $('caseInfoEditor').innerHTML = (d.info || []).map(function (r, i) {
+        return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-ci-l="' + i + '"') + rowField('内容', r.value, 'data-ci-v="' + i + '"') + '</div>';
+      }).join('');
+      $('techEditor').innerHTML = (d.techniques || []).map(function (t, i) {
+        return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
+          rowField('序号', t.num, 'data-te-n="' + i + '"') + rowField('名称', t.name, 'data-te-t="' + i + '"') + '</div>' +
+          '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-te-d="' + i + '">' + esc(t.desc) + '</textarea></div>' +
+          '<div style="text-align:right;"><button class="admin-mini-btn danger" data-tech-del="' + i + '">删除此条</button></div></div>';
+      }).join('');
+    }
+    $('skillEditor').innerHTML = (adminData.skills || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
+        rowField('序号', s.num, 'data-sk-n="' + i + '"') + rowField('名称', s.name, 'data-sk-t="' + i + '"') + '</div>' +
+        rowField('描述', s.desc, 'data-sk-d="' + i + '"') +
+        rowField('熟练度（0-100）', s.level, 'data-sk-l="' + i + '" type="number"') +
+        '<div style="text-align:right;"><button class="admin-mini-btn danger" data-skill-del="' + i + '">删除此条</button></div></div>';
+    }).join('');
+    $('softEditor').innerHTML = (adminData.software || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;">' +
+        rowField('角标文字', s.glyph, 'data-so-g="' + i + '"') +
+        rowField('软件名', s.name, 'data-so-n="' + i + '"') +
+        rowField('定位', s.level, 'data-so-l="' + i + '"') + '</div>';
+    }).join('');
+    $('socialEditor').innerHTML = (adminData.contact.socials || []).map(function (s, i) {
+      return '<div class="admin-grid-2">' + rowField('名称', s.name, 'data-sl-n="' + i + '"') + rowField('链接', s.url, 'data-sl-u="' + i + '"') + '</div>';
+    }).join('');
+  }
+
+  function adminRenderWorks() {
+    $('worksEditor').innerHTML = (adminData.works || []).map(function (w, i) {
+      return '<div class="admin-work-item">' +
+        '<div class="thumb">' + (w.cover
+          ? imgTag(w.cover, '', ' onerror="this.style.opacity=0"')
+          : '<span style="font-size:11px;color:#737373;">无封面</span>') + '</div>' +
+        '<div class="info"><div class="tt">' + esc(w.title) + '</div><div class="cc">' + esc(w.category) + ' · ' + esc(w.year) + ' · ' + esc(w.duration) + '</div></div>' +
+        '<div class="ops"><button class="admin-mini-btn" data-work-edit="' + i + '">编辑</button><button class="admin-mini-btn danger" data-work-del="' + i + '">删除</button></div></div>';
+    }).join('');
+  }
+
+  var editingIndex = -1;
+  function openWorkEditor(i) {
+    editingIndex = i;
+    var w = adminData.works[i];
+    var isNew = !w;
+    if (isNew) {
+      w = { id: 'work-' + Date.now(), title: '新作品', category: '', year: '2026', duration: '00:00', desc: '', cover: '', video: '', detail: null };
+      adminData.works.push(w);
+      editingIndex = adminData.works.length - 1;
+    }
+    document.body.insertAdjacentHTML('beforeend',
+      '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;" id="workModal">' +
+      '<div style="width:640px;max-width:100%;max-height:90vh;overflow:auto;background:#1A1A1A;border:1px solid #292929;padding:28px;display:flex;flex-direction:column;gap:14px;">' +
+      '<div class="admin-card-title" style="font-size:16px;">' + (isNew ? '新增作品' : '编辑作品') + '</div>' +
+      rowField('作品标题', w.title, 'id="wTitle"') +
+      '<div class="admin-grid-2">' + rowField('分类', w.category, 'id="wCat"') + rowField('年份', w.year, 'id="wYear"') + '</div>' +
+      '<div class="admin-grid-2">' + rowField('时长', w.duration, 'id="wDur"') + rowField('封面路径', w.cover, 'id="wCover"') + '</div>' +
+      rowField('视频地址（mp4/webm，可留空）', w.video, 'id="wVideo"') +
+      '<div class="admin-field"><label class="admin-label">一句话描述</label><textarea class="admin-input" id="wDesc">' + esc(w.desc) + '</textarea></div>' +
+      '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;"><button class="admin-mini-btn" id="wCancel">取消</button><button class="admin-mini-btn primary" id="wSave">保存作品</button></div></div></div>');
+    $('wCancel').addEventListener('click', function () {
+      if (isNew) adminData.works.splice(editingIndex, 1);
+      $('workModal').remove(); adminRenderWorks();
+    });
+    $('wSave').addEventListener('click', function () {
+      var x = adminData.works[editingIndex];
+      x.title = $('wTitle').value; x.category = $('wCat').value; x.year = $('wYear').value;
+      x.duration = $('wDur').value; x.cover = $('wCover').value; x.video = $('wVideo').value;
+      x.desc = $('wDesc').value;
+      logActivity('action', isNew ? '新增作品' : '编辑作品', x.title);
+      $('workModal').remove(); adminRenderWorks();
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.hasAttribute && t.hasAttribute('data-work-edit')) openWorkEditor(+t.getAttribute('data-work-edit'));
+    if (t.hasAttribute && t.hasAttribute('data-work-del')) {
+      var wi = +t.getAttribute('data-work-del');
+      var wt = (adminData.works || [])[wi];
+      if (wt && confirm('确定删除作品「' + (wt.title || wt.id) + '」？')) {
+        logActivity('action', '删除作品', wt.title || wt.id);
+        adminData.works.splice(wi, 1);
+        adminRender();
+      }
+    }
+    if (t.hasAttribute && t.hasAttribute('data-tech-del')) {
+      var ti = +t.getAttribute('data-tech-del');
+      var cw = adminData.works[0];
+      var techs = cw && cw.detail && Array.isArray(cw.detail.techniques) ? cw.detail.techniques : null;
+      if (techs && techs[ti]) {
+        logActivity('action', '删除剪辑手法条目', techs[ti].name);
+        techs.splice(ti, 1);
+        adminRender();
+      }
+    }
+    if (t.hasAttribute && t.hasAttribute('data-skill-del')) {
+      var si = +t.getAttribute('data-skill-del');
+      if (Array.isArray(adminData.skills) && adminData.skills[si]) {
+        logActivity('action', '删除技能条目', adminData.skills[si].name);
+        adminData.skills.splice(si, 1);
+        adminRender();
+      }
+    }
+  });
+  $('addWorkBtn').addEventListener('click', function () { openWorkEditor(-1); });
+
+  // 按下标回填；数组缺失或越界时跳过，避免保存流程中断
+  function adminCollectRows(selector, arr, key, transform) {
+    if (!Array.isArray(arr)) return;
+    document.querySelectorAll(selector).forEach(function (el) {
+      var i = +el.getAttribute(selector.slice(1, -1));
+      var row = arr[i];
+      if (row) row[key] = transform ? transform(el.value) : el.value;
+    });
+  }
+  function adminCollect() {
+    adminData.profile = adminData.profile || {};
+    adminData.contact = adminData.contact || {};
+    adminReadBinds();
+    adminCollectRows('[data-intent-l]', adminData.profile.intent, 'label');
+    adminCollectRows('[data-intent-v]', adminData.profile.intent, 'value');
+    adminCollectRows('[data-stat-n]', adminData.profile.stats, 'num');
+    adminCollectRows('[data-stat-l]', adminData.profile.stats, 'label');
+    adminCollectRows('[data-spec-n]', adminData.specialties, 'name');
+    adminCollectRows('[data-spec-i]', adminData.specialties, 'icon');
+    adminCollectRows('[data-spec-d]', adminData.specialties, 'desc');
+    adminCollectRows('[data-spec-t]', adminData.specialties, 'tags');
+    var d = adminData.works[0] && adminData.works[0].detail;
+    if (d) {
+      var bg = document.querySelector('[data-case-bg]');
+      if (bg) d.bgParas = bg.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+      var tl = document.querySelector('[data-case-tools]');
+      if (tl) d.tools = tl.value.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      adminCollectRows('[data-ci-l]', d.info, 'label');
+      adminCollectRows('[data-ci-v]', d.info, 'value');
+      adminCollectRows('[data-te-n]', d.techniques, 'num');
+      adminCollectRows('[data-te-t]', d.techniques, 'name');
+      adminCollectRows('[data-te-d]', d.techniques, 'desc');
+    }
+    adminCollectRows('[data-sk-n]', adminData.skills, 'num');
+    adminCollectRows('[data-sk-t]', adminData.skills, 'name');
+    adminCollectRows('[data-sk-d]', adminData.skills, 'desc');
+    adminCollectRows('[data-sk-l]', adminData.skills, 'level', function (v) { return Math.max(0, Math.min(100, +v || 0)); });
+    adminCollectRows('[data-so-g]', adminData.software, 'glyph');
+    adminCollectRows('[data-so-n]', adminData.software, 'name');
+    adminCollectRows('[data-so-l]', adminData.software, 'level');
+    adminCollectRows('[data-sl-n]', adminData.contact.socials, 'name');
+    adminCollectRows('[data-sl-u]', adminData.contact.socials, 'url');
+  }
+
+  $('saveBtn').addEventListener('click', function () {
+    adminCollect();
+    adminSaveData(adminData);
+    logActivity('action', '保存内容修改', '');
+    var tip = $('saveTip');
+    tip.textContent = '已保存到本浏览器 ✓';
+    tip.classList.add('show');
+    setTimeout(function () { tip.classList.remove('show'); }, 2500);
+  });
+  $('exportBtn').addEventListener('click', function () {
+    adminCollect(); adminSaveData(adminData);
+    logActivity('action', '导出内容', 'portfolio-content.json');
+    var blob = new Blob([JSON.stringify(adminData, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'portfolio-content.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  $('importBtn').addEventListener('click', function () { $('importFile').click(); });
+  $('importFile').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var j = JSON.parse(rd.result);
+        if (!j.profile) throw new Error('bad');
+        adminData = j; adminSaveData(adminData); adminRender();
+        logActivity('action', '导入内容', f.name);
+        alert('导入成功，内容已应用到本浏览器');
+      } catch (e) { alert('导入失败：文件格式不正确'); }
+    };
+    rd.readAsText(f);
+    this.value = '';
+  });
+  $('resetBtn').addEventListener('click', function () {
+    if (!confirm('确定清除本浏览器中的所有修改，恢复为网站默认内容？')) return;
+    localStorage.removeItem(LS_CONTENT);
+    localStorage.removeItem(LS_PWD);
+    adminLoadContent();
+    logActivity('action', '重置为默认内容', '');
+    alert('已恢复默认内容');
+  });
+  $('changePwdBtn').addEventListener('click', function () {
+    var o = $('oldPwd').value, n1 = $('newPwd').value, n2 = $('newPwd2').value;
+    $('pwdErr').textContent = '';
+    var cur = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
+    if (o !== cur) { $('pwdErr').textContent = '原密码错误'; return; }
+    if (n1 !== n2) { $('pwdErr').textContent = '两次输入的新密码不一致'; return; }
+    if (n1.length < 6) { $('pwdErr').textContent = '新密码至少 6 位'; return; }
+    localStorage.setItem(LS_PWD, n1);
+    logActivity('action', '修改后台密码', '');
+    $('oldPwd').value = ''; $('newPwd').value = ''; $('newPwd2').value = '';
+    alert('密码修改成功（仅对本浏览器生效）');
+  });
+
+  /* ============================================================
+     启动
+     ============================================================ */
+  renderHome();
+  initRevealObserver();
+  markReveals();
+  route();
+
+  // 导航栏滚动态（加深背景 + 毛玻璃）
+  var navEl = document.querySelector('.nav');
+  window.addEventListener('scroll', function () {
+    if (!navEl) return;
+    if (window.scrollY > 8) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+  }, { passive: true });
+
+  // 后台加载时同步渲染访问记录
+  var _origAdminLoadContent = adminLoadContent;
+  adminLoadContent = function () {
+    _origAdminLoadContent();
+    renderActivity();
+  };
+})();
+
+  </script>
+</body>
+</html>
