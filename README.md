@@ -2,6 +2,9 @@
 
 一个深色影院风格的视频剪辑师求职作品集网站，包含前台展示与后台内容管理，无任何第三方依赖。
 
+**在线预览**：https://zzjjr.github.io/zjrportfolio/
+（GitHub Pages，由 main 分支根目录的 `index.html` 提供；内容变更需重新执行 `scripts/build_spa.py` 并更新该文件）
+
 ## 目录结构
 
 ```
