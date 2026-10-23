@@ -26,7 +26,7 @@
 ├── portfolio-spa/             线上静态托管版源码（单文件 SPA）
 │   ├── index.template.html    SPA 模板（含占位符）
 │   ├── index.html             构建产物（可直接部署到任意静态托管）
-│   ├── js/app.js              SPA 应用脚本（hash 路由：#/ #case=ID #admin）
+│   ├── js/app.js              SPA 应用脚本（hash 路由：#/ #case=ID）
 │   └── images/                图片素材
 ├── scripts/                   构建 / 发布辅助脚本（Python 3，路径均相对脚本位置解析）
 │   ├── build_spa.py           组装 SPA：内联 CSS + 内容数据 + JS → index.html
@@ -83,14 +83,12 @@ node server.js
 
 ## 线上版本
 
-### 静态版（portfolio-spa）
+### 静态版（portfolio-spa，即 GitHub Pages 线上版）
 
-静态托管无后端，故 SPA 版：
+静态托管无后端，公开发布的 SPA 版：
 
-- 内容数据构建时内联进 `index.html`
-- 后台数据存于浏览器 localStorage（「设置」中可导出/导入 JSON 迁移）
-- 访问记录为浏览器本地记录
-- **后台登录没有真正的安全边界**（纯前端校验），且改动只影响当前浏览器、不会改变线上页面。页面顶部有常驻提示。需要在线改内容请部署全栈版。
+- 内容数据在构建时内联进 `index.html`，**没有任何后台管理入口**（旧版的纯前端假后台已移除——它只能改自己浏览器、还改不了线上，留着只会造成误导）
+- 要改线上内容，请本地用全栈版 `node server.js` 改好 `data.json`，重新构建并发布（见上「本地运行」）
 - 视频建议使用外链地址（对象存储直链）；若使用本地相对路径，请把文件一并上传
 
 重新构建：

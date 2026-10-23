@@ -148,7 +148,11 @@
   <!-- ==================== 视图二：案例详情（JS 渲染） ==================== -->
   <main id="view-case" style="display:none;"></main>
 
-  <!-- ==================== 视图三：后台管理 ==================== -->
+  <!-- ==================== 视图三：后台管理 ====================
+       说明：build_spa.py 默认裁掉 ADMIN_START / ADMIN_END 之间的整段，
+       公开发布的静态版因此不含后台入口（其改动只存本地，无法生效）。
+       需要本地预览后台时用 python scripts/build_spa.py --keep-admin 构建。 -->
+  <!--ADMIN_START-->
   <main id="view-admin" class="admin-view" style="display:none;">
     <div class="admin-login-wrap" id="loginWrap">
       <div class="admin-login-box">
@@ -325,6 +329,7 @@
       </div>
     </div>
   </main>
+  <!--ADMIN_END-->
 
   <!-- 页脚（全站共用） -->
   <footer class="footer">

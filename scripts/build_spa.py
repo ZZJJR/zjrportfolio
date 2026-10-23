@@ -3,8 +3,13 @@
 """组装 SPA 单文件：内联 CSS + 内容数据 + 应用 JS
 
 用法：
-    python scripts/build_spa.py            # 构建，缺失媒体只告警
-    python scripts/build_spa.py --strict   # 缺失媒体直接失败（用于 CI / 上线前校验）
+    python scripts/build_spa.py                # 构建，缺失媒体只告警；默认裁掉后台入口
+    python scripts/build_spa.py --strict       # 缺失媒体直接失败（用于 CI / 上线前校验）
+    python scripts/build_spa.py --keep-admin   # 保留后台入口（仅供本地预览后台）
+
+公开发布的静态版默认不含后台：后台改动只存浏览器 localStorage，无法影响线上页面，
+留着只会让人误以为能在网上改内容，且它没有真正的鉴权。
+本地想看后台时用 --keep-admin 单独构建一份。
 
 路径全部相对脚本位置解析，不再依赖固定的机器目录。
 """
@@ -18,6 +23,7 @@ SPA = BASE / "portfolio-spa"
 PUBLIC = BASE / "portfolio" / "public"
 DATA = BASE / "portfolio" / "data.json"
 STRICT = "--strict" in sys.argv
+KEEP_ADMIN = "--keep-admin" in sys.argv
 
 # 构建期不应随产物一起发布的字段
 DROP_KEYS = ("caseBgParas", "caseTools")
@@ -75,9 +81,25 @@ inject_content = (
 )
 
 html = (SPA / "index.template.html").read_text(encoding="utf-8")
+app_js = app
+
+# 裁掉后台：HTML 区块（ADMIN_START/END）与 JS 区块（/*ADMIN_START*//*ADMIN_END*/）
+# 两者必须同时裁掉，否则 JS 会给不存在的 DOM 绑定事件而抛错
+if not KEEP_ADMIN:
+    html, n_html = re.subn(
+        r"[ \t]*<!--ADMIN_START-->.*?<!--ADMIN_END-->[ \t]*\n?", "", html, flags=re.S
+    )
+    app_js, n_js = re.subn(
+        r"/\*ADMIN_START\*/.*?/\*ADMIN_END\*/\n?", "", app_js, flags=re.S
+    )
+    if n_html == 0 or n_js == 0:
+        print("警告：未找到后台区块标记，跳过裁切（html=%d, js=%d）" % (n_html, n_js))
+    else:
+        print("已裁掉后台入口（HTML 区块 %d 处、JS 区块 %d 处）" % (n_html, n_js))
+
 html = html.replace("/*__CSS__*/", css)
 html = html.replace("/*__CONTENT__*/", inject_content)
-html = html.replace("/*__APP__*/", app)
+html = html.replace("/*__APP__*/", app_js)
 
 out = SPA / "index.html"
 out.write_text(html, encoding="utf-8")
@@ -95,6 +117,8 @@ if "adminPassword" in html:
 for k in DROP_KEYS:
     if f'"{k}"' in html:
         errors.append(f"产物中残留孤儿字段 {k}")
+if not KEEP_ADMIN and ('id="loginBtn"' in html or "portfolio_admin_token" in html):
+    errors.append("产物中仍残留后台入口（应为公开发布版裁掉）")
 
 imgs = re.findall(r"<img[^>]+>", html)
 bad = [

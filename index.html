@@ -770,183 +770,10 @@ main > section, main > header, main > div.back-bar { animation: viewIn .55s cubi
   <!-- ==================== 视图二：案例详情（JS 渲染） ==================== -->
   <main id="view-case" style="display:none;"></main>
 
-  <!-- ==================== 视图三：后台管理 ==================== -->
-  <main id="view-admin" class="admin-view" style="display:none;">
-    <div class="admin-login-wrap" id="loginWrap">
-      <div class="admin-login-box">
-        <div class="admin-login-title">作品集后台管理</div>
-        <p class="admin-login-sub">请输入管理员密码以进入内容管理系统。初始密码为 admin123，登录后请立即在「设置」中修改。</p>
-        <div class="admin-field">
-          <label class="admin-label">管理员密码</label>
-          <input class="admin-input" id="loginPwd" type="password" placeholder="请输入密码" autocomplete="current-password" />
-        </div>
-        <div class="admin-err" id="loginErr"></div>
-        <button class="btn btn-primary" id="loginBtn" style="width:100%;">登 录</button>
-        <a href="#/" style="font-size:12px;color:#737373;text-align:center;">← 返回网站前台</a>
-      </div>
-    </div>
-    <div class="admin-app" id="adminApp">
-      <div class="admin-topbar">
-        <span class="t">作品集后台管理</span>
-        <span class="admin-static-note">静态版后台：修改只保存在当前浏览器，不会改变线上页面；鉴权仅为防误触，不具备安全边界</span>
-        <div class="ops">
-          <span class="admin-save-tip" id="saveTip">已保存 ✓</span>
-          <button class="admin-save-btn" id="saveBtn">保存全部修改</button>
-          <button class="admin-logout-btn" id="logoutBtn">退出登录</button>
-        </div>
-      </div>
-      <div class="admin-layout">
-        <aside class="admin-side">
-          <button class="admin-tab on" data-tab="profile">基本信息</button>
-          <button class="admin-tab" data-tab="specialty">擅长方向</button>
-          <button class="admin-tab" data-tab="works">作品管理</button>
-          <button class="admin-tab" data-tab="case">案例详情</button>
-          <button class="admin-tab" data-tab="skills">技能与软件</button>
-          <button class="admin-tab" data-tab="contact">联系方式</button>
-          <button class="admin-tab" data-tab="activity">访问记录</button>
-          <button class="admin-tab" data-tab="settings">设置</button>
-        </aside>
-        <div class="admin-main">
-          <section class="admin-panel on" data-panel="profile">
-            <div class="admin-panel-title">基本信息</div>
-            <p class="admin-panel-desc">导航栏、首屏主标题、个人简介与数据统计的内容。</p>
-            <div class="admin-card">
-              <div class="admin-grid-2">
-                <div class="admin-field"><label class="admin-label">姓名</label><input class="admin-input" data-bind="profile.name" /></div>
-                <div class="admin-field"><label class="admin-label">职位头衔</label><input class="admin-input" data-bind="profile.role" /></div>
-              </div>
-              <div class="admin-field"><label class="admin-label">首屏眉标（小字）</label><input class="admin-input" data-bind="profile.kicker" /></div>
-              <div class="admin-field"><label class="admin-label">首屏主标题（支持换行）</label><textarea class="admin-input" data-bind="profile.headline"></textarea></div>
-              <div class="admin-field"><label class="admin-label">首屏副标题</label><textarea class="admin-input" data-bind="profile.sub"></textarea></div>
-              <div class="admin-field"><label class="admin-label">擅长方向标签（逗号分隔）</label><input class="admin-input" data-bind="profile.tags" data-type="array" /></div>
-              <div class="admin-grid-2">
-                <div class="admin-field"><label class="admin-label">Showreel 封面图路径</label><input class="admin-input" data-bind="profile.showreel.cover" /></div>
-                <div class="admin-field"><label class="admin-label">Showreel 视频地址（mp4/webm，可留空）</label><input class="admin-input" data-bind="profile.showreel.video" /></div>
-              </div>
-              <div class="admin-grid-3">
-                <div class="admin-field"><label class="admin-label">时长标签文字</label><input class="admin-input" data-bind="profile.showreel.duration" /></div>
-                <div class="admin-field"><label class="admin-label">封面角标</label><input class="admin-input" data-bind="profile.showreel.label" /></div>
-                <div class="admin-field"><label class="admin-label">封面说明</label><input class="admin-input" data-bind="profile.showreel.caption" /></div>
-              </div>
-              <div class="admin-field"><label class="admin-label">个人照片路径</label><input class="admin-input" data-bind="profile.portrait" /></div>
-              <div class="admin-field"><label class="admin-label">简介段落一</label><textarea class="admin-input" data-bind="profile.bio1"></textarea></div>
-              <div class="admin-field"><label class="admin-label">简介段落二</label><textarea class="admin-input" data-bind="profile.bio2"></textarea></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-title">求职意向（三行）</div>
-              <div id="intentEditor"></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-title">数据统计（四格）</div>
-              <div id="statsEditor" class="admin-grid-2"></div>
-            </div>
-          </section>
-
-          <section class="admin-panel" data-panel="specialty">
-            <div class="admin-panel-title">擅长方向</div>
-            <p class="admin-panel-desc">个人简介区的三张方向卡片。图标可选：mic（口播）/ film（短片）/ megaphone（广告）。</p>
-            <div id="specEditor" class="admin-grid-3"></div>
-          </section>
-
-          <section class="admin-panel" data-panel="works">
-            <div class="admin-panel-title">作品管理</div>
-            <p class="admin-panel-desc">新增、编辑、删除作品。封面路径指向 images/ 目录下的文件；视频地址留空时点击播放仅展示封面。</p>
-            <div style="display:flex;justify-content:flex-end;"><button class="admin-mini-btn primary" id="addWorkBtn">+ 新增作品</button></div>
-            <div id="worksEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
-          </section>
-
-          <section class="admin-panel" data-panel="case">
-            <div class="admin-panel-title">案例详情</div>
-            <p class="admin-panel-desc">编辑首部作品（案例详情页的完整内容：项目背景、信息卡、剪辑手法、使用软件）。</p>
-            <div class="admin-card">
-              <div class="admin-field"><label class="admin-label">背景段落（每行一段）</label><textarea class="admin-input" data-case-bg style="min-height:140px;"></textarea></div>
-              <div class="admin-card-title">项目信息卡（四行）</div>
-              <div id="caseInfoEditor" class="admin-grid-2"></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-title">剪辑手法条目</div>
-              <div id="techEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-field"><label class="admin-label">使用软件（逗号分隔）</label><input class="admin-input" data-case-tools /></div>
-            </div>
-          </section>
-
-          <section class="admin-panel" data-panel="skills">
-            <div class="admin-panel-title">技能与软件</div>
-            <p class="admin-panel-desc">核心能力列表（含熟练度百分比）与常用软件网格。</p>
-            <div class="admin-card">
-              <div class="admin-card-title">核心剪辑能力</div>
-              <div id="skillEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-title">常用软件</div>
-              <div id="softEditor" class="admin-grid-3"></div>
-              <div class="admin-field" style="margin-top:14px;"><label class="admin-label">软件区备注</label><input class="admin-input" data-bind="softwareNote" /></div>
-            </div>
-          </section>
-
-          <section class="admin-panel" data-panel="contact">
-            <div class="admin-panel-title">联系方式</div>
-            <p class="admin-panel-desc">联系板块的标题、文案与联系方式。</p>
-            <div class="admin-card">
-              <div class="admin-field"><label class="admin-label">联系大标题（支持换行）</label><textarea class="admin-input" data-bind="contact.title"></textarea></div>
-              <div class="admin-field"><label class="admin-label">联系副文案</label><textarea class="admin-input" data-bind="contact.sub"></textarea></div>
-              <div class="admin-grid-2">
-                <div class="admin-field"><label class="admin-label">邮箱</label><input class="admin-input" data-bind="contact.email" /></div>
-                <div class="admin-field"><label class="admin-label">电话</label><input class="admin-input" data-bind="contact.phone" /></div>
-              </div>
-              <div class="admin-field"><label class="admin-label">所在地</label><input class="admin-input" data-bind="contact.location" /></div>
-              <div class="admin-card-title">社交媒体链接</div>
-              <div id="socialEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
-            </div>
-            <div class="admin-card">
-              <div class="admin-card-title">页脚</div>
-              <div class="admin-grid-2">
-                <div class="admin-field"><label class="admin-label">页脚品牌行</label><input class="admin-input" data-bind="footer.brand" /></div>
-                <div class="admin-field"><label class="admin-label">页脚备注</label><input class="admin-input" data-bind="footer.note" /></div>
-              </div>
-            </div>
-          </section>
-
-          <section class="admin-panel" data-panel="activity">
-            <div class="admin-panel-title">访问记录</div>
-            <p class="admin-panel-desc">自动记录网站访问与后台操作的时间（保存在本浏览器 localStorage，最多保留最近 500 条）。</p>
-            <div class="log-summary" id="activitySummary"></div>
-            <div class="admin-card">
-              <div class="admin-card-title">
-                记录明细
-                <button class="admin-mini-btn danger" id="clearLogBtn">清空记录</button>
-              </div>
-              <div id="activityList" style="display:flex;flex-direction:column;"></div>
-            </div>
-          </section>
-
-          <section class="admin-panel" data-panel="settings">
-            <div class="admin-panel-title">设置</div>
-            <p class="admin-panel-desc">所有修改保存在当前浏览器 localStorage。换设备/换浏览器前，请先「导出内容」保存 JSON，再在目标浏览器「导入内容」。</p>
-            <div class="admin-card" style="max-width:420px;">
-              <div class="admin-field"><label class="admin-label">原密码</label><input class="admin-input" id="oldPwd" type="password" /></div>
-              <div class="admin-field"><label class="admin-label">新密码（至少 6 位）</label><input class="admin-input" id="newPwd" type="password" /></div>
-              <div class="admin-field"><label class="admin-label">确认新密码</label><input class="admin-input" id="newPwd2" type="password" /></div>
-              <div class="admin-err" id="pwdErr"></div>
-              <button class="btn btn-primary" id="changePwdBtn" style="width:100%;">修改密码</button>
-            </div>
-            <div class="admin-card" style="max-width:420px;">
-              <div class="admin-card-title">内容迁移</div>
-              <p class="admin-panel-desc">导出 = 下载当前全部内容（JSON 文件）；导入 = 从 JSON 文件恢复内容；重置 = 清除本浏览器全部修改，恢复网站默认内容。</p>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button class="admin-mini-btn primary" id="exportBtn">导出内容</button>
-                <button class="admin-mini-btn" id="importBtn">导入内容</button>
-                <button class="admin-mini-btn danger" id="resetBtn">重置为默认</button>
-                <input type="file" id="importFile" accept=".json,application/json" style="display:none;" />
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  </main>
+  <!-- ==================== 视图三：后台管理 ====================
+       说明：build_spa.py 默认裁掉 ADMIN_START / ADMIN_END 之间的整段，
+       公开发布的静态版因此不含后台入口（其改动只存本地，无法生效）。
+       需要本地预览后台时用 python scripts/build_spa.py --keep-admin 构建。 -->
 
   <!-- 页脚（全站共用） -->
   <footer class="footer">
@@ -979,7 +806,7 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
   <script>
 /* ============================================================
    剪辑师作品集 SPA — 单文件应用逻辑
-   视图：#home（首页）/ #case=ID（案例详情）/ #admin（后台管理）
+   视图：#home（首页）/ #case=ID（案例详情）（#admin 仅 --keep-admin 本地预览时可用）
    ============================================================ */
 (function () {
   'use strict';
@@ -1167,11 +994,15 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
      ============================================================ */
   var views = { home: $('view-home'), case: $('view-case'), admin: $('view-admin') };
   var currentView = '';
+  // 静态发布时可移除后台视图（见 build_spa.py），此时后台相关逻辑全部跳过
+  var ADMIN_ENABLED = !!views.admin;
 
   function showView(name) {
     if (currentView === name) return;
     currentView = name;
-    Object.keys(views).forEach(function (k) { views[k].style.display = (k === name) ? '' : 'none'; });
+    Object.keys(views).forEach(function (k) {
+      if (views[k]) views[k].style.display = (k === name) ? '' : 'none';
+    });
     // 导航激活态
     document.querySelectorAll('.nav-link').forEach(function (a) { a.classList.remove('active'); });
     if (name === 'home') {
@@ -1195,6 +1026,8 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
   function route() {
     var h = location.hash || '';
     if (h.indexOf('#admin') === 0) {
+      // 后台视图未随静态版发布时，直接回首页，避免进入一个改了也不生效的假后台
+      if (!ADMIN_ENABLED) { location.replace('#/'); return; }
       showView('admin');
       initAdmin();
       logActivity('visit', '进入后台页面', '');
@@ -1513,334 +1346,11 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
 
   /* ============================================================
      后台管理（静态版：localStorage）
+     说明：build_spa.py 默认会裁掉 ADMIN_START / ADMIN_END 之间的整段，
+     使公开发布的静态版不含后台入口（改动本来就只存本地，无法生效）。
+     本地预览需要后台时，用 python scripts/build_spa.py --keep-admin 构建。
      ============================================================ */
-  var LS_CONTENT = 'portfolio_static_content';
-  var LS_PWD = 'portfolio_static_pwd';
-  var DEFAULT_PWD = 'admin123';
-  var adminData = null;
-  var adminInited = false;
-
-  function adminLoadData() {
-    try {
-      var override = localStorage.getItem(LS_CONTENT);
-      if (override) return JSON.parse(override);
-    } catch (e) { /* ignore */ }
-    return JSON.parse(JSON.stringify(CONTENT));
-  }
-  function adminSaveData(d) { localStorage.setItem(LS_CONTENT, JSON.stringify(d)); }
-
-  function initAdmin() {
-    if (adminInited) return;
-    adminInited = true;
-    if (localStorage.getItem('portfolio_admin_token')) {
-      adminLoadContent();
-    } else {
-      $('loginWrap').style.display = 'flex';
-      $('adminApp').classList.remove('on');
-    }
-  }
-
-  function adminShowLogin() { $('loginWrap').style.display = 'flex'; $('adminApp').classList.remove('on'); }
-  function adminShowApp() {
-    $('loginWrap').style.display = 'none';
-    $('adminApp').classList.add('on');
-    // 提示这是本地预览版，改动不会影响线上页面
-    var note = document.querySelector('.admin-static-note');
-    if (note) note.classList.add('on');
-  }
-
-  $('loginBtn').addEventListener('click', function () {
-    var pwd = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
-    $('loginErr').textContent = '';
-    if ($('loginPwd').value === pwd) {
-      localStorage.setItem('portfolio_admin_token', 'static-session');
-      $('loginPwd').value = '';
-      logActivity('action', '登录后台', '密码验证通过');
-      adminLoadContent();
-    } else {
-      $('loginErr').textContent = '密码错误，请重试';
-    }
-  });
-  $('loginPwd').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('loginBtn').click(); });
-  $('logoutBtn').addEventListener('click', function () {
-    localStorage.removeItem('portfolio_admin_token');
-    logActivity('action', '退出登录', '');
-    adminShowLogin();
-  });
-
-  function adminLoadContent() {
-    adminData = adminLoadData();
-    adminRender();
-    adminShowApp();
-  }
-
-  // 选项卡
-  document.querySelectorAll('.admin-tab').forEach(function (t) {
-    t.addEventListener('click', function () {
-      document.querySelectorAll('.admin-tab').forEach(function (x) { x.classList.remove('on'); });
-      t.classList.add('on');
-      document.querySelectorAll('.admin-panel').forEach(function (p) { p.classList.remove('on'); });
-      document.querySelector('.admin-panel[data-panel="' + t.getAttribute('data-tab') + '"]').classList.add('on');
-    });
-  });
-
-  function getByPath(obj, path) { return path.split('.').reduce(function (o, k) { return (o || {})[k]; }, obj); }
-  function setByPath(obj, path, val) {
-    var keys = path.split('.'); var o = obj;
-    for (var i = 0; i < keys.length - 1; i++) { o = o[keys[i]] = o[keys[i]] || {}; }
-    o[keys[keys.length - 1]] = val;
-  }
-  function adminFillBinds() {
-    document.querySelectorAll('[data-bind]').forEach(function (el) {
-      var v = getByPath(adminData, el.getAttribute('data-bind'));
-      var type = el.getAttribute('data-type');
-      if (type === 'array') el.value = Array.isArray(v) ? v.join('，') : (v || '');
-      else if (type === 'lines') el.value = Array.isArray(v) ? v.join('\n') : (v || '');
-      else el.value = v == null ? '' : String(v);
-    });
-  }
-  function adminReadBinds() {
-    document.querySelectorAll('[data-bind]').forEach(function (el) {
-      var v = el.value; var type = el.getAttribute('data-type');
-      if (type === 'array') v = v.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
-      else if (type === 'lines') v = v.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
-      setByPath(adminData, el.getAttribute('data-bind'), v);
-    });
-  }
-  function rowField(label, value, attrs) {
-    attrs = attrs || '';
-    return '<div class="admin-field"><label class="admin-label">' + esc(label) + '</label><input class="admin-input" value="' + esc(value) + '" ' + attrs + ' /></div>';
-  }
-
-  function adminRender() {
-    adminFillBinds();
-    $('intentEditor').innerHTML = (adminData.profile.intent || []).map(function (r, i) {
-      return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-intent-l="' + i + '"') + rowField('内容', r.value, 'data-intent-v="' + i + '"') + '</div>';
-    }).join('');
-    $('statsEditor').innerHTML = (adminData.profile.stats || []).map(function (s, i) {
-      return '<div class="admin-card" style="gap:10px;">' + rowField('数值', s.num, 'data-stat-n="' + i + '"') + rowField('标签', s.label, 'data-stat-l="' + i + '"') + '</div>';
-    }).join('');
-    $('specEditor').innerHTML = (adminData.specialties || []).map(function (s, i) {
-      return '<div class="admin-card"><div class="admin-grid-2">' +
-        rowField('名称', s.name, 'data-spec-n="' + i + '"') + rowField('图标（mic/film/megaphone）', s.icon, 'data-spec-i="' + i + '"') + '</div>' +
-        '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-spec-d="' + i + '">' + esc(s.desc) + '</textarea></div>' +
-        rowField('底部标签', s.tags, 'data-spec-t="' + i + '"') + '</div>';
-    }).join('');
-    adminRenderWorks();
-    var d = adminData.works[0] && adminData.works[0].detail;
-    // 案例字段不再走 data-bind（否则会被读成顶层孤儿键），改为显式读写
-    var bgEl = document.querySelector('[data-case-bg]');
-    var tlEl = document.querySelector('[data-case-tools]');
-    if (bgEl) bgEl.value = d ? (d.bgParas || []).join('\n') : '';
-    if (tlEl) tlEl.value = d ? (d.tools || []).join('，') : '';
-    if (d) {
-      $('caseInfoEditor').innerHTML = (d.info || []).map(function (r, i) {
-        return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-ci-l="' + i + '"') + rowField('内容', r.value, 'data-ci-v="' + i + '"') + '</div>';
-      }).join('');
-      $('techEditor').innerHTML = (d.techniques || []).map(function (t, i) {
-        return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
-          rowField('序号', t.num, 'data-te-n="' + i + '"') + rowField('名称', t.name, 'data-te-t="' + i + '"') + '</div>' +
-          '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-te-d="' + i + '">' + esc(t.desc) + '</textarea></div>' +
-          '<div style="text-align:right;"><button class="admin-mini-btn danger" data-tech-del="' + i + '">删除此条</button></div></div>';
-      }).join('');
-    }
-    $('skillEditor').innerHTML = (adminData.skills || []).map(function (s, i) {
-      return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
-        rowField('序号', s.num, 'data-sk-n="' + i + '"') + rowField('名称', s.name, 'data-sk-t="' + i + '"') + '</div>' +
-        rowField('描述', s.desc, 'data-sk-d="' + i + '"') +
-        rowField('熟练度（0-100）', s.level, 'data-sk-l="' + i + '" type="number"') +
-        '<div style="text-align:right;"><button class="admin-mini-btn danger" data-skill-del="' + i + '">删除此条</button></div></div>';
-    }).join('');
-    $('softEditor').innerHTML = (adminData.software || []).map(function (s, i) {
-      return '<div class="admin-card" style="gap:10px;">' +
-        rowField('角标文字', s.glyph, 'data-so-g="' + i + '"') +
-        rowField('软件名', s.name, 'data-so-n="' + i + '"') +
-        rowField('定位', s.level, 'data-so-l="' + i + '"') + '</div>';
-    }).join('');
-    $('socialEditor').innerHTML = (adminData.contact.socials || []).map(function (s, i) {
-      return '<div class="admin-grid-2">' + rowField('名称', s.name, 'data-sl-n="' + i + '"') + rowField('链接', s.url, 'data-sl-u="' + i + '"') + '</div>';
-    }).join('');
-  }
-
-  function adminRenderWorks() {
-    $('worksEditor').innerHTML = (adminData.works || []).map(function (w, i) {
-      return '<div class="admin-work-item">' +
-        '<div class="thumb">' + (w.cover
-          ? imgTag(w.cover, '', ' onerror="this.style.opacity=0"')
-          : '<span style="font-size:11px;color:#737373;">无封面</span>') + '</div>' +
-        '<div class="info"><div class="tt">' + esc(w.title) + '</div><div class="cc">' + esc(w.category) + ' · ' + esc(w.year) + ' · ' + esc(w.duration) + '</div></div>' +
-        '<div class="ops"><button class="admin-mini-btn" data-work-edit="' + i + '">编辑</button><button class="admin-mini-btn danger" data-work-del="' + i + '">删除</button></div></div>';
-    }).join('');
-  }
-
-  var editingIndex = -1;
-  function openWorkEditor(i) {
-    editingIndex = i;
-    var w = adminData.works[i];
-    var isNew = !w;
-    if (isNew) {
-      w = { id: 'work-' + Date.now(), title: '新作品', category: '', year: '2026', duration: '00:00', desc: '', cover: '', video: '', detail: null };
-      adminData.works.push(w);
-      editingIndex = adminData.works.length - 1;
-    }
-    document.body.insertAdjacentHTML('beforeend',
-      '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;" id="workModal">' +
-      '<div style="width:640px;max-width:100%;max-height:90vh;overflow:auto;background:#1A1A1A;border:1px solid #292929;padding:28px;display:flex;flex-direction:column;gap:14px;">' +
-      '<div class="admin-card-title" style="font-size:16px;">' + (isNew ? '新增作品' : '编辑作品') + '</div>' +
-      rowField('作品标题', w.title, 'id="wTitle"') +
-      '<div class="admin-grid-2">' + rowField('分类', w.category, 'id="wCat"') + rowField('年份', w.year, 'id="wYear"') + '</div>' +
-      '<div class="admin-grid-2">' + rowField('时长', w.duration, 'id="wDur"') + rowField('封面路径', w.cover, 'id="wCover"') + '</div>' +
-      rowField('视频地址（mp4/webm，可留空）', w.video, 'id="wVideo"') +
-      '<div class="admin-field"><label class="admin-label">一句话描述</label><textarea class="admin-input" id="wDesc">' + esc(w.desc) + '</textarea></div>' +
-      '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;"><button class="admin-mini-btn" id="wCancel">取消</button><button class="admin-mini-btn primary" id="wSave">保存作品</button></div></div></div>');
-    $('wCancel').addEventListener('click', function () {
-      if (isNew) adminData.works.splice(editingIndex, 1);
-      $('workModal').remove(); adminRenderWorks();
-    });
-    $('wSave').addEventListener('click', function () {
-      var x = adminData.works[editingIndex];
-      x.title = $('wTitle').value; x.category = $('wCat').value; x.year = $('wYear').value;
-      x.duration = $('wDur').value; x.cover = $('wCover').value; x.video = $('wVideo').value;
-      x.desc = $('wDesc').value;
-      logActivity('action', isNew ? '新增作品' : '编辑作品', x.title);
-      $('workModal').remove(); adminRenderWorks();
-    });
-  }
-
-  document.addEventListener('click', function (e) {
-    var t = e.target;
-    if (t.hasAttribute && t.hasAttribute('data-work-edit')) openWorkEditor(+t.getAttribute('data-work-edit'));
-    if (t.hasAttribute && t.hasAttribute('data-work-del')) {
-      var wi = +t.getAttribute('data-work-del');
-      var wt = (adminData.works || [])[wi];
-      if (wt && confirm('确定删除作品「' + (wt.title || wt.id) + '」？')) {
-        logActivity('action', '删除作品', wt.title || wt.id);
-        adminData.works.splice(wi, 1);
-        adminRender();
-      }
-    }
-    if (t.hasAttribute && t.hasAttribute('data-tech-del')) {
-      var ti = +t.getAttribute('data-tech-del');
-      var cw = adminData.works[0];
-      var techs = cw && cw.detail && Array.isArray(cw.detail.techniques) ? cw.detail.techniques : null;
-      if (techs && techs[ti]) {
-        logActivity('action', '删除剪辑手法条目', techs[ti].name);
-        techs.splice(ti, 1);
-        adminRender();
-      }
-    }
-    if (t.hasAttribute && t.hasAttribute('data-skill-del')) {
-      var si = +t.getAttribute('data-skill-del');
-      if (Array.isArray(adminData.skills) && adminData.skills[si]) {
-        logActivity('action', '删除技能条目', adminData.skills[si].name);
-        adminData.skills.splice(si, 1);
-        adminRender();
-      }
-    }
-  });
-  $('addWorkBtn').addEventListener('click', function () { openWorkEditor(-1); });
-
-  // 按下标回填；数组缺失或越界时跳过，避免保存流程中断
-  function adminCollectRows(selector, arr, key, transform) {
-    if (!Array.isArray(arr)) return;
-    document.querySelectorAll(selector).forEach(function (el) {
-      var i = +el.getAttribute(selector.slice(1, -1));
-      var row = arr[i];
-      if (row) row[key] = transform ? transform(el.value) : el.value;
-    });
-  }
-  function adminCollect() {
-    adminData.profile = adminData.profile || {};
-    adminData.contact = adminData.contact || {};
-    adminReadBinds();
-    adminCollectRows('[data-intent-l]', adminData.profile.intent, 'label');
-    adminCollectRows('[data-intent-v]', adminData.profile.intent, 'value');
-    adminCollectRows('[data-stat-n]', adminData.profile.stats, 'num');
-    adminCollectRows('[data-stat-l]', adminData.profile.stats, 'label');
-    adminCollectRows('[data-spec-n]', adminData.specialties, 'name');
-    adminCollectRows('[data-spec-i]', adminData.specialties, 'icon');
-    adminCollectRows('[data-spec-d]', adminData.specialties, 'desc');
-    adminCollectRows('[data-spec-t]', adminData.specialties, 'tags');
-    var d = adminData.works[0] && adminData.works[0].detail;
-    if (d) {
-      var bg = document.querySelector('[data-case-bg]');
-      if (bg) d.bgParas = bg.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
-      var tl = document.querySelector('[data-case-tools]');
-      if (tl) d.tools = tl.value.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
-      adminCollectRows('[data-ci-l]', d.info, 'label');
-      adminCollectRows('[data-ci-v]', d.info, 'value');
-      adminCollectRows('[data-te-n]', d.techniques, 'num');
-      adminCollectRows('[data-te-t]', d.techniques, 'name');
-      adminCollectRows('[data-te-d]', d.techniques, 'desc');
-    }
-    adminCollectRows('[data-sk-n]', adminData.skills, 'num');
-    adminCollectRows('[data-sk-t]', adminData.skills, 'name');
-    adminCollectRows('[data-sk-d]', adminData.skills, 'desc');
-    adminCollectRows('[data-sk-l]', adminData.skills, 'level', function (v) { return Math.max(0, Math.min(100, +v || 0)); });
-    adminCollectRows('[data-so-g]', adminData.software, 'glyph');
-    adminCollectRows('[data-so-n]', adminData.software, 'name');
-    adminCollectRows('[data-so-l]', adminData.software, 'level');
-    adminCollectRows('[data-sl-n]', adminData.contact.socials, 'name');
-    adminCollectRows('[data-sl-u]', adminData.contact.socials, 'url');
-  }
-
-  $('saveBtn').addEventListener('click', function () {
-    adminCollect();
-    adminSaveData(adminData);
-    logActivity('action', '保存内容修改', '');
-    var tip = $('saveTip');
-    tip.textContent = '已保存到本浏览器 ✓';
-    tip.classList.add('show');
-    setTimeout(function () { tip.classList.remove('show'); }, 2500);
-  });
-  $('exportBtn').addEventListener('click', function () {
-    adminCollect(); adminSaveData(adminData);
-    logActivity('action', '导出内容', 'portfolio-content.json');
-    var blob = new Blob([JSON.stringify(adminData, null, 2)], { type: 'application/json' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'portfolio-content.json';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  });
-  $('importBtn').addEventListener('click', function () { $('importFile').click(); });
-  $('importFile').addEventListener('change', function () {
-    var f = this.files && this.files[0];
-    if (!f) return;
-    var rd = new FileReader();
-    rd.onload = function () {
-      try {
-        var j = JSON.parse(rd.result);
-        if (!j.profile) throw new Error('bad');
-        adminData = j; adminSaveData(adminData); adminRender();
-        logActivity('action', '导入内容', f.name);
-        alert('导入成功，内容已应用到本浏览器');
-      } catch (e) { alert('导入失败：文件格式不正确'); }
-    };
-    rd.readAsText(f);
-    this.value = '';
-  });
-  $('resetBtn').addEventListener('click', function () {
-    if (!confirm('确定清除本浏览器中的所有修改，恢复为网站默认内容？')) return;
-    localStorage.removeItem(LS_CONTENT);
-    localStorage.removeItem(LS_PWD);
-    adminLoadContent();
-    logActivity('action', '重置为默认内容', '');
-    alert('已恢复默认内容');
-  });
-  $('changePwdBtn').addEventListener('click', function () {
-    var o = $('oldPwd').value, n1 = $('newPwd').value, n2 = $('newPwd2').value;
-    $('pwdErr').textContent = '';
-    var cur = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
-    if (o !== cur) { $('pwdErr').textContent = '原密码错误'; return; }
-    if (n1 !== n2) { $('pwdErr').textContent = '两次输入的新密码不一致'; return; }
-    if (n1.length < 6) { $('pwdErr').textContent = '新密码至少 6 位'; return; }
-    localStorage.setItem(LS_PWD, n1);
-    logActivity('action', '修改后台密码', '');
-    $('oldPwd').value = ''; $('newPwd').value = ''; $('newPwd2').value = '';
-    alert('密码修改成功（仅对本浏览器生效）');
-  });
-
+  
   /* ============================================================
      启动
      ============================================================ */
@@ -1856,13 +1366,6 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
     if (window.scrollY > 8) navEl.classList.add('scrolled');
     else navEl.classList.remove('scrolled');
   }, { passive: true });
-
-  // 后台加载时同步渲染访问记录
-  var _origAdminLoadContent = adminLoadContent;
-  adminLoadContent = function () {
-    _origAdminLoadContent();
-    renderActivity();
-  };
 })();
 
   </script>

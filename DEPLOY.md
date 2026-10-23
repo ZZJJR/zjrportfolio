@@ -80,7 +80,7 @@ python scripts/build_spa.py --strict     # 必须无缺失资源
 # 上传 portfolio-spa/index.html 到任意静态托管即可
 ```
 
-静态版后台（`#admin`）只是**本机预览工具**：改动存浏览器 localStorage，不会改变线上页面，也没有真正的鉴权。要在线改内容请部署全栈版。
+公开发布的静态版**不含任何后台入口**（旧版的纯前端假后台 `#admin` 已在构建时被裁掉，访问会直接回首页）。需要在线改内容请部署全栈版，或本地用 `node server.js` 改完再重新构建发布。
 
 ---
 

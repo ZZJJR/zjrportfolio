@@ -1,6 +1,6 @@
 /* ============================================================
    剪辑师作品集 SPA — 单文件应用逻辑
-   视图：#home（首页）/ #case=ID（案例详情）/ #admin（后台管理）
+   视图：#home（首页）/ #case=ID（案例详情）（#admin 仅 --keep-admin 本地预览时可用）
    ============================================================ */
 (function () {
   'use strict';
@@ -188,11 +188,15 @@
      ============================================================ */
   var views = { home: $('view-home'), case: $('view-case'), admin: $('view-admin') };
   var currentView = '';
+  // 静态发布时可移除后台视图（见 build_spa.py），此时后台相关逻辑全部跳过
+  var ADMIN_ENABLED = !!views.admin;
 
   function showView(name) {
     if (currentView === name) return;
     currentView = name;
-    Object.keys(views).forEach(function (k) { views[k].style.display = (k === name) ? '' : 'none'; });
+    Object.keys(views).forEach(function (k) {
+      if (views[k]) views[k].style.display = (k === name) ? '' : 'none';
+    });
     // 导航激活态
     document.querySelectorAll('.nav-link').forEach(function (a) { a.classList.remove('active'); });
     if (name === 'home') {
@@ -216,6 +220,8 @@
   function route() {
     var h = location.hash || '';
     if (h.indexOf('#admin') === 0) {
+      // 后台视图未随静态版发布时，直接回首页，避免进入一个改了也不生效的假后台
+      if (!ADMIN_ENABLED) { location.replace('#/'); return; }
       showView('admin');
       initAdmin();
       logActivity('visit', '进入后台页面', '');
@@ -534,7 +540,11 @@
 
   /* ============================================================
      后台管理（静态版：localStorage）
+     说明：build_spa.py 默认会裁掉 ADMIN_START / ADMIN_END 之间的整段，
+     使公开发布的静态版不含后台入口（改动本来就只存本地，无法生效）。
+     本地预览需要后台时，用 python scripts/build_spa.py --keep-admin 构建。
      ============================================================ */
+  /*ADMIN_START*/
   var LS_CONTENT = 'portfolio_static_content';
   var LS_PWD = 'portfolio_static_pwd';
   var DEFAULT_PWD = 'admin123';
@@ -551,7 +561,7 @@
   function adminSaveData(d) { localStorage.setItem(LS_CONTENT, JSON.stringify(d)); }
 
   function initAdmin() {
-    if (adminInited) return;
+    if (adminInited || !ADMIN_ENABLED) return;
     adminInited = true;
     if (localStorage.getItem('portfolio_admin_token')) {
       adminLoadContent();
@@ -593,6 +603,7 @@
     adminData = adminLoadData();
     adminRender();
     adminShowApp();
+    renderActivity();   // 后台加载时同步渲染访问记录
   }
 
   // 选项卡
@@ -861,6 +872,7 @@
     $('oldPwd').value = ''; $('newPwd').value = ''; $('newPwd2').value = '';
     alert('密码修改成功（仅对本浏览器生效）');
   });
+  /*ADMIN_END*/
 
   /* ============================================================
      启动
@@ -877,11 +889,4 @@
     if (window.scrollY > 8) navEl.classList.add('scrolled');
     else navEl.classList.remove('scrolled');
   }, { passive: true });
-
-  // 后台加载时同步渲染访问记录
-  var _origAdminLoadContent = adminLoadContent;
-  adminLoadContent = function () {
-    _origAdminLoadContent();
-    renderActivity();
-  };
 })();
