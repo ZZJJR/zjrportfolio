@@ -375,6 +375,32 @@
     xhr.send(file);
   }
 
+  /* ---------- 视频时长自动读取 ---------- */
+  function fmtDuration(sec) {
+    if (!isFinite(sec) || sec <= 0) return '';
+    var s = Math.round(sec), m = Math.floor(s / 60);
+    s -= m * 60;
+    return (m < 10 ? '0' + m : '' + m) + ':' + (s < 10 ? '0' + s : '' + s);
+  }
+  function fillVideoDuration(src, tipEl) {
+    var durEl = document.getElementById('wDur');
+    if (!src || !durEl) return;
+    var v = document.createElement('video');
+    v.preload = 'metadata';
+    v.onloadedmetadata = function () {
+      var d = fmtDuration(v.duration);
+      if (d) {
+        durEl.value = d;
+        if (tipEl) tipEl.textContent = '已自动读取视频时长：' + d;
+      }
+      v.removeAttribute('src'); v.load();
+    };
+    v.onerror = function () {
+      if (tipEl) tipEl.textContent = '时长自动读取失败，请手动填写「时长」';
+    };
+    v.src = src;
+  }
+
   /* ---------- 作品编辑弹层 ---------- */
   var editingIndex = -1;
   function openWorkEditor(i) {
@@ -426,7 +452,15 @@
       var f = this.files && this.files[0];
       this.value = '';
       if (!f) return;
-      uploadFile(f, $('wUploadTip'), function (url) { $('wVideo').value = url; }, 'video');
+      uploadFile(f, $('wUploadTip'), function (url) {
+        $('wVideo').value = url;
+        fillVideoDuration(url, $('wUploadTip'));
+      }, 'video');
+    });
+    // 手动填写视频地址时也自动读取时长
+    $('wVideo').addEventListener('change', function () {
+      var u = this.value.trim();
+      if (u && u !== '#') fillVideoDuration(u, $('wUploadTip'));
     });
     // 封面图上传
     $('wCoverBtn').addEventListener('click', function () { $('wCoverFile').click(); });

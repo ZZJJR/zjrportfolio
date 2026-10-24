@@ -855,6 +855,22 @@
   }
 
   var editingIndex = -1;
+  /* 视频时长自动读取：填写视频地址后自动填入「时长」 */
+  function adminFillDuration(src) {
+    var durEl = document.getElementById('wDur');
+    if (!src || !durEl) return;
+    var v = document.createElement('video');
+    v.preload = 'metadata';
+    v.onloadedmetadata = function () {
+      var sec = Math.round(v.duration);
+      if (isFinite(sec) && sec > 0) {
+        var m = Math.floor(sec / 60); sec -= m * 60;
+        durEl.value = (m < 10 ? '0' + m : '' + m) + ':' + (sec < 10 ? '0' + sec : '' + sec);
+      }
+      v.removeAttribute('src'); v.load();
+    };
+    v.src = src;
+  }
   function openWorkEditor(i) {
     editingIndex = i;
     var w = adminData.works[i];
@@ -877,6 +893,10 @@
     $('wCancel').addEventListener('click', function () {
       if (isNew) adminData.works.splice(editingIndex, 1);
       $('workModal').remove(); adminRenderWorks();
+    });
+    $('wVideo').addEventListener('change', function () {
+      var u = this.value.trim();
+      if (u && u !== '#') adminFillDuration(u);
     });
     $('wSave').addEventListener('click', function () {
       var x = adminData.works[editingIndex];
