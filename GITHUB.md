@@ -81,7 +81,7 @@
 
 ### 体积提示
 
-`portfolio/public/images/`（约 0.4MB）与 `portfolio-spa/images/`（约 0.4MB）均为优化后的 WebP，8 张合计约 0.4MB（原 PNG 已移到仓库外的备份目录）。单文件最大约 86KB，远低于 GitHub 100MB 限制，可以正常提交。若以后要加入视频或更多大图，建议改用 **Git LFS**，不要直接把 mp4 塞进仓库。
+`portfolio/public/images/`（约 0.4MB）与 `portfolio-spa/images/`（约 0.4MB）均为优化后的 WebP，8 张合计约 0.4MB（原 PNG 已从仓库移除）。单文件最大约 86KB，远低于 GitHub 100MB 限制，可以正常提交。若以后要加入视频或更多大图，建议改用 **Git LFS**，不要直接把 mp4 塞进仓库。
 
 ---
 
