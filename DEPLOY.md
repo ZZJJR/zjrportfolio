@@ -59,6 +59,9 @@ python scripts/build_static.py
 构建脚本已改为相对脚本位置解析路径（原先写死 `D:\WB\...`），换机器可直接运行。
 `build_spa.py` 会在构建时校验 `data.json` 里引用的图片/视频是否真实存在，避免上线后出现 404。
 
+后台第 9 个选项卡「发布上线」会自动执行上面的构建，并调用 `scripts/deploy_api.ps1` 通过 GitHub API 推送 `main`。  
+前提：本机已登录 GitHub CLI（`gh auth status`）；Python 不在 PATH 时设置 `PYTHON_BIN`。
+
 ---
 
 ## 四、部署步骤（全栈版）

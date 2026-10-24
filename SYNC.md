@@ -52,24 +52,28 @@ python scripts/build_spa.py --strict   # 缺失媒体直接失败，别悄悄上
 
 > 新增了媒体文件时，提交要连同新文件一起提交（`portfolio/public/...` 与 `portfolio-spa/...` 两份，脚本已自动同步，但仓库里两者都要在）。
 
-### 推送到 GitHub（二选一）
+### 推送到 GitHub（三种方式）
 
-**方式 1 — 在能联网的机器用 git（首选）**
+**方式 1 — 后台「发布上线」（推荐）**
 
-```bash
-git add index.html portfolio-spa/index.html portfolio/data.json \
-        portfolio/public/images/<新图> portfolio-spa/images/<新图>
-git commit -m "content: 更新作品集内容"
-git push origin main
-```
+本地启动 `node server.js` 后，进入 `/admin` → **发布上线** → 点击「构建并推送到线上」。  
+它会先保存当前修改，再构建，然后通过 GitHub API 推送 `main`；约 1 分钟后 Pages 更新。
 
-**方式 2 — 在本机（git 被代理拦截）用 API 提交**
+**方式 2 — 双击一键脚本**
 
-本机 `git push` 连不通（代理只放行 `api.github.com`）。用仓库里的辅助脚本一次提交多个文件：
+`D:\zjrportfolio-audit\发布上线.bat`：构建 + 调用 `scripts/deploy_api.ps1` 推送。
+
+**方式 3 — 手动**
 
 ```bash
-node commit-files.js "index.html,portfolio-spa/index.html,portfolio/data.json,portfolio/public/images/<新图>,portfolio-spa/images/<新图>" "content: 更新作品集内容"
+cd <项目根目录>
+python scripts/build_spa.py --strict
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/deploy_api.ps1
 ```
+
+> 本机 `git push` 连不通（代理只放行 `api.github.com`），所以使用 GitHub API 推送脚本。  
+> 前提：本机已执行 `gh auth login`；Python 不在 PATH 时设置 `PYTHON_BIN`。  
+> `portfolio-spa/index.html` 是构建产物，不提交；Pages 入口是根目录 `index.html`。
 
 提交后约 1 分钟，GitHub Pages 自动重建。刷新 <https://zzjjr.github.io/zjrportfolio/> 确认（必要时 `Ctrl/Cmd+Shift+R` 强刷）。
 
