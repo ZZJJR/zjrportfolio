@@ -13,6 +13,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const zlib = require('zlib');
+const os = require('os');
+const { execFile } = require('child_process');
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '127.0.0.1';
@@ -23,6 +25,10 @@ const BACKUP_FILE = path.join(ROOT, 'data.json.bak');
 const ACCESS_LOG_FILE = path.join(ROOT, 'access-log.json');
 // 管理员凭据单独存放：data.json 是要提交到仓库的内容数据，不应混入任何密钥
 const AUTH_FILE = path.join(ROOT, 'auth.json');
+// 发布脚本与站点根目录（portfolio 的上一级）
+const PROJECT_ROOT = path.resolve(ROOT, '..');
+const PUBLISH_SCRIPT = path.join(PROJECT_ROOT, 'scripts', 'deploy_api.ps1');
+let publishing = false;
 // 反向代理场景才信任 X-Forwarded-For（Nginx 请用 $proxy_add_x_forwarded_for）
 const TRUST_PROXY = process.env.TRUST_PROXY === '1';
 // 站点对外地址：用于 canonical / OG；部署时用 SITE_URL 覆盖
@@ -574,6 +580,62 @@ function servePage(res, pageFile, req, opts) {
   });
 }
 
+// ---------- 发布上线：调用构建脚本 + GitHub API 推送 ----------
+function pythonCandidates() {
+  const candidates = [
+    process.env.PYTHON_BIN,
+    path.join(os.homedir(), '.dsh', 'dsh-runtimes', 'dsh-primary-runtime', 'dependencies', 'python', 'python.exe'),
+    'python',
+    'python3'
+  ];
+  return Array.from(new Set(candidates.filter(Boolean)));
+}
+function runCommand(command, args) {
+  return new Promise((resolve, reject) => {
+    execFile(command, args, {
+      cwd: PROJECT_ROOT,
+      windowsHide: true,
+      timeout: 5 * 60 * 1000,
+      maxBuffer: 20 * 1024 * 1024,
+      env: Object.assign({}, process.env, { PYTHONIOENCODING: 'utf-8' })
+    }, (err, stdout, stderr) => {
+      if (err) {
+        err.stdout = stdout || '';
+        err.stderr = stderr || '';
+        return reject(err);
+      }
+      resolve({ stdout: stdout || '', stderr: stderr || '' });
+    });
+  });
+}
+async function runBuild() {
+  let lastError = null;
+  for (const bin of pythonCandidates()) {
+    try {
+      const out = await runCommand(bin, ['scripts/build_spa.py', '--strict']);
+      return { bin: bin, stdout: out.stdout, stderr: out.stderr };
+    } catch (e) {
+      if (e.code === 'ENOENT') { lastError = e; continue; }
+      throw e;
+    }
+  }
+  throw lastError || new Error('找不到 Python，请设置 PYTHON_BIN 环境变量');
+}
+async function publishSite() {
+  if (!fs.existsSync(PUBLISH_SCRIPT)) {
+    throw new Error('找不到发布脚本：' + PUBLISH_SCRIPT);
+  }
+  const build = await runBuild();
+  const push = await runCommand('powershell.exe', [
+    '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', PUBLISH_SCRIPT
+  ]);
+  const match = String(push.stdout || '').match(/commit:\s*([0-9a-f]{40})/i);
+  return { build, push, commit: match ? match[1] : null };
+}
+function clipOutput(s) {
+  return String(s || '').slice(-16000);
+}
+
 // ---------- 路由 ----------
 const server = http.createServer(async (req, res) => {
   let u;
@@ -657,6 +719,30 @@ const server = http.createServer(async (req, res) => {
       logEvent('action', '清空访问记录', '');
       return sendJson(res, { ok: true });
     }
+    // 发布上线：构建静态站并推送到 GitHub（需登录；同一时间只允许一个任务）
+    if (p === '/api/publish' && req.method === 'POST') {
+      if (!validSession(authToken(req))) return sendJson(res, { error: '登录已失效，请重新登录' }, 401);
+      if (publishing) return sendJson(res, { error: '已有发布任务正在进行，请稍候' }, 409);
+      publishing = true;
+      try {
+        const result = await publishSite();
+        logEvent('action', '发布上线', result.commit ? result.commit : '无变化');
+        return sendJson(res, {
+          ok: true,
+          build: { bin: result.build.bin, stdout: clipOutput(result.build.stdout), stderr: clipOutput(result.build.stderr) },
+          push: { stdout: clipOutput(result.push.stdout), stderr: clipOutput(result.push.stderr) },
+          commit: result.commit
+        });
+      } catch (e) {
+        logEvent('action', '发布失败', e.message || '未知错误');
+        return sendJson(res, {
+          error: '发布失败：' + (e.message || '未知错误'),
+          detail: clipOutput((e.stdout || '') + (e.stderr || '') || e.message)
+        }, 500);
+      } finally {
+        publishing = false;
+      }
+    }
     // 媒体上传（需登录）：PUT /api/upload?type=video|image&name=文件名，请求体为原始文件字节
     if (p === '/api/upload' && req.method === 'PUT') {
       if (!validSession(authToken(req))) return sendJson(res, { error: '登录已失效，请重新登录' }, 401);
@@ -739,6 +825,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+server.requestTimeout = 10 * 60 * 1000;
 server.listen(PORT, HOST, () => {
   console.log('==============================================');
   console.log(' 剪辑师个人作品集网站已启动');

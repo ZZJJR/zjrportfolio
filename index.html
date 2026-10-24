@@ -7,22 +7,22 @@
   <meta name="description" content="专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0A0A0A" />
-  <link rel="canonical" href="https://zzjjr.github.io/zjrportfolio/" />
+  <link rel="canonical" href="http://127.0.0.1:3000/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="zh_CN" />
   <meta property="og:site_name" content="张君睿 作品集" />
   <meta property="og:title" content="张君睿 · 视频剪辑师 — 求职作品集" />
   <meta property="og:description" content="专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。" />
-  <meta property="og:url" content="https://zzjjr.github.io/zjrportfolio/" />
-  <meta property="og:image" content="https://zzjjr.github.io/zjrportfolio/og-cover.jpg" />
+  <meta property="og:url" content="http://127.0.0.1:3000/" />
+  <meta property="og:image" content="http://127.0.0.1:3000/og-cover.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="张君睿 · 视频剪辑师作品集" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="张君睿 · 视频剪辑师 — 求职作品集" />
   <meta name="twitter:description" content="专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。" />
-  <meta name="twitter:image" content="https://zzjjr.github.io/zjrportfolio/og-cover.jpg" />
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "张君睿", "jobTitle": "视频剪辑师", "description": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "url": "https://zzjjr.github.io/zjrportfolio/", "image": "https://zzjjr.github.io/zjrportfolio/og-cover.jpg", "email": "mailto:zhangjunrui@foxmail.com", "address": {"@type": "PostalAddress", "addressLocality": "山西太原"}, "knowsAbout": ["口播剪辑", "短片剪辑", "广告剪辑"]}</script>
+  <meta name="twitter:image" content="http://127.0.0.1:3000/og-cover.jpg" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "张君睿", "jobTitle": "视频剪辑师", "description": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "url": "http://127.0.0.1:3000/", "image": "http://127.0.0.1:3000/og-cover.jpg", "email": "mailto:zhangjunrui@foxmail.com", "address": {"@type": "PostalAddress", "addressLocality": "山西太原"}, "knowsAbout": ["口播剪辑", "短片剪辑", "广告剪辑"]}</script>
   <link rel="preload" as="image" href="portfolio-spa/images/showreel.webp" fetchpriority="high" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%239EFF00'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -461,6 +461,16 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
 .admin-static-note.on { display: inline-block; }
 .admin-save-tip { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity .3s; }
 .admin-save-tip.show { opacity: 1; }
+.publish-status { font-size: 12px; color: var(--text-3); }
+.publish-status.working { color: var(--accent); }
+.publish-status.success { color: var(--accent); }
+.publish-status.error { color: #FF6B6B; }
+.publish-log {
+  margin: 0; min-height: 120px; max-height: 360px; overflow: auto;
+  background: #0F0F0F; border: 1px solid var(--line); border-radius: 6px;
+  padding: 14px 16px; color: var(--text-2); font-size: 12px; line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
 
 .admin-layout { display: flex; min-height: calc(100vh - 60px); }
 .admin-side { width: 200px; flex: none; background: var(--bg-nav); border-right: 1px solid var(--line); padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }

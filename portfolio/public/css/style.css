@@ -427,6 +427,16 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
 .admin-static-note.on { display: inline-block; }
 .admin-save-tip { font-size: 12px; color: var(--accent); opacity: 0; transition: opacity .3s; }
 .admin-save-tip.show { opacity: 1; }
+.publish-status { font-size: 12px; color: var(--text-3); }
+.publish-status.working { color: var(--accent); }
+.publish-status.success { color: var(--accent); }
+.publish-status.error { color: #FF6B6B; }
+.publish-log {
+  margin: 0; min-height: 120px; max-height: 360px; overflow: auto;
+  background: #0F0F0F; border: 1px solid var(--line); border-radius: 6px;
+  padding: 14px 16px; color: var(--text-2); font-size: 12px; line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
 
 .admin-layout { display: flex; min-height: calc(100vh - 60px); }
 .admin-side { width: 200px; flex: none; background: var(--bg-nav); border-right: 1px solid var(--line); padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }

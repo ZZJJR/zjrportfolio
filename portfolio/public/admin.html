@@ -47,6 +47,7 @@
         <button class="admin-tab" data-tab="skills">技能与软件</button>
         <button class="admin-tab" data-tab="contact">联系方式</button>
         <button class="admin-tab" data-tab="access">访问记录</button>
+        <button class="admin-tab" data-tab="publish">发布上线</button>
           <button class="admin-tab" data-tab="settings">设置</button>
       </aside>
       <main class="admin-main">
@@ -201,6 +202,27 @@
             <div class="admin-field"><label class="admin-label">确认新密码</label><input class="admin-input" id="newPwd2" type="password" /></div>
             <div class="admin-err" id="pwdErr"></div>
             <button class="btn btn-primary" id="changePwdBtn" style="width:100%;">修改密码</button>
+          </div>
+        </section>
+
+        <section class="admin-panel" data-panel="publish">
+          <div class="admin-panel-title">发布上线</div>
+          <p class="admin-panel-desc">把当前内容构建成静态站并推送到 GitHub main。构建会更新根目录 index.html；推送完成后 GitHub Pages 约 1 分钟更新。</p>
+          <div class="admin-card">
+            <div class="admin-card-title">一键发布</div>
+            <p class="admin-panel-desc">发布前请先在对应面板点「保存全部修改」。需要本机已登录 GitHub CLI（<code>gh auth status</code>）。</p>
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+              <button class="admin-save-btn" id="publishBtn">构建并推送到线上</button>
+              <span class="publish-status" id="publishStatus">尚未发布</span>
+            </div>
+            <pre class="publish-log" id="publishLog">等待发布…</pre>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-title">它会做什么</div>
+            <p class="admin-panel-desc">1. 运行 <code>python scripts/build_spa.py --strict</code>，把 data.json、CSS、JS 和图片内联/镜像到静态站。<br>
+            2. 通过 GitHub API 更新 main 分支。<br>
+            3. GitHub Pages 自动重建，约 1 分钟后线上生效。</p>
+            <p class="admin-panel-desc">视频和大图建议使用外链；GitHub 单文件上限 100MB。</p>
           </div>
         </section>
 

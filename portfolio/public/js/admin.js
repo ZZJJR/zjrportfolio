@@ -509,26 +509,100 @@
   }
 
   /* ---------- 保存 ---------- */
-  $('saveBtn').addEventListener('click', function () {
+  function saveToServer() {
     readBinds();
     collectEditors();
-    fetch('/api/content', {
+    return fetch('/api/content', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token() },
       body: JSON.stringify(data)
     }).then(function (r) {
-      if (r.status === 401) { localStorage.removeItem(TOKEN_KEY); showLogin(); return; }
-      return r.json();
-    }).then(function (j) {
-      if (j && j.ok) {
+      if (r.status === 401) {
+        localStorage.removeItem(TOKEN_KEY);
+        showLogin();
+        throw new Error('登录已失效，请重新登录');
+      }
+      return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+    });
+  }
+
+  $('saveBtn').addEventListener('click', function () {
+    saveToServer().then(function (res) {
+      if (res.ok && res.j.ok) {
         var tip = $('saveTip');
         tip.classList.add('show');
         setTimeout(function () { tip.classList.remove('show'); }, 2000);
-      } else if (j && j.error) {
-        alert(j.error);
+      } else {
+        alert((res.j && res.j.error) || '保存失败');
       }
-    }).catch(function () { alert('保存失败，请检查网络后重试'); });
+    }).catch(function (err) {
+      if (err && err.message !== '登录已失效，请重新登录') alert('保存失败，请检查网络后重试');
+    });
   });
+
+  /* ---------- 发布上线（构建 + 推送 GitHub） ---------- */
+  var publishBtn = $('publishBtn');
+  if (publishBtn) {
+    publishBtn.addEventListener('click', function () {
+      if (!confirm('将先保存当前修改，然后构建静态站并推送到 GitHub main。\n\n推送后 GitHub Pages 约 1 分钟更新，确定继续？')) return;
+      var statusEl = $('publishStatus');
+      var logEl = $('publishLog');
+      var started = Date.now();
+      var timer = null;
+      function setStatus(text, cls) {
+        statusEl.textContent = text;
+        statusEl.className = 'publish-status' + (cls ? ' ' + cls : '');
+      }
+      function appendLog(text) {
+        logEl.textContent = text;
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+      publishBtn.disabled = true;
+      setStatus('保存中…', 'working');
+      appendLog('正在保存当前修改…\n');
+      timer = setInterval(function () {
+        setStatus('发布中… ' + Math.floor((Date.now() - started) / 1000) + 's', 'working');
+      }, 1000);
+
+      saveToServer().then(function (res) {
+        if (!res.ok || !res.j.ok) throw new Error((res.j && res.j.error) || '保存失败');
+        setStatus('构建中…', 'working');
+        appendLog('已保存，正在构建静态站…\n');
+        return fetch('/api/publish', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token() }
+        }).then(function (r) {
+          if (r.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            showLogin();
+            throw new Error('登录已失效，请重新登录');
+          }
+          return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+        });
+      }).then(function (res) {
+        clearInterval(timer);
+        if (!res.ok || !res.j.ok) {
+          var msg = (res.j && res.j.error) || '发布失败';
+          if (res.j && res.j.detail) msg += '\n\n' + res.j.detail;
+          throw new Error(msg);
+        }
+        var j = res.j;
+        var out = '';
+        if (j.build) out += (j.build.stdout || '') + (j.build.stderr || '');
+        if (j.push) out += (j.push.stdout || '') + (j.push.stderr || '');
+        out += '\n' + (j.commit ? '发布成功，commit: ' + j.commit : '没有检测到需要发布的变化。');
+        out += '\n线上：https://zzjjr.github.io/zjrportfolio/';
+        appendLog(out.trim());
+        setStatus(j.commit ? '发布成功' : '已是最新', 'success');
+      }).catch(function (err) {
+        clearInterval(timer);
+        setStatus('发布失败', 'error');
+        appendLog('发布失败：' + (err && err.message ? err.message : '未知错误'));
+      }).finally(function () {
+        publishBtn.disabled = false;
+      });
+    });
+  }
 
   /* ---------- 修改密码 ---------- */
   $('changePwdBtn').addEventListener('click', function () {
