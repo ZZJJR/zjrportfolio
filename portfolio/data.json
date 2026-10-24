@@ -256,32 +256,32 @@
   ],
   "software": [
     {
-      "glyph": "Pr",
+      "icon": "",
       "name": "Premiere Pro",
       "level": "主力剪辑"
     },
     {
-      "glyph": "Dv",
+      "icon": "",
       "name": "DaVinci Resolve",
       "level": "专业调色"
     },
     {
-      "glyph": "Ae",
+      "icon": "",
       "name": "After Effects",
       "level": "动效包装"
     },
     {
-      "glyph": "剪",
+      "icon": "images/1792825958734-image.png",
       "name": "剪映专业版",
       "level": "短视频主力"
     },
     {
-      "glyph": "Au",
+      "icon": "",
       "name": "Audition",
       "level": "音频处理"
     },
     {
-      "glyph": "Ps",
+      "icon": "",
       "name": "Photoshop",
       "level": "封面设计"
     }
