@@ -20,20 +20,7 @@
     "portrait": "images/portrait.webp",
     "bio1": "你好，我是张君睿，2026 年毕业于广东科学技术职业学院。在校期间系统自学视频剪辑，从软件基础到完整项目交付，累计完成 20 余部练习与模拟商业作品，涵盖口播栏目、叙事短片与品牌广告三类内容。",
     "bio2": "我相信剪辑的本质是「服务叙事」：口播重信息密度，短片重情绪结构，广告重转化节奏。除了剪辑本身，我也能独立完成调色、混音与花字包装，让每条视频以完整的状态交付。",
-    "intent": [
-      {
-        "label": "求职意向",
-        "value": "视频剪辑 / 后期制作"
-      },
-      {
-        "label": "期望城市",
-        "value": "太原 · 接受远程"
-      },
-      {
-        "label": "到岗时间",
-        "value": "随时到岗"
-      }
-    ],
+    "intent": [],
     "stats": [
       {
         "num": "20+",
@@ -46,10 +33,6 @@
       {
         "num": "10+",
         "label": "款熟练剪辑与设计软件"
-      },
-      {
-        "num": "2026",
-        "label": "届毕业生 · 随时到岗"
       }
     ]
   },
@@ -292,8 +275,23 @@
     "sub": "目前正在寻找视频剪辑相关岗位，也欢迎商业短片、口播与广告合作委托。期待你的消息。",
     "email": "zhangjunrui@foxmail.com",
     "phone": "",
-    "location": "山西太原 · 接受远程合作",
-    "socials": []
+    "wechat": "zjr-video",
+    "wechatQr": "images/wechat-qr.png",
+    "resume": "resume/zhangjunrui-resume.pdf",
+    "socials": [
+      {
+        "name": "抖音",
+        "url": "https://www.capcut.cn/"
+      },
+      {
+        "name": "小红书",
+        "url": ""
+      },
+      {
+        "name": "bilibili",
+        "url": ""
+      }
+    ]
   },
   "footer": {
     "brand": "张君睿 · VIDEO EDITOR",

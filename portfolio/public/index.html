@@ -29,11 +29,11 @@
       </span>
     </a>
     <div class="nav-links">
-      <a class="nav-link active" href="#top" aria-current="page">首页</a>
-      <a class="nav-link" href="#about">关于</a>
-      <a class="nav-link" href="#works">作品</a>
-      <a class="nav-link" href="#skills">技能</a>
-      <a class="nav-link" href="#contact">联系</a>
+      <a class="nav-link active" data-nav="home" href="#top" aria-current="page">首页</a>
+      <a class="nav-link" data-nav="about" href="#about">关于</a>
+      <a class="nav-link" data-nav="works" href="#works">作品</a>
+      <a class="nav-link" data-nav="skills" href="#skills">技能</a>
+      <a class="nav-link" data-nav="contact" href="#contact">联系</a>
     </div>
     <div class="nav-right">
       <a class="btn btn-nav" href="#contact">联系我</a>
@@ -93,17 +93,9 @@
         <span class="sec-index">SECTION 01</span>
       </div>
       <div class="about-body">
-        <div class="portrait-col">
-          <div class="portrait"><img id="portraitImg" alt="张君睿的个人照片" loading="lazy" decoding="async" /></div>
-          <div>
-            <div class="portrait-name" id="portraitName"></div>
-            <div class="portrait-role" id="portraitRole"></div>
-          </div>
-        </div>
         <div class="about-text-col">
           <p class="bio" id="bio1"></p>
           <p class="bio" id="bio2"></p>
-          <div class="intent-card" id="intentCard"></div>
         </div>
       </div>
       <div class="spec-cards" id="specCards"></div>
@@ -148,7 +140,7 @@
         <div class="contact-left">
           <h2 class="contact-title" id="contactTitle"></h2>
           <p class="contact-sub" id="contactSub"></p>
-          <div><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a></div>
+          <div class="contact-cta"><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a><a class="btn btn-ghost" id="resumeBtn" href="#" style="display:none;">查看个人简历</a></div>
         </div>
         <div class="contact-card" id="contactCard"></div>
       </div>

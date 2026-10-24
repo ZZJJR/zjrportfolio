@@ -505,6 +505,28 @@
   $('addWorkBtn').addEventListener('click', function () { openWorkEditor(-1); });
 
   /* ---------- Showreel 本地视频上传 ---------- */
+  // 微信二维码 / 简历 PDF 上传
+  $('wcUploadBtn').addEventListener('click', function () { $('wcUploadFile').click(); });
+  $('wcUploadFile').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    this.value = '';
+    if (!f) return;
+    uploadFile(f, $('wcUploadTip'), function (url) {
+      var field = document.querySelector('[data-bind="contact.wechatQr"]');
+      if (field) field.value = url;
+    }, 'image');
+  });
+  $('rsUploadBtn').addEventListener('click', function () { $('rsUploadFile').click(); });
+  $('rsUploadFile').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    this.value = '';
+    if (!f) return;
+    uploadFile(f, $('rsUploadTip'), function (url) {
+      var field = document.querySelector('[data-bind="contact.resume"]');
+      if (field) field.value = url;
+    }, 'image');
+  });
+
   $('srUploadBtn').addEventListener('click', function () { $('srUploadFile').click(); });
   $('srUploadFile').addEventListener('change', function () {
     var f = this.files && this.files[0];

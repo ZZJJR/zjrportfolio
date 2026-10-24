@@ -164,6 +164,8 @@ for w in content.get("works") or []:
     wid = w.get("id", "?")
     collect_media(w.get("cover", ""), f"works[{wid}].cover")
     collect_media(w.get("video", ""), f"works[{wid}].video")
+for s in content.get("software") or []:
+    collect_media(s.get("icon", ""), f"software[{s.get('name', '?')}].icon")
 
 if missing:
     print("缺失媒体资源：")

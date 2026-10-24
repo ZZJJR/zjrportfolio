@@ -26,7 +26,8 @@
     phone: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3C2.5 2.4 3 2 3.6 2H5.8L6.8 5.2L5.2 6.2C6.3 8.4 7.9 10 10.1 11.1L11.1 9.5L14.3 10.5V12.6C14.3 13.2 13.8 13.7 13.2 13.7C7.7 13.4 2.8 8.5 2.5 3Z" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
     pin: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9.8 8 14.5 8 14.5C8 14.5 12.5 9.8 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
     share: '<svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="4" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="12" r="2" stroke="#A3A3A3" stroke-width="1.5"/><path d="M5.8 7L10.2 4.8M5.8 9L10.2 11.2" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
-    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>'
+    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>',
+    wechat: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2.2C4.9 2.2 2.4 4.4 2.4 7.1c0 1.6.9 3 2.2 3.9L4.2 13.6l2.4-1.2c.5.1.9.2 1.4.2 3.1 0 5.6-2.2 5.6-4.9S11.1 2.2 8 2.2z" stroke="#A3A3A3" stroke-width="1.4"/><path d="M5.6 6.4h.01M8 6.4h.01M10.4 6.4h.01" stroke="#A3A3A3" stroke-width="1.8" stroke-linecap="round"/></svg>'
   };
 
   /* ---------- 常用软件品牌 Logo（角标文字图片化；键为小写角标） ---------- */
@@ -113,6 +114,16 @@
       });
     });
     observeReveals();
+  }
+  /* 导航切换时重播目标区块的入场动效（WAAPI 一次性动画，不改动类，避免打断平滑滚动） */
+  function replayReveal(sectionEl) {
+    if (!sectionEl || typeof sectionEl.animate !== 'function') return;
+    sectionEl.querySelectorAll('.reveal.in').forEach(function (el, i) {
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 480, delay: (i % 4) * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }
+      );
+    });
   }
 
   /* ============================================================
@@ -261,12 +272,15 @@
       try { v.pause(); } catch (e) { /* 忽略 */ }
     });
   }
+  var activeNavKey = '';
   function setNavActive(name) {
+    var key = name === 'case' ? 'works' : name;
+    if (key === activeNavKey) return;
+    activeNavKey = key;
     document.querySelectorAll('.nav-link').forEach(function (a) {
       a.classList.remove('active');
       a.removeAttribute('aria-current');
     });
-    var key = name === 'case' ? 'works' : name;
     var link = document.querySelector('.nav-link[data-nav="' + key + '"]');
     if (link) {
       link.classList.add('active');
@@ -288,7 +302,8 @@
     }
     // 同一视图内切换作品（案例 A → 案例 B）也要回到顶部
     if (changed || forceScroll) window.scrollTo(0, 0);
-    setNavActive(name);
+    // 仅视图真正切换时重设高亮；同页锚点跳转（#about 等）由点击反馈与滚动监听接管
+    if (changed) setNavActive(name);
     var skip = document.querySelector('.skip-link');
     if (skip) skip.setAttribute('href', name === 'case' ? '#view-case' : (name === 'admin' ? '#view-admin' : '#view-home'));
     if (name === 'home') document.title = siteTitle();
@@ -345,11 +360,35 @@
         location.hash = '#/';
         setTimeout(function () {
           var el = document.querySelector(target);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (el) { el.scrollIntoView({ behavior: 'smooth' }); replayReveal(el); }
         }, 80);
+        return;
+      }
+      // 同视图内锚点：立即反馈导航高亮，并重播目标区块入场动效（滚动交给原生平滑滚动）
+      var el = document.querySelector(target);
+      if (el) {
+        setNavActive(target.slice(1));
+        replayReveal(el);
       }
     });
   });
+  // 滚动时高亮当前所在区块对应的导航项
+  var NAV_KEYS = ['about', 'works', 'skills', 'contact'];
+  var spyTicking = false;
+  window.addEventListener('scroll', function () {
+    if (currentView !== 'home' || spyTicking) return;
+    spyTicking = true;
+    requestAnimationFrame(function () {
+      spyTicking = false;
+      var y = window.scrollY + 140;
+      var key = 'home';
+      NAV_KEYS.forEach(function (k) {
+        var el = document.getElementById(k);
+        if (el && el.offsetTop <= y) key = k;
+      });
+      setNavActive(key);
+    });
+  }, { passive: true });
   // 移动端菜单
   var menuBtn = $('menuBtn'), mobileMenu = $('mobileMenu');
   if (menuBtn && mobileMenu) {
@@ -403,15 +442,8 @@
     var hint = document.getElementById('showreelHint');
     if (hint) hint.textContent = sr.video ? '点击播放 ▸' : '视频整理中';
 
-    var portraitImg = $('portraitImg');
-    if (p.portrait) portraitImg.src = p.portrait; else portraitImg.removeAttribute('src');
-    $('portraitName').textContent = p.name || '';
-    $('portraitRole').textContent = p.role || '';
     $('bio1').textContent = p.bio1 || '';
     $('bio2').textContent = p.bio2 || '';
-    $('intentCard').innerHTML = (p.intent || []).map(function (r) {
-      return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
-    }).join('');
 
     $('specCards').innerHTML = (CONTENT.specialties || []).map(function (s) {
       return '<div class="spec-card">' +
@@ -461,15 +493,44 @@
     $('mailtoBtn').href = 'mailto:' + (c.email || '') + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请');
     var rows = '';
     if (c.email) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.mail + '</div><div class="contact-mid"><span class="contact-label">邮箱</span><a class="contact-value" href="mailto:' + esc(c.email) + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请') + '">' + esc(c.email) + '</a></div></div>';
+    if (c.wechat) rows += '<div class="contact-row contact-wechat" data-qr="' + esc(c.wechatQr || '') + '"><div class="contact-icon-box">' + ICONS.wechat + '</div><div class="contact-mid"><span class="contact-label">微信</span><span class="contact-value">' + esc(c.wechat) + '</span></div>' + (c.wechatQr ? '<img class="contact-qr" src="' + esc(c.wechatQr) + '" alt="微信二维码" loading="lazy" />' : '') + '</div>';
     if (c.phone) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.phone + '</div><div class="contact-mid"><span class="contact-label">电话 / 微信</span><a class="contact-value" href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, '')) + '">' + esc(c.phone) + '</a></div></div>';
-    if (c.location) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.pin + '</div><div class="contact-mid"><span class="contact-label">所在地</span><span class="contact-value cn">' + esc(c.location) + '</span></div></div>';
-    var socials = (c.socials || []).filter(function (s) { return s && s.url && s.url !== '#'; });
+    var socials = (c.socials || []).filter(function (s) { return s && s.name; });
     if (socials.length) {
-      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交媒体</span><div class="social-chips">' +
-        socials.map(function (s) { return '<a class="social-chip" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.name) + ' ↗</a>'; }).join('') +
+      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交</span><div class="social-chips">' +
+        socials.map(function (s) {
+          if (s.url && s.url !== '#') return '<a class="social-chip" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.name) + ' ↗</a>';
+          return '<span class="social-chip is-empty">' + esc(s.name) + '</span>';
+        }).join('') +
         '</div></div></div>';
     }
     $('contactCard').innerHTML = rows;
+    // 简历：点击「查看个人简历」→ 弹层预览 PDF，弹层内提供下载
+    var rb = $('resumeBtn');
+    if (rb) {
+      if (c.resume) {
+        rb.style.display = '';
+        rb.addEventListener('click', function (e) {
+          e.preventDefault();
+          var lb = document.createElement('div');
+          lb.className = 'resume-lightbox';
+          lb.innerHTML = '<div class="resume-topbar"><b>个人简历</b><div class="resume-actions"><a class="btn btn-primary btn-sm" href="' + esc(c.resume) + '" download="张君睿-视频剪辑师简历.pdf">下载简历（PDF）</a><button class="qr-close" type="button" aria-label="关闭">×</button></div></div>' +
+            '<iframe src="' + esc(c.resume) + '#view=Fit" title="个人简历预览"></iframe>';
+          lb.querySelector('.qr-close').addEventListener('click', function () { lb.remove(); });
+          document.body.appendChild(lb);
+        });
+      } else { rb.style.display = 'none'; }
+    }
+    // 微信行点击 → 二维码大图弹层
+    $('contactCard').addEventListener('click', function (e) {
+      var row = e.target.closest('.contact-wechat');
+      if (!row || !row.getAttribute('data-qr')) return;
+      var lb = document.createElement('div');
+      lb.className = 'qr-lightbox';
+      lb.innerHTML = '<div class="qr-box"><img src="' + esc(row.getAttribute('data-qr')) + '" alt="微信二维码" /><p>微信扫一扫，或截图保存</p><b>' + esc(c.wechat || '') + '</b><span>点击任意位置关闭</span></div>';
+      lb.addEventListener('click', function () { lb.remove(); });
+      document.body.appendChild(lb);
+    });
 
     $('footerBrand').textContent = (CONTENT.footer || {}).brand || '';
     $('footerNote').textContent = (CONTENT.footer || {}).note || '';

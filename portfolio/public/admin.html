@@ -169,7 +169,13 @@
               <div class="admin-field"><label class="admin-label">邮箱</label><input class="admin-input" data-bind="contact.email" /></div>
               <div class="admin-field"><label class="admin-label">电话</label><input class="admin-input" data-bind="contact.phone" /></div>
             </div>
-            <div class="admin-field"><label class="admin-label">所在地</label><input class="admin-input" data-bind="contact.location" /></div>
+            <div class="admin-grid-2">
+              <div class="admin-field"><label class="admin-label">微信号</label><input class="admin-input" data-bind="contact.wechat" /></div>
+              <div class="admin-field"><label class="admin-label">微信二维码图片路径</label><input class="admin-input" data-bind="contact.wechatQr" /></div>
+            </div>
+            <div><button class="admin-mini-btn" id="wcUploadBtn" type="button">上传微信二维码</button><input type="file" id="wcUploadFile" accept=".png,.jpg,.jpeg,.webp,image/*" style="display:none;" /><span class="admin-panel-desc" id="wcUploadTip">上传后自动填入上方二维码路径</span></div>
+            <div class="admin-field"><label class="admin-label">简历 PDF 路径</label><input class="admin-input" data-bind="contact.resume" /></div>
+            <div><button class="admin-mini-btn" id="rsUploadBtn" type="button">上传简历 PDF</button><input type="file" id="rsUploadFile" accept=".pdf,application/pdf" style="display:none;" /><span class="admin-panel-desc" id="rsUploadTip">上传后自动填入上方简历路径（下载按钮自动生效）</span></div>
             <div class="admin-card-title">社交媒体链接</div>
             <div id="socialEditor" style="display:flex;flex-direction:column;gap:10px;"></div>
           </div>

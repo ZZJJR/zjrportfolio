@@ -51,6 +51,7 @@ const MIME = {
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
   '.txt': 'text/plain; charset=utf-8',
+  '.pdf': 'application/pdf',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
   '.mov': 'video/quicktime'
@@ -64,7 +65,7 @@ const TEXT_EXT = ['.html', '.css', '.js', '.json', '.svg', '.txt', '.xml'];
 // ---------- 媒体上传（视频 / 封面图片） ----------
 const UPLOAD_CONF = {
   video: { dir: path.join(PUBLIC_DIR, 'videos'), exts: ['.mp4', '.webm'], max: 200 * 1024 * 1024 },
-  image: { dir: path.join(PUBLIC_DIR, 'images'), exts: ['.png', '.jpg', '.jpeg', '.webp'], max: 10 * 1024 * 1024 }
+  image: { dir: path.join(PUBLIC_DIR, 'images'), exts: ['.png', '.jpg', '.jpeg', '.webp', '.pdf'], max: 10 * 1024 * 1024 }
 };
 
 // ---------- 密码哈希（scrypt） ----------

@@ -22,7 +22,7 @@
   <meta name="twitter:title" content="张君睿 · 视频剪辑师 — 求职作品集" />
   <meta name="twitter:description" content="专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。" />
   <meta name="twitter:image" content="http://127.0.0.1:3000/og-cover.jpg" />
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "张君睿", "jobTitle": "视频剪辑师", "description": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "url": "http://127.0.0.1:3000/", "image": "http://127.0.0.1:3000/og-cover.jpg", "email": "mailto:zhangjunrui@foxmail.com", "address": {"@type": "PostalAddress", "addressLocality": "山西太原"}, "knowsAbout": ["口播剪辑", "短片剪辑", "广告剪辑"]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "张君睿", "jobTitle": "视频剪辑师", "description": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "url": "http://127.0.0.1:3000/", "image": "http://127.0.0.1:3000/og-cover.jpg", "email": "mailto:zhangjunrui@foxmail.com", "address": {"@type": "PostalAddress", "addressLocality": "山西太原"}, "knowsAbout": ["口播剪辑", "短片剪辑", "广告剪辑"], "sameAs": ["https://www.capcut.cn/"]}</script>
   <link rel="preload" as="image" href="portfolio-spa/images/showreel.webp" fetchpriority="high" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%239EFF00'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,7 +59,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-section[id], main[id] { scroll-margin-top: 80px; }
+section[id], main[id] { scroll-margin-top: 64px; }
 .skip-link {
   position: fixed; left: 16px; top: -80px; z-index: 1000;
   padding: 10px 18px; background: var(--accent); color: #000;
@@ -124,7 +124,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ---------- 导航栏 ---------- */
 .nav {
   position: sticky; top: 0; z-index: 100;
-  height: 64px; background: var(--bg-nav);
+  height: 64px; background: rgba(20,20,20,.86);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 80px;
@@ -157,20 +158,29 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ---------- Hero 首屏 ---------- */
 .hero {
+  position: relative; overflow: hidden;
   display: flex; align-items: center; gap: 56px;
+  min-height: calc(100vh - 120px);
+  min-height: calc(100svh - 120px);
   padding: 88px 80px 64px;
 }
-.hero-left { width: 620px; flex: none; display: flex; flex-direction: column; gap: 26px; }
+.hero::before {
+  content: ''; position: absolute; right: -140px; top: -180px;
+  width: 680px; height: 680px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(158,255,0,.07), transparent 72%);
+  pointer-events: none;
+}
+.hero-left { width: 620px; flex: none; display: flex; flex-direction: column; gap: 30px; }
 .hero-headline { font-size: 72px; font-weight: 600; line-height: 1.12; letter-spacing: 1px; white-space: pre-line; }
 .hero-sub { font-size: 16px; color: var(--text-2); line-height: 1.75; max-width: 540px; }
 .hero-cta { display: flex; gap: 16px; }
 .hero-tags { display: flex; gap: 12px; flex-wrap: wrap; }
 .hero-right { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
 .showreel {
-  position: relative; background: var(--card); min-height: 180px;
+  position: relative; aspect-ratio: 16/9; background: #000;
   border: 1px solid var(--line); overflow: hidden;
 }
-.showreel img { width: 100%; height: auto; transition: transform .6s ease; }
+.showreel img { width: 100%; height: 100%; object-fit: contain; transition: transform .6s ease; }
 .showreel:hover img { transform: scale(1.03); }
 .play-btn {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
@@ -198,43 +208,34 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .scroll-hint::after { content: ''; width: 1px; height: 14px; background: var(--text-4); animation: drop 1.6s ease infinite; }
 @keyframes drop { 0%,100% { transform: scaleY(0.4); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } }
 
-/* ---------- 个人简介 ---------- */
-.about { background: var(--bg-section); padding: 88px 80px 64px; display: flex; flex-direction: column; gap: 44px; }
-.about-body { display: flex; gap: 56px; align-items: flex-start; }
-.portrait-col { width: 300px; flex: none; display: flex; flex-direction: column; gap: 16px; }
-.portrait { width: 300px; height: 375px; background: #1F1F1F; border: 1px solid var(--line); overflow: hidden; }
-.portrait-name { font-size: 20px; font-weight: 600; }
-.portrait-role { font-size: 13px; color: var(--text-2); }
-.about-text-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
-.bio { font-size: 15px; color: #C9C9C9; line-height: 1.8; }
-.intent-card { background: var(--card); border: 1px solid var(--line); }
-.intent-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; }
-.intent-row + .intent-row { border-top: 1px solid var(--line); }
-.intent-row .l { font-size: 12px; color: var(--text-3); }
-.intent-row .v { font-size: 14px; font-weight: 500; }
+/* ---------- 个人简介（独立一屏：内容块间均匀分布，不露下一区块） ---------- */
+.about { background: var(--bg-section); padding: 56px 80px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-height: calc(100vh - 64px); min-height: calc(100svh - 64px); }
+.about-body { display: flex; gap: 48px; align-items: center; }
+.about-text-col { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; align-items: start; }
+.bio { font-size: 14px; color: #C9C9C9; line-height: 1.75; }
 
-.spec-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.spec-card { background: var(--card); border: 1px solid var(--line); padding: 28px; display: flex; flex-direction: column; gap: 14px; transition: border-color .2s; }
-.spec-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
-.spec-card:hover { border-color: #3A3A3A; }
-.spec-icon-box { width: 44px; height: 44px; background: var(--card-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-.spec-icon-box svg { width: 22px; height: 22px; }
-.spec-name { font-size: 20px; font-weight: 600; }
-.spec-desc { font-size: 13px; color: var(--text-2); line-height: 1.7; }
-.spec-tags { font-size: 12px; color: var(--text-4); margin-top: auto; }
+.spec-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.spec-card { padding: 2px 0 2px 18px; border-left: 1px solid var(--line); display: flex; flex-direction: row; align-items: flex-start; gap: 14px; transition: border-color .2s; }
+.spec-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.spec-card:hover { border-left-color: var(--accent); }
+.spec-icon-box { width: 38px; height: 38px; flex: none; background: var(--card-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.spec-icon-box svg { width: 20px; height: 20px; }
+.spec-name { font-size: 16px; font-weight: 600; }
+.spec-desc { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+.spec-tags { font-size: 11px; color: var(--text-4); margin-top: 2px; }
 
-.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.stat-cell { background: var(--card); border: 1px solid var(--line); padding: 22px 24px; display: flex; flex-direction: column; gap: 6px; }
-.stat-num { font-family: var(--font-en); font-size: 30px; font-weight: 600; line-height: 1.1; }
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; border-top: 1px solid var(--line); padding-top: 18px; }
+.stat-cell { display: flex; flex-direction: column; gap: 4px; }
+.stat-num { font-family: var(--font-en); font-size: 28px; font-weight: 600; line-height: 1.1; color: var(--accent); }
 .stat-label { font-size: 12px; color: var(--text-2); }
 
 /* ---------- 精选作品 ---------- */
-.works { background: var(--bg-works); padding: 88px 80px; display: flex; flex-direction: column; gap: 40px; }
-.works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.works { background: var(--bg-works); padding: 64px 80px; display: flex; flex-direction: column; gap: 40px; }
+.works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .work-card { background: #141414; border: 1px solid var(--line); display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
-.work-card:hover { border-color: #3A3A3A; transform: translateY(-2px); }
-.work-cover { position: relative; background: var(--card); overflow: hidden; min-height: 180px; }
-.work-cover img { width: 100%; height: auto; transition: transform .6s ease; }
+.work-card:hover { border-color: #3A3A3A; transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,.35); }
+.work-cover { position: relative; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+.work-cover img { width: 100%; height: 100%; object-fit: contain; transition: transform .6s ease; }
 .work-card:hover .work-cover img { transform: scale(1.04); }
 .work-cover .play-btn { width: 56px; height: 56px; }
 .work-cover .play-btn svg { width: 20px; height: 16px; }
@@ -248,34 +249,36 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .play-badge svg { width: 20px; height: 16px; }
 .work-card:hover .play-badge { transform: translate(-50%, -50%) scale(1.1); }
 .work-cover .dur-pill { height: 26px; padding: 0 12px; right: 16px; bottom: 16px; }
-.work-meta { padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.work-meta { padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .work-meta-top { display: flex; justify-content: space-between; align-items: center; }
 .work-cat { font-size: 12px; color: var(--text-3); }
 .work-year { font-family: var(--font-en); font-size: 12px; font-weight: 500; color: var(--text-4); }
 .work-title { font-size: 17px; font-weight: 600; line-height: 1.4; }
-.work-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.work-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 42px; }
 .work-link-arrow { color: var(--accent); font-size: 12px; margin-left: auto; }
 
 /* ---------- 技能与软件 ---------- */
-.skills { background: var(--bg-section); padding: 88px 80px; display: flex; flex-direction: column; gap: 40px; }
+.skills { background: var(--bg-section); padding: 64px 80px; display: flex; flex-direction: column; gap: 40px; }
 .skills-body { display: flex; gap: 48px; align-items: flex-start; }
 .skills-list { flex: 1; min-width: 0; }
-.skill-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; }
+.skill-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; transition: background .2s ease; }
 .skill-row + .skill-row { border-top: 1px solid var(--line); }
+.skill-row:hover { background: rgba(255,255,255,.03); }
 .skill-num { font-family: var(--font-en); font-size: 13px; font-weight: 500; color: var(--text-4); flex: none; }
 .skill-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .skill-name { font-size: 16px; font-weight: 500; }
 .skill-desc { font-size: 12px; color: var(--text-3); }
-.skill-track { width: 110px; height: 4px; background: var(--card-2); flex: none; }
-.skill-fill { height: 4px; background: #fff; }
+.skill-track { width: 160px; height: 6px; background: var(--card-2); flex: none; }
+.skill-fill { height: 6px; background: #fff; transition: box-shadow .25s ease; }
+.skill-row:hover .skill-fill { box-shadow: 0 0 10px rgba(158,255,0,.35); }
 
 .soft-col { width: 460px; flex: none; display: flex; flex-direction: column; gap: 16px; }
 .soft-title { font-size: 18px; font-weight: 600; }
 .soft-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.soft-cell { background: var(--card); border: 1px solid var(--line); padding: 18px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.soft-cell { background: var(--card); border: 1px solid var(--line); padding: 20px 14px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
 .soft-glyph-box { width: 40px; height: 40px; background: var(--card-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-size: 13px; font-weight: 600; overflow: hidden; }
 .soft-glyph-box.is-img { background: none; overflow: visible; }
-.soft-glyph-box svg, .soft-glyph-box img { width: 32px; height: 32px; display: block; border-radius: 7px; box-shadow: 0 2px 10px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.06); transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.soft-glyph-box svg, .soft-glyph-box img { width: 34px; height: 34px; display: block; border-radius: 7px; box-shadow: 0 2px 10px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.06); transition: transform .3s cubic-bezier(.22,1,.36,1); }
 .soft-glyph-box img { object-fit: cover; }
 .soft-cell:hover .soft-glyph-box svg, .soft-cell:hover .soft-glyph-box img { transform: scale(1.12); }
 .soft-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
@@ -283,13 +286,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .soft-note { font-size: 12px; color: var(--text-4); line-height: 1.6; }
 
 /* ---------- 联系方式 ---------- */
-.contact { background: #000; padding: 96px 80px; display: flex; flex-direction: column; gap: 44px; }
+.contact { background: #000; padding: 96px 80px; display: flex; flex-direction: column; justify-content: center; gap: 44px; min-height: calc(100vh - 64px); min-height: calc(100svh - 64px); }
 .contact-body { display: flex; gap: 64px; align-items: center; }
 .contact-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
 .contact-title { font-size: 44px; font-weight: 600; line-height: 1.25; white-space: pre-line; }
 .contact-sub { font-size: 15px; color: var(--text-2); line-height: 1.8; max-width: 520px; }
-.contact-card { width: 480px; flex: none; background: #0F0F0F; border: 1px solid var(--line); }
-.contact-row { display: flex; align-items: center; gap: 16px; padding: 22px 24px; }
+.contact-card { width: 520px; flex: none; background: #121212; border: 1px solid #2A2A2A; box-shadow: 0 8px 32px rgba(0,0,0,.28); }
+.contact-row { display: flex; align-items: center; gap: 16px; padding: 26px 28px; }
 .contact-row + .contact-row { border-top: 1px solid var(--line); }
 .contact-icon-box { width: 36px; height: 36px; background: var(--card); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex: none; }
 .contact-icon-box svg { width: 16px; height: 16px; }
@@ -297,6 +300,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .contact-label { font-size: 12px; color: var(--text-3); }
 .contact-value { font-family: var(--font-en); font-size: 17px; font-weight: 500; word-break: break-all; }
 .contact-value.cn { font-family: var(--font-cjk); }
+.contact-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.contact-wechat { cursor: pointer; }
+.contact-qr { width: 72px; height: 72px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); flex: none; }
+.qr-lightbox { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,.88); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.qr-lightbox .qr-box { background: #141414; border: 1px solid var(--line); padding: 28px 32px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.qr-lightbox img { width: 240px; height: 240px; display: block; background: #fff; }
+.qr-lightbox p { font-size: 12px; color: var(--text-3); }
+.qr-lightbox b { font-family: var(--font-en); font-size: 16px; }
+.qr-lightbox span { font-size: 11px; color: var(--text-4); }
+.qr-close { font-size: 26px; color: var(--text-3); line-height: 1; background: none; }
+.qr-close:hover { color: var(--text); }
+.resume-lightbox { position: fixed; inset: 0; z-index: 400; background: #0A0A0A; display: flex; flex-direction: column; }
+.resume-topbar { flex: none; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid var(--line); background: var(--bg-nav); }
+.resume-topbar b { font-size: 16px; }
+.resume-actions { display: flex; align-items: center; gap: 18px; }
+.resume-lightbox iframe { flex: 1; width: 100%; border: none; background: #fff; }
+.btn-sm { height: 38px; padding: 0 18px; font-size: 13px; }
 .social-chips { display: flex; gap: 10px; flex-wrap: wrap; }
 .social-chip {
   display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 16px;
@@ -304,6 +324,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: border-color .15s, color .15s;
 }
 .social-chip:hover { border-color: var(--accent); color: var(--accent); }
+.social-chip.is-empty { opacity: .45; cursor: default; }
+.social-chip.is-empty:hover { border-color: #333; color: #C9C9C9; }
 
 /* ---------- 页脚 ---------- */
 .footer { background: #000; border-top: 1px solid var(--line); padding: 36px 80px; display: flex; flex-direction: column; gap: 18px; }
@@ -330,7 +352,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .player-section { padding: 24px 80px 0; }
 .player {
-  position: relative; background: #000; min-height: 220px;
+  position: relative; aspect-ratio: 16/9; background: #000;
   border: 1px solid var(--line); overflow: hidden;
 }
 .player video {
@@ -339,7 +361,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: #000; display: none;
 }
 .player.playing video { display: block; }
-.player .player-poster { height: auto; transition: opacity .35s ease; }
+.player .player-poster { height: 100%; object-fit: contain; transition: opacity .35s ease; }
 .player.playing .player-poster { opacity: 0; }
 .player.playing .player-note { display: none; }
 .player .play-btn { width: 88px; height: 88px; }
@@ -405,7 +427,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .more-link { font-size: 13px; color: var(--text-2); }
 .more-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .mini-card { background: #141414; border: 1px solid var(--line); display: flex; flex-direction: column; }
-.mini-cover { min-height: 90px; background: var(--card); overflow: hidden; }
+.mini-cover { aspect-ratio: 16/9; max-height: 132px; background: #000; overflow: hidden; }
+.mini-cover img { object-fit: contain; }
 .mini-meta { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
 .mini-title { font-size: 15px; font-weight: 500; }
 .mini-cat { font-size: 12px; color: var(--text-3); }
@@ -422,7 +445,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   object-fit: contain; /* 按原始宽高比完整显示，不裁切不变形 */
   background: #000;
 }
-.video-modal-inner img { display: block; width: 100%; height: auto; max-height: 76vh; object-fit: contain; }
+.video-modal-inner img { display: block; width: 100%; aspect-ratio: 16/9; object-fit: contain; }
 .video-modal-close {
   position: absolute; top: -44px; right: 0; width: 36px; height: 36px;
   display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px;
@@ -498,7 +521,8 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
 .admin-mini-btn.danger:hover { color: #FF6B6B; border-color: #FF6B6B; }
 .admin-mini-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 500; }
 .admin-work-item { display: flex; gap: 14px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: #0F0F0F; }
-.admin-work-item .thumb { width: 96px; height: auto; min-height: 54px; max-height: 108px; flex: none; background: var(--card-2); border-radius: 4px; overflow: hidden; position: relative; }
+.admin-work-item .thumb { width: 96px; height: 54px; flex: none; background: #000; border-radius: 4px; overflow: hidden; position: relative; }
+.admin-work-item .thumb img { object-fit: contain; }
 .admin-work-item .info { flex: 1; min-width: 0; }
 .admin-work-item .info .tt { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .admin-work-item .info .cc { font-size: 12px; color: var(--text-3); margin-top: 2px; }
@@ -510,7 +534,7 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
   .hero { padding: 48px 24px 40px; gap: 32px; }
   .hero-left { width: 520px; }
   .hero-headline { font-size: 56px; }
-  .about, .works, .skills { padding: 64px 24px; }
+  .about, .works, .skills { padding: 44px 24px; }
   .contact { padding: 72px 24px; }
   .footer { padding: 32px 24px; }
   .skills-body { gap: 32px; }
@@ -539,9 +563,9 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
   .about, .works, .skills { padding: 56px 20px; gap: 26px; }
   .sec-title { font-size: 28px; }
   .sec-index { display: none; }
-  .about-body { flex-direction: column; gap: 22px; }
-  .portrait-col { width: 100%; flex-direction: row; align-items: center; gap: 16px; }
-  .portrait { width: 130px; height: 163px; flex: none; }
+  .about { padding: 36px 20px; gap: 18px; min-height: 0; }
+  .about-body { flex-direction: column; gap: 18px; }
+  .about-text-col { grid-template-columns: 1fr; }
   .spec-cards { grid-template-columns: 1fr; }
   .spec-card { flex-direction: row; align-items: flex-start; gap: 14px; }
   .spec-body { flex: 1; min-width: 0; gap: 6px; }
@@ -551,6 +575,7 @@ textarea.admin-input { height: auto; min-height: 96px; padding: 12px 16px; line-
 
   .works-grid { grid-template-columns: 1fr; }
   .skills-body { flex-direction: column; gap: 28px; }
+  .skill-track { width: 110px; }
   .soft-col { width: 100%; }
 
   .contact { padding: 56px 20px; }
@@ -733,10 +758,10 @@ main > section:not(.hero), main > header, main > div.back-bar { animation: viewI
     </a>
     <div class="nav-links">
       <a class="nav-link active" data-nav="home" href="#/" aria-current="page">首页</a>
-      <a class="nav-link" href="#about">关于</a>
+      <a class="nav-link" data-nav="about" href="#about">关于</a>
       <a class="nav-link" data-nav="works" href="#works">作品</a>
-      <a class="nav-link" href="#skills">技能</a>
-      <a class="nav-link" href="#contact">联系</a>
+      <a class="nav-link" data-nav="skills" href="#skills">技能</a>
+      <a class="nav-link" data-nav="contact" href="#contact">联系</a>
     </div>
     <div class="nav-right">
       <a class="btn btn-nav" href="#contact">联系我</a>
@@ -761,7 +786,7 @@ main > section:not(.hero), main > header, main > div.back-bar { animation: viewI
       <h2>精选作品</h2>
       <ul><li><strong>《城市晨光》城市文旅宣传片</strong>（品牌广告，2026） — 以晨光为线索的城市叙事，光影与节奏的呼吸感。</li><li><strong>口播</strong>（口播栏目，2026） — 知识科普口播，去气口与信息密度优化。</li><li><strong>毕业短片《边界》</strong>（叙事短片，2026） — 非线性叙事结构，城市与荒野的情绪对照。</li><li><strong>电商广告 · 智能咖啡机</strong>（产品广告，2025） — 卖点可视化，快节奏钩子与转化导向。</li><li><strong>访谈节目《对话创业者》</strong>（访谈剪辑，2025） — 双机位访谈，观点线与情绪线双轨并行。</li><li><strong>旅行 Vlog《向西 300 公里》</strong>（旅行短片，2025） — 公路旅行叙事，音乐卡点与匹配转场。</li></ul>
       <h2>联系方式</h2>
-      <p>邮箱：<a href="mailto:zhangjunrui@foxmail.com">zhangjunrui@foxmail.com</a></p><p>所在地：山西太原 · 接受远程合作</p>
+      <p>邮箱：<a href="mailto:zhangjunrui@foxmail.com">zhangjunrui@foxmail.com</a></p>
     </section>
   </noscript>
 
@@ -803,17 +828,9 @@ main > section:not(.hero), main > header, main > div.back-bar { animation: viewI
         <span class="sec-index">SECTION 01</span>
       </div>
       <div class="about-body">
-        <div class="portrait-col">
-          <div class="portrait"><img id="portraitImg" alt="张君睿的个人照片" loading="lazy" decoding="async" /></div>
-          <div>
-            <div class="portrait-name" id="portraitName"></div>
-            <div class="portrait-role" id="portraitRole"></div>
-          </div>
-        </div>
         <div class="about-text-col">
           <p class="bio" id="bio1"></p>
           <p class="bio" id="bio2"></p>
-          <div class="intent-card" id="intentCard"></div>
         </div>
       </div>
       <div class="spec-cards" id="specCards"></div>
@@ -855,7 +872,7 @@ main > section:not(.hero), main > header, main > div.back-bar { animation: viewI
         <div class="contact-left">
           <h2 class="contact-title" id="contactTitle"></h2>
           <p class="contact-sub" id="contactSub"></p>
-          <div><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a></div>
+          <div class="contact-cta"><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a><a class="btn btn-ghost" id="resumeBtn" href="#" style="display:none;">查看个人简历</a></div>
         </div>
         <div class="contact-card" id="contactCard"></div>
       </div>
@@ -896,7 +913,7 @@ main > section:not(.hero), main > header, main > div.back-bar { animation: viewI
 .admin-login-wrap { min-height:100vh; }
   </style>
   <script>
-window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / Video Editor", "kicker": "求职作品集 · PORTFOLIO 2026", "headline": "把素材，\n剪成故事。", "sub": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "tags": ["口播剪辑", "短片剪辑", "广告剪辑"], "showreel": {"cover": "portfolio-spa/images/showreel.webp", "duration": "01:30", "label": "SHOWREEL", "caption": "个人 Showreel · 混剪预览", "video": ""}, "portrait": "portfolio-spa/images/portrait.webp", "bio1": "你好，我是张君睿，2026 年毕业于广东科学技术职业学院。在校期间系统自学视频剪辑，从软件基础到完整项目交付，累计完成 20 余部练习与模拟商业作品，涵盖口播栏目、叙事短片与品牌广告三类内容。", "bio2": "我相信剪辑的本质是「服务叙事」：口播重信息密度，短片重情绪结构，广告重转化节奏。除了剪辑本身，我也能独立完成调色、混音与花字包装，让每条视频以完整的状态交付。", "intent": [{"label": "求职意向", "value": "视频剪辑 / 后期制作"}, {"label": "期望城市", "value": "太原 · 接受远程"}, {"label": "到岗时间", "value": "随时到岗"}], "stats": [{"num": "20+", "label": "练习与模拟商业作品"}, {"num": "3", "label": "大剪辑方向"}, {"num": "10+", "label": "款熟练剪辑与设计软件"}, {"num": "2026", "label": "届毕业生 · 随时到岗"}]}, "specialties": [{"icon": "mic", "name": "口播剪辑", "desc": "知识科普与带货口播全流程剪辑：去气口、调语速、卡点与花字包装，在信息密度与观看体验之间找平衡。", "tags": "去气口 · 卡点 · 花字包装"}, {"icon": "film", "name": "短片剪辑", "desc": "叙事短片与 Vlog 剪辑：注重结构铺陈与情绪节奏，从素材整理、粗剪到精剪输出的全流程把控。", "tags": "结构铺陈 · 情绪节奏 · 精剪"}, {"icon": "megaphone", "name": "广告剪辑", "desc": "品牌与电商广告剪辑：强钩子开头、快节奏切换与卖点可视化，一切处理都服务于转化目标。", "tags": "钩子开头 · 卖点可视化 · 快节奏"}], "works": [{"id": "city-morning", "title": "《城市晨光》城市文旅宣传片", "category": "品牌广告", "year": "2026", "duration": "01:32", "desc": "以晨光为线索的城市叙事，光影与节奏的呼吸感。", "cover": "portfolio-spa/images/work-city.webp", "video": "", "detail": {"meta": [{"label": "类别", "value": "品牌广告"}, {"label": "年份", "value": "2026"}, {"label": "担任", "value": "剪辑 / 调色"}, {"label": "时长", "value": "01:32"}], "bgTitle": "项目背景", "bgParas": ["《城市晨光》是为城市文旅局制作的季度宣传短片，目标是在 90 秒内建立观众对城市「清晨气质」的认知，并带动春季旅游搜索。客户提供 3.5 小时、覆盖 6 个地标的航拍与地面素材，交付平台包括文旅局官网、抖音与视频号。", "我的工作从素材整理开始：先按「地标 / 人物 / 空镜」三类建立素材库，再与编导确认叙事线——以一位晨跑者的动线，串联城市从苏醒到繁忙的全过程。"], "info": [{"label": "客户类型", "value": "城市文旅宣传片"}, {"label": "交付周期", "value": "5 个工作日"}, {"label": "素材规模", "value": "3.5 小时 · 42 条素材"}, {"label": "成片规格", "value": "1920×1080 · 24fps"}], "techTitle": "剪辑手法", "techniques": [{"num": "01", "name": "三幕式城市叙事", "desc": "「苏醒—奔跑—繁忙」三幕推进，前 8 秒以航拍建立空间感。"}, {"num": "02", "name": "呼吸感节奏", "desc": "长镜头与快剪交替，情绪高点前留 0.5 秒呼吸。"}, {"num": "03", "name": "匹配转场", "desc": "以形状与运动方向做匹配剪辑，全片仅 3 次特效转场。"}, {"num": "04", "name": "三层声音设计", "desc": "环境声、音乐、动效分层混音，晨跑段做低频滤波处理。"}, {"num": "05", "name": "晨光暖调调色", "desc": "高光暖橙、阴影青蓝，逐帧校正多机位色偏。"}], "tools": ["Premiere Pro", "DaVinci Resolve", "Audition"]}}, {"id": "tech-talk", "title": "口播", "category": "口播栏目", "year": "2026", "duration": "", "desc": "知识科普口播，去气口与信息密度优化。", "cover": "portfolio-spa/images/1792825992442-ScreenShot_2026-10-24_015220_552.png", "video": "https://jj-1515570789.cos.ap-shanghai.myqcloud.com/%E5%8F%A3%E6%92%AD%E7%B4%A0%E6%9D%90%EF%BC%88INFP%29.mp4", "detail": null}, {"id": "boundary", "title": "毕业短片《边界》", "category": "叙事短片", "year": "2026", "duration": "08:45", "desc": "非线性叙事结构，城市与荒野的情绪对照。", "cover": "portfolio-spa/images/work-boundary.webp", "video": "https://jj-1515570789.cos.ap-shanghai.myqcloud.com/%E5%8F%A3%E6%92%AD%E7%B4%A0%E6%9D%90%EF%BC%88INFP%29.mp4", "detail": null}, {"id": "coffee-ad", "title": "电商广告 · 智能咖啡机", "category": "产品广告", "year": "2025", "duration": "00:45", "desc": "卖点可视化，快节奏钩子与转化导向。", "cover": "portfolio-spa/images/work-coffee.webp", "video": "", "detail": null}, {"id": "interview", "title": "访谈节目《对话创业者》", "category": "访谈剪辑", "year": "2025", "duration": "12:30", "desc": "双机位访谈，观点线与情绪线双轨并行。", "cover": "portfolio-spa/images/work-interview.webp", "video": "", "detail": null}, {"id": "road-vlog", "title": "旅行 Vlog《向西 300 公里》", "category": "旅行短片", "year": "2025", "duration": "06:12", "desc": "公路旅行叙事，音乐卡点与匹配转场。", "cover": "portfolio-spa/images/work-road.webp", "video": "", "detail": null}], "skills": [{"num": "01", "name": "叙事结构", "desc": "三幕式与非线性结构搭建，让内容有起承转合", "level": 92}, {"num": "02", "name": "节奏把控", "desc": "卡点、留白与情绪曲线设计", "level": 95}, {"num": "03", "name": "转场设计", "desc": "匹配剪辑、无缝转场与动效衔接", "level": 85}, {"num": "04", "name": "声音设计", "desc": "音效分层、混音与音乐铺陈", "level": 80}, {"num": "05", "name": "调色", "desc": "风格化调色与多机位色彩统一", "level": 78}, {"num": "06", "name": "字幕与花字", "desc": "标题包装、花字与动态图形", "level": 88}], "software": [{"icon": "", "name": "Premiere Pro", "level": "主力剪辑"}, {"icon": "", "name": "DaVinci Resolve", "level": "专业调色"}, {"icon": "", "name": "After Effects", "level": "动效包装"}, {"icon": "portfolio-spa/images/1792826932644-image.png", "name": "剪映专业版", "level": "短视频主力"}, {"icon": "", "name": "Audition", "level": "音频处理"}, {"icon": "", "name": "Photoshop", "level": "封面设计"}], "softwareNote": "以上软件均在课程项目与个人练习中实际使用，可快速上手新工具。", "contact": {"title": "有项目或机会，\n随时聊聊。", "sub": "目前正在寻找视频剪辑相关岗位，也欢迎商业短片、口播与广告合作委托。期待你的消息。", "email": "zhangjunrui@foxmail.com", "phone": "", "location": "山西太原 · 接受远程合作", "socials": []}, "footer": {"brand": "张君睿 · VIDEO EDITOR", "note": "感谢观看 · 欢迎通过邮件联系"}, "settings": {}};
+window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / Video Editor", "kicker": "求职作品集 · PORTFOLIO 2026", "headline": "把素材，\n剪成故事。", "sub": "专注口播、短片与广告三大方向的视频剪辑。擅长节奏把控与叙事结构——好的剪辑，是让观众忘记剪辑的存在。", "tags": ["口播剪辑", "短片剪辑", "广告剪辑"], "showreel": {"cover": "portfolio-spa/images/showreel.webp", "duration": "01:30", "label": "SHOWREEL", "caption": "个人 Showreel · 混剪预览", "video": ""}, "portrait": "portfolio-spa/images/portrait.webp", "bio1": "你好，我是张君睿，2026 年毕业于广东科学技术职业学院。在校期间系统自学视频剪辑，从软件基础到完整项目交付，累计完成 20 余部练习与模拟商业作品，涵盖口播栏目、叙事短片与品牌广告三类内容。", "bio2": "我相信剪辑的本质是「服务叙事」：口播重信息密度，短片重情绪结构，广告重转化节奏。除了剪辑本身，我也能独立完成调色、混音与花字包装，让每条视频以完整的状态交付。", "intent": [], "stats": [{"num": "20+", "label": "练习与模拟商业作品"}, {"num": "3", "label": "大剪辑方向"}, {"num": "10+", "label": "款熟练剪辑与设计软件"}]}, "specialties": [{"icon": "mic", "name": "口播剪辑", "desc": "知识科普与带货口播全流程剪辑：去气口、调语速、卡点与花字包装，在信息密度与观看体验之间找平衡。", "tags": "去气口 · 卡点 · 花字包装"}, {"icon": "film", "name": "短片剪辑", "desc": "叙事短片与 Vlog 剪辑：注重结构铺陈与情绪节奏，从素材整理、粗剪到精剪输出的全流程把控。", "tags": "结构铺陈 · 情绪节奏 · 精剪"}, {"icon": "megaphone", "name": "广告剪辑", "desc": "品牌与电商广告剪辑：强钩子开头、快节奏切换与卖点可视化，一切处理都服务于转化目标。", "tags": "钩子开头 · 卖点可视化 · 快节奏"}], "works": [{"id": "city-morning", "title": "《城市晨光》城市文旅宣传片", "category": "品牌广告", "year": "2026", "duration": "01:32", "desc": "以晨光为线索的城市叙事，光影与节奏的呼吸感。", "cover": "portfolio-spa/images/work-city.webp", "video": "", "detail": {"meta": [{"label": "类别", "value": "品牌广告"}, {"label": "年份", "value": "2026"}, {"label": "担任", "value": "剪辑 / 调色"}, {"label": "时长", "value": "01:32"}], "bgTitle": "项目背景", "bgParas": ["《城市晨光》是为城市文旅局制作的季度宣传短片，目标是在 90 秒内建立观众对城市「清晨气质」的认知，并带动春季旅游搜索。客户提供 3.5 小时、覆盖 6 个地标的航拍与地面素材，交付平台包括文旅局官网、抖音与视频号。", "我的工作从素材整理开始：先按「地标 / 人物 / 空镜」三类建立素材库，再与编导确认叙事线——以一位晨跑者的动线，串联城市从苏醒到繁忙的全过程。"], "info": [{"label": "客户类型", "value": "城市文旅宣传片"}, {"label": "交付周期", "value": "5 个工作日"}, {"label": "素材规模", "value": "3.5 小时 · 42 条素材"}, {"label": "成片规格", "value": "1920×1080 · 24fps"}], "techTitle": "剪辑手法", "techniques": [{"num": "01", "name": "三幕式城市叙事", "desc": "「苏醒—奔跑—繁忙」三幕推进，前 8 秒以航拍建立空间感。"}, {"num": "02", "name": "呼吸感节奏", "desc": "长镜头与快剪交替，情绪高点前留 0.5 秒呼吸。"}, {"num": "03", "name": "匹配转场", "desc": "以形状与运动方向做匹配剪辑，全片仅 3 次特效转场。"}, {"num": "04", "name": "三层声音设计", "desc": "环境声、音乐、动效分层混音，晨跑段做低频滤波处理。"}, {"num": "05", "name": "晨光暖调调色", "desc": "高光暖橙、阴影青蓝，逐帧校正多机位色偏。"}], "tools": ["Premiere Pro", "DaVinci Resolve", "Audition"]}}, {"id": "tech-talk", "title": "口播", "category": "口播栏目", "year": "2026", "duration": "", "desc": "知识科普口播，去气口与信息密度优化。", "cover": "portfolio-spa/images/1792825992442-ScreenShot_2026-10-24_015220_552.png", "video": "https://jj-1515570789.cos.ap-shanghai.myqcloud.com/%E5%8F%A3%E6%92%AD%E7%B4%A0%E6%9D%90%EF%BC%88INFP%29.mp4", "detail": null}, {"id": "boundary", "title": "毕业短片《边界》", "category": "叙事短片", "year": "2026", "duration": "08:45", "desc": "非线性叙事结构，城市与荒野的情绪对照。", "cover": "portfolio-spa/images/work-boundary.webp", "video": "https://jj-1515570789.cos.ap-shanghai.myqcloud.com/%E5%8F%A3%E6%92%AD%E7%B4%A0%E6%9D%90%EF%BC%88INFP%29.mp4", "detail": null}, {"id": "coffee-ad", "title": "电商广告 · 智能咖啡机", "category": "产品广告", "year": "2025", "duration": "00:45", "desc": "卖点可视化，快节奏钩子与转化导向。", "cover": "portfolio-spa/images/work-coffee.webp", "video": "", "detail": null}, {"id": "interview", "title": "访谈节目《对话创业者》", "category": "访谈剪辑", "year": "2025", "duration": "12:30", "desc": "双机位访谈，观点线与情绪线双轨并行。", "cover": "portfolio-spa/images/work-interview.webp", "video": "", "detail": null}, {"id": "road-vlog", "title": "旅行 Vlog《向西 300 公里》", "category": "旅行短片", "year": "2025", "duration": "06:12", "desc": "公路旅行叙事，音乐卡点与匹配转场。", "cover": "portfolio-spa/images/work-road.webp", "video": "", "detail": null}], "skills": [{"num": "01", "name": "叙事结构", "desc": "三幕式与非线性结构搭建，让内容有起承转合", "level": 92}, {"num": "02", "name": "节奏把控", "desc": "卡点、留白与情绪曲线设计", "level": 95}, {"num": "03", "name": "转场设计", "desc": "匹配剪辑、无缝转场与动效衔接", "level": 85}, {"num": "04", "name": "声音设计", "desc": "音效分层、混音与音乐铺陈", "level": 80}, {"num": "05", "name": "调色", "desc": "风格化调色与多机位色彩统一", "level": 78}, {"num": "06", "name": "字幕与花字", "desc": "标题包装、花字与动态图形", "level": 88}], "software": [{"icon": "", "name": "Premiere Pro", "level": "主力剪辑"}, {"icon": "", "name": "DaVinci Resolve", "level": "专业调色"}, {"icon": "", "name": "After Effects", "level": "动效包装"}, {"icon": "portfolio-spa/images/1792826932644-image.png", "name": "剪映专业版", "level": "短视频主力"}, {"icon": "", "name": "Audition", "level": "音频处理"}, {"icon": "", "name": "Photoshop", "level": "封面设计"}], "softwareNote": "以上软件均在课程项目与个人练习中实际使用，可快速上手新工具。", "contact": {"title": "有项目或机会，\n随时聊聊。", "sub": "目前正在寻找视频剪辑相关岗位，也欢迎商业短片、口播与广告合作委托。期待你的消息。", "email": "zhangjunrui@foxmail.com", "phone": "", "wechat": "zjr-video", "wechatQr": "portfolio-spa/images/wechat-qr.png", "resume": "resume/zhangjunrui-resume.pdf", "socials": [{"name": "抖音", "url": "https://www.capcut.cn/"}, {"name": "小红书", "url": ""}, {"name": "bilibili", "url": ""}]}, "footer": {"brand": "张君睿 · VIDEO EDITOR", "note": "感谢观看 · 欢迎通过邮件联系"}, "settings": {}};
   </script>
   <script>
 /* ============================================================
@@ -927,7 +944,8 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
     phone: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3C2.5 2.4 3 2 3.6 2H5.8L6.8 5.2L5.2 6.2C6.3 8.4 7.9 10 10.1 11.1L11.1 9.5L14.3 10.5V12.6C14.3 13.2 13.8 13.7 13.2 13.7C7.7 13.4 2.8 8.5 2.5 3Z" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
     pin: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9.8 8 14.5 8 14.5C8 14.5 12.5 9.8 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
     share: '<svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="4" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="12" r="2" stroke="#A3A3A3" stroke-width="1.5"/><path d="M5.8 7L10.2 4.8M5.8 9L10.2 11.2" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
-    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>'
+    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>',
+    wechat: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2.2C4.9 2.2 2.4 4.4 2.4 7.1c0 1.6.9 3 2.2 3.9L4.2 13.6l2.4-1.2c.5.1.9.2 1.4.2 3.1 0 5.6-2.2 5.6-4.9S11.1 2.2 8 2.2z" stroke="#A3A3A3" stroke-width="1.4"/><path d="M5.6 6.4h.01M8 6.4h.01M10.4 6.4h.01" stroke="#A3A3A3" stroke-width="1.8" stroke-linecap="round"/></svg>'
   };
 
   /* ---------- 常用软件品牌 Logo（角标文字图片化；键为小写角标） ---------- */
@@ -1014,6 +1032,16 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
       });
     });
     observeReveals();
+  }
+  /* 导航切换时重播目标区块的入场动效（WAAPI 一次性动画，不改动类，避免打断平滑滚动） */
+  function replayReveal(sectionEl) {
+    if (!sectionEl || typeof sectionEl.animate !== 'function') return;
+    sectionEl.querySelectorAll('.reveal.in').forEach(function (el, i) {
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 480, delay: (i % 4) * 70, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' }
+      );
+    });
   }
 
   /* ============================================================
@@ -1162,12 +1190,15 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
       try { v.pause(); } catch (e) { /* 忽略 */ }
     });
   }
+  var activeNavKey = '';
   function setNavActive(name) {
+    var key = name === 'case' ? 'works' : name;
+    if (key === activeNavKey) return;
+    activeNavKey = key;
     document.querySelectorAll('.nav-link').forEach(function (a) {
       a.classList.remove('active');
       a.removeAttribute('aria-current');
     });
-    var key = name === 'case' ? 'works' : name;
     var link = document.querySelector('.nav-link[data-nav="' + key + '"]');
     if (link) {
       link.classList.add('active');
@@ -1189,7 +1220,8 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
     }
     // 同一视图内切换作品（案例 A → 案例 B）也要回到顶部
     if (changed || forceScroll) window.scrollTo(0, 0);
-    setNavActive(name);
+    // 仅视图真正切换时重设高亮；同页锚点跳转（#about 等）由点击反馈与滚动监听接管
+    if (changed) setNavActive(name);
     var skip = document.querySelector('.skip-link');
     if (skip) skip.setAttribute('href', name === 'case' ? '#view-case' : (name === 'admin' ? '#view-admin' : '#view-home'));
     if (name === 'home') document.title = siteTitle();
@@ -1246,11 +1278,35 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
         location.hash = '#/';
         setTimeout(function () {
           var el = document.querySelector(target);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (el) { el.scrollIntoView({ behavior: 'smooth' }); replayReveal(el); }
         }, 80);
+        return;
+      }
+      // 同视图内锚点：立即反馈导航高亮，并重播目标区块入场动效（滚动交给原生平滑滚动）
+      var el = document.querySelector(target);
+      if (el) {
+        setNavActive(target.slice(1));
+        replayReveal(el);
       }
     });
   });
+  // 滚动时高亮当前所在区块对应的导航项
+  var NAV_KEYS = ['about', 'works', 'skills', 'contact'];
+  var spyTicking = false;
+  window.addEventListener('scroll', function () {
+    if (currentView !== 'home' || spyTicking) return;
+    spyTicking = true;
+    requestAnimationFrame(function () {
+      spyTicking = false;
+      var y = window.scrollY + 140;
+      var key = 'home';
+      NAV_KEYS.forEach(function (k) {
+        var el = document.getElementById(k);
+        if (el && el.offsetTop <= y) key = k;
+      });
+      setNavActive(key);
+    });
+  }, { passive: true });
   // 移动端菜单
   var menuBtn = $('menuBtn'), mobileMenu = $('mobileMenu');
   if (menuBtn && mobileMenu) {
@@ -1304,15 +1360,8 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
     var hint = document.getElementById('showreelHint');
     if (hint) hint.textContent = sr.video ? '点击播放 ▸' : '视频整理中';
 
-    var portraitImg = $('portraitImg');
-    if (p.portrait) portraitImg.src = p.portrait; else portraitImg.removeAttribute('src');
-    $('portraitName').textContent = p.name || '';
-    $('portraitRole').textContent = p.role || '';
     $('bio1').textContent = p.bio1 || '';
     $('bio2').textContent = p.bio2 || '';
-    $('intentCard').innerHTML = (p.intent || []).map(function (r) {
-      return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
-    }).join('');
 
     $('specCards').innerHTML = (CONTENT.specialties || []).map(function (s) {
       return '<div class="spec-card">' +
@@ -1362,15 +1411,44 @@ window.__CONTENT__={"profile": {"name": "张君睿", "role": "视频剪辑师 / 
     $('mailtoBtn').href = 'mailto:' + (c.email || '') + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请');
     var rows = '';
     if (c.email) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.mail + '</div><div class="contact-mid"><span class="contact-label">邮箱</span><a class="contact-value" href="mailto:' + esc(c.email) + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请') + '">' + esc(c.email) + '</a></div></div>';
+    if (c.wechat) rows += '<div class="contact-row contact-wechat" data-qr="' + esc(c.wechatQr || '') + '"><div class="contact-icon-box">' + ICONS.wechat + '</div><div class="contact-mid"><span class="contact-label">微信</span><span class="contact-value">' + esc(c.wechat) + '</span></div>' + (c.wechatQr ? '<img class="contact-qr" src="' + esc(c.wechatQr) + '" alt="微信二维码" loading="lazy" />' : '') + '</div>';
     if (c.phone) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.phone + '</div><div class="contact-mid"><span class="contact-label">电话 / 微信</span><a class="contact-value" href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, '')) + '">' + esc(c.phone) + '</a></div></div>';
-    if (c.location) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.pin + '</div><div class="contact-mid"><span class="contact-label">所在地</span><span class="contact-value cn">' + esc(c.location) + '</span></div></div>';
-    var socials = (c.socials || []).filter(function (s) { return s && s.url && s.url !== '#'; });
+    var socials = (c.socials || []).filter(function (s) { return s && s.name; });
     if (socials.length) {
-      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交媒体</span><div class="social-chips">' +
-        socials.map(function (s) { return '<a class="social-chip" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.name) + ' ↗</a>'; }).join('') +
+      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交</span><div class="social-chips">' +
+        socials.map(function (s) {
+          if (s.url && s.url !== '#') return '<a class="social-chip" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.name) + ' ↗</a>';
+          return '<span class="social-chip is-empty">' + esc(s.name) + '</span>';
+        }).join('') +
         '</div></div></div>';
     }
     $('contactCard').innerHTML = rows;
+    // 简历：点击「查看个人简历」→ 弹层预览 PDF，弹层内提供下载
+    var rb = $('resumeBtn');
+    if (rb) {
+      if (c.resume) {
+        rb.style.display = '';
+        rb.addEventListener('click', function (e) {
+          e.preventDefault();
+          var lb = document.createElement('div');
+          lb.className = 'resume-lightbox';
+          lb.innerHTML = '<div class="resume-topbar"><b>个人简历</b><div class="resume-actions"><a class="btn btn-primary btn-sm" href="' + esc(c.resume) + '" download="张君睿-视频剪辑师简历.pdf">下载简历（PDF）</a><button class="qr-close" type="button" aria-label="关闭">×</button></div></div>' +
+            '<iframe src="' + esc(c.resume) + '#view=Fit" title="个人简历预览"></iframe>';
+          lb.querySelector('.qr-close').addEventListener('click', function () { lb.remove(); });
+          document.body.appendChild(lb);
+        });
+      } else { rb.style.display = 'none'; }
+    }
+    // 微信行点击 → 二维码大图弹层
+    $('contactCard').addEventListener('click', function (e) {
+      var row = e.target.closest('.contact-wechat');
+      if (!row || !row.getAttribute('data-qr')) return;
+      var lb = document.createElement('div');
+      lb.className = 'qr-lightbox';
+      lb.innerHTML = '<div class="qr-box"><img src="' + esc(row.getAttribute('data-qr')) + '" alt="微信二维码" /><p>微信扫一扫，或截图保存</p><b>' + esc(c.wechat || '') + '</b><span>点击任意位置关闭</span></div>';
+      lb.addEventListener('click', function () { lb.remove(); });
+      document.body.appendChild(lb);
+    });
 
     $('footerBrand').textContent = (CONTENT.footer || {}).brand || '';
     $('footerNote').textContent = (CONTENT.footer || {}).note || '';
