@@ -210,7 +210,7 @@
           <p class="admin-panel-desc">把当前内容构建成静态站并推送到 GitHub main。构建会更新根目录 index.html；推送完成后 GitHub Pages 约 1 分钟更新。</p>
           <div class="admin-card">
             <div class="admin-card-title">一键发布</div>
-            <p class="admin-panel-desc">发布前请先在对应面板点「保存全部修改」。需要本机已登录 GitHub CLI（<code>gh auth status</code>）。</p>
+            <p class="admin-panel-desc">点击发布会先自动保存当前修改，再构建并推送。需要本机已登录 GitHub CLI（<code>gh auth status</code>）。</p>
             <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
               <button class="admin-save-btn" id="publishBtn">构建并推送到线上</button>
               <span class="publish-status" id="publishStatus">尚未发布</span>
