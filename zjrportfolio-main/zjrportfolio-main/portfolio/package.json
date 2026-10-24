@@ -1,0 +1,16 @@
+{
+  "name": "video-editor-portfolio",
+  "version": "1.0.0",
+  "description": "剪辑师个人作品集网站（含后台管理）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:spa": "python ../scripts/build_spa.py",
+    "build:spa:strict": "python ../scripts/build_spa.py --strict",
+    "build:static": "python ../scripts/build_static.py"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

@@ -1,0 +1,1018 @@
+/* ============================================================
+   剪辑师作品集 SPA — 单文件应用逻辑
+   视图：#home（首页）/ #case=ID（案例详情）（#admin 仅 --keep-admin 本地预览时可用）
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var CONTENT = window.__CONTENT__ || {};
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // 路径为空时不输出 src 属性：src="" 会被浏览器当作当前页面 URL 重复请求
+  function imgTag(src, alt, attrs) {
+    return src ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '"' + (attrs || '') + ' />' : '';
+  }
+
+  /* ---------- SVG 图标库 ---------- */
+  var ICONS = {
+    mic: '<svg viewBox="0 0 22 22" fill="none"><rect x="8" y="2" width="6" height="11" rx="3" stroke="#FFFFFF" stroke-width="1.8"/><path d="M5.5 10.5C5.5 13.8 8.4 16.5 12 16.5C15.6 16.5 18.5 13.8 18.5 10.5" stroke="#FFFFFF" stroke-width="1.8"/><path d="M12 16.5V20" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    film: '<svg viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="1" stroke="#FFFFFF" stroke-width="1.8"/><path d="M7 4V18M15 4V18M2 9.5H7M15 9.5H22M2 14H7M15 14H22" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    megaphone: '<svg viewBox="0 0 22 22" fill="none"><path d="M2 9V13H4.5L10 17.5V4.5L4.5 9H2Z" stroke="#FFFFFF" stroke-width="1.8"/><path d="M14 8C15.5 9.2 15.5 12.8 14 14" stroke="#FFFFFF" stroke-width="1.8"/><path d="M17 5.5C19.5 7.8 19.5 14.2 17 16.5" stroke="#FFFFFF" stroke-width="1.8"/></svg>',
+    mail: '<svg viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="10" rx="1" stroke="#A3A3A3" stroke-width="1.5"/><path d="M2 4.5L8 9L14 4.5" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    phone: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 3C2.5 2.4 3 2 3.6 2H5.8L6.8 5.2L5.2 6.2C6.3 8.4 7.9 10 10.1 11.1L11.1 9.5L14.3 10.5V12.6C14.3 13.2 13.8 13.7 13.2 13.7C7.7 13.4 2.8 8.5 2.5 3Z" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    pin: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9.8 8 14.5 8 14.5C8 14.5 12.5 9.8 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="8" cy="6" r="1.8" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    share: '<svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="4" r="2" stroke="#A3A3A3" stroke-width="1.5"/><circle cx="12" cy="12" r="2" stroke="#A3A3A3" stroke-width="1.5"/><path d="M5.8 7L10.2 4.8M5.8 9L10.2 11.2" stroke="#A3A3A3" stroke-width="1.5"/></svg>',
+    play: '<svg viewBox="0 0 22 18" fill="none"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>'
+  };
+
+  /* ============================================================
+     数字滚动动画（统计格进入视口时触发）
+     ============================================================ */
+  function countUp(el) {
+    if (el.dataset.counted) return;
+    var txt = el.textContent || '';
+    var m = txt.match(/^(\d+)(.*)$/);
+    if (!m) return;
+    el.dataset.counted = '1';
+    var target = parseInt(m[1], 10);
+    var suffix = m[2] || '';
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = target + suffix;
+      return;
+    }
+    var dur = 1100, start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* ============================================================
+     过渡动画：滚动进入 + 视图切换
+     ============================================================ */
+  var revealObserver = null;
+  function observeReveals() {
+    if (!revealObserver) return;
+    document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { revealObserver.observe(el); });
+  }
+  function initRevealObserver() {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    if (revealObserver) revealObserver.disconnect();
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          revealObserver.unobserve(en.target);
+          en.target.querySelectorAll('.stat-num').forEach(function (n) { countUp(n); });
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+    observeReveals();
+  }
+  function markReveals() {
+    var sels = [
+      '.sec-head', '.portrait', '.intent-card', '.bio',
+      '.spec-card', '.stat-cell', '.work-card', '.skill-row', '.soft-col', '.soft-cell',
+      '.contact-card', '.tech-item', '.case-info-card', '.tools-block', '.mini-card', '.soft-note'
+    ];
+    sels.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el, i) {
+        if (el.classList.contains('reveal')) return;
+        el.classList.add('reveal');
+        el.setAttribute('data-d', String((i % 4) + 1));
+        if (!revealObserver) el.classList.add('in');
+      });
+    });
+    observeReveals();
+  }
+
+  /* ============================================================
+     访问记录与操作日志（localStorage）
+     ============================================================ */
+  var LOG_KEY = 'portfolio_activity_log';
+  var LOG_MAX = 500;
+  function loadLog() {
+    try { return JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveLog(list) {
+    try { localStorage.setItem(LOG_KEY, JSON.stringify(list)); } catch (e) { /* 存储满时忽略 */ }
+  }
+  function fmtTime(ts) {
+    var d = new Date(ts);
+    function p(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) +
+      ' ' + p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  }
+  function logActivity(kind, action, detail) {
+    var list = loadLog();
+    list.unshift({ ts: Date.now(), kind: kind, action: action, detail: detail || '' });
+    if (list.length > LOG_MAX) list = list.slice(0, LOG_MAX);
+    saveLog(list);
+  }
+  function renderActivity() {
+    var list = loadLog();
+    var visits = list.filter(function (r) { return r.kind === 'visit'; }).length;
+    var actions = list.filter(function (r) { return r.kind === 'action'; }).length;
+    var last = list.length ? fmtTime(list[0].ts) : '—';
+    $('activitySummary').innerHTML =
+      '<div class="log-summary-cell"><span class="n">' + visits + '</span><span class="t">访问次数</span></div>' +
+      '<div class="log-summary-cell"><span class="n">' + actions + '</span><span class="t">操作次数</span></div>' +
+      '<div class="log-summary-cell"><span class="n">' + list.length + '</span><span class="t">记录总数（上限 500）</span></div>' +
+      '<div class="log-summary-cell"><span class="n" style="font-size:14px;">' + esc(last) + '</span><span class="t">最近活动时间</span></div>';
+    $('activityList').innerHTML = list.length ? list.map(function (r) {
+      var badge = r.kind === 'visit'
+        ? '<span class="log-badge visit">访问</span>'
+        : '<span class="log-badge action">操作</span>';
+      return '<div class="log-row">' + badge +
+        '<span class="log-time">' + fmtTime(r.ts) + '</span>' +
+        '<span class="log-action">' + esc(r.action) + '</span>' +
+        '<span class="log-detail">' + esc(r.detail) + '</span></div>';
+    }).join('') : '<p class="admin-panel-desc">暂无记录。访问网站或进行后台操作后，记录将显示在这里。</p>';
+  }
+  document.querySelectorAll('.admin-tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      if (t.getAttribute('data-tab') === 'activity') renderActivity();
+    });
+  });
+  var clearLogBtn = $('clearLogBtn');
+  if (clearLogBtn) {
+    clearLogBtn.addEventListener('click', function () {
+      if (!confirm('确定清空全部访问与操作记录？此操作不可恢复。')) return;
+      saveLog([]);
+      renderActivity();
+    });
+  }
+
+  /* ============================================================
+     视频弹窗
+     ============================================================ */
+  var videoModal = $('videoModal');
+  var lastFocused = null;
+  function openVideo(videoUrl, posterUrl, trigger) {
+    var body = $('videoModalBody');
+    var tip = $('videoModalTip');
+    if (videoUrl) {
+      body.innerHTML = '<video src="' + esc(videoUrl) + '" poster="' + esc(posterUrl || '') + '" controls autoplay loop muted playsinline></video>';
+      tip.textContent = '如无法自动播放，请点击视频中央的播放按钮';
+    } else {
+      var email = (CONTENT.contact || {}).email || '';
+      body.innerHTML = posterUrl
+        ? '<img src="' + esc(posterUrl) + '" alt="视频封面" loading="eager" />'
+        : '<div class="video-modal-empty">视频整理中</div>';
+      tip.innerHTML = '该作品视频正在整理中' + (email
+        ? '，可<a href="mailto:' + esc(email) + '?subject=' + encodeURIComponent('索取作品完整视频') + '">邮件联系</a>获取完整成片。'
+        : '，欢迎通过邮件联系。');
+    }
+    lastFocused = trigger || document.activeElement;
+    videoModal.classList.add('open');
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () {
+      var closeBtn = $('videoModalClose');
+      if (closeBtn && videoModal.classList.contains('open')) closeBtn.focus();
+    }, 50);
+  }
+  function closeVideo() {
+    var body = $('videoModalBody');
+    var v = body && body.querySelector('video');
+    if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (e) { /* 忽略 */ } }
+    videoModal.classList.remove('open');
+    videoModal.setAttribute('aria-hidden', 'true');
+    if (body) body.innerHTML = '';
+    document.body.style.overflow = '';
+    if (lastFocused && document.contains(lastFocused)) {
+      try { lastFocused.focus(); } catch (e) { /* 忽略 */ }
+    }
+    lastFocused = null;
+  }
+  $('videoModalClose').addEventListener('click', closeVideo);
+  videoModal.addEventListener('click', function (e) { if (e.target === videoModal) closeVideo(); });
+  document.addEventListener('keydown', function (e) {
+    if (!videoModal.classList.contains('open')) return;
+    if (e.key === 'Escape') { closeVideo(); return; }
+    if (e.key !== 'Tab') return;
+    var focusables = videoModal.querySelectorAll('button, [href], video, [tabindex]:not([tabindex="-1"])');
+    if (!focusables.length) return;
+    var first = focusables[0];
+    var last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.play-btn');
+    if (!btn) return;
+    if (btn.closest('.player')) return; // 案例页内联播放器自行处理，不弹窗
+    e.preventDefault();
+    openVideo(btn.getAttribute('data-video'), btn.getAttribute('data-poster'), btn);
+  });
+
+  /* ============================================================
+     视图路由
+     ============================================================ */
+  var views = { home: $('view-home'), case: $('view-case'), admin: $('view-admin') };
+  var currentView = '';
+  var homeRendered = false;
+  // 静态发布时可移除后台视图（见 build_spa.py），此时后台相关逻辑全部跳过
+  var ADMIN_ENABLED = !!views.admin;
+
+  function siteTitle() {
+    var p = CONTENT.profile || {};
+    return (p.name || '张君睿') + ' · 视频剪辑师 — 求职作品集';
+  }
+  function renderCommon() {
+    var p = CONTENT.profile || {};
+    if (p.name) $('navName').textContent = p.name;
+    $('footerBrand').textContent = (CONTENT.footer || {}).brand || '';
+    $('footerNote').textContent = (CONTENT.footer || {}).note || '';
+    document.title = siteTitle();
+  }
+  function pauseVideos(root) {
+    if (!root) return;
+    root.querySelectorAll('video').forEach(function (v) {
+      try { v.pause(); } catch (e) { /* 忽略 */ }
+    });
+  }
+  function setNavActive(name) {
+    document.querySelectorAll('.nav-link').forEach(function (a) {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    });
+    var key = name === 'case' ? 'works' : name;
+    var link = document.querySelector('.nav-link[data-nav="' + key + '"]');
+    if (link) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
+    }
+  }
+
+  function showView(name, forceScroll) {
+    if (!views[name]) return;
+    var changed = currentView !== name;
+    if (changed) {
+      if (videoModal && videoModal.classList.contains('open')) closeVideo();
+      Object.keys(views).forEach(function (k) {
+        if (!views[k]) return;
+        if (k === name) views[k].style.display = '';
+        else { pauseVideos(views[k]); views[k].style.display = 'none'; }
+      });
+      currentView = name;
+    }
+    // 同一视图内切换作品（案例 A → 案例 B）也要回到顶部
+    if (changed || forceScroll) window.scrollTo(0, 0);
+    setNavActive(name);
+    var skip = document.querySelector('.skip-link');
+    if (skip) skip.setAttribute('href', name === 'case' ? '#view-case' : (name === 'admin' ? '#view-admin' : '#view-home'));
+    if (name === 'home') document.title = siteTitle();
+    else if (name === 'admin') document.title = '后台管理 — 剪辑师作品集';
+    // case 的标题由 renderCase 设置
+    if (changed) {
+      var el = views[name];
+      if (el && typeof el.animate === 'function') {
+        el.animate(
+          [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 420, easing: 'cubic-bezier(.22,1,.36,1)' }
+        );
+      }
+    }
+  }
+
+  function route() {
+    var h = location.hash || '';
+    if (h.indexOf('#admin') === 0) {
+      // 后台视图未随静态版发布时，直接回首页，避免进入一个改了也不生效的假后台
+      if (!ADMIN_ENABLED) { location.replace('#/'); return; }
+      showView('admin');
+      initAdmin();
+      logActivity('visit', '进入后台页面', '');
+    } else if (h.indexOf('#case=') === 0) {
+      var id = decodeURIComponent(h.slice(6));
+      if (views.case) pauseVideos(views.case);
+      renderCase(id);
+      showView('case', true);
+      var w = (CONTENT.works || []).filter(function (x) { return x.id === id; })[0];
+      logActivity('visit', '查看作品案例', w ? w.title : id);
+      markReveals();
+    } else {
+      if (!homeRendered) { renderHome(); homeRendered = true; }
+      showView('home');
+      logActivity('visit', '访问网站首页', '');
+      markReveals();
+    }
+  }
+  window.addEventListener('hashchange', route);
+
+  // 导航锚点：非首页时先回首页再滚动
+  document.querySelectorAll('.nav-link[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var target = a.getAttribute('href');
+      if (target === '#/' || target === '#top') {
+        e.preventDefault();
+        if (currentView !== 'home') location.hash = '#/';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      if (currentView !== 'home') {
+        e.preventDefault();
+        location.hash = '#/';
+        setTimeout(function () {
+          var el = document.querySelector(target);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      }
+    });
+  });
+  // 移动端菜单
+  var menuBtn = $('menuBtn'), mobileMenu = $('mobileMenu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.setAttribute('aria-controls', 'mobileMenu');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    function setMenu(open) {
+      mobileMenu.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setMenu(!mobileMenu.classList.contains('open'));
+    });
+    mobileMenu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { setMenu(false); });
+    });
+    document.addEventListener('click', function (e) {
+      if (!mobileMenu.classList.contains('open')) return;
+      if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) setMenu(false);
+    });
+  }
+
+  /* ============================================================
+     首页渲染
+     ============================================================ */
+  function renderHome() {
+    var p = CONTENT.profile || {};
+    if (!p.name) return;
+    $('navName').textContent = p.name || '张君睿';
+    document.title = siteTitle();
+
+    $('heroKicker').innerHTML = '<span class="kicker-dot"></span>' + esc(p.kicker || '');
+    $('heroHeadline').textContent = p.headline || '';
+    $('heroSub').textContent = p.sub || '';
+    $('heroTags').innerHTML = (p.tags || []).map(function (t) {
+      return '<span class="tag-pill">' + esc(t) + '</span>';
+    }).join('');
+
+    var sr = p.showreel || {};
+    var showreelImg = $('showreelImg');
+    if (sr.cover) showreelImg.src = sr.cover; else showreelImg.removeAttribute('src');
+    var sb = document.querySelector('#showreel .play-btn');
+    sb.setAttribute('data-video', sr.video || '');
+    sb.setAttribute('data-poster', sr.cover || '');
+    sb.setAttribute('aria-label', '播放 Showreel' + (sr.duration ? '（' + sr.duration + '）' : ''));
+    $('showreelDur').textContent = (sr.label ? sr.label + ' · ' : '') + (sr.duration || '');
+    $('showreelCap').textContent = sr.caption || '';
+    var hint = document.getElementById('showreelHint');
+    if (hint) hint.textContent = sr.video ? '点击播放 ▸' : '视频整理中';
+
+    var portraitImg = $('portraitImg');
+    if (p.portrait) portraitImg.src = p.portrait; else portraitImg.removeAttribute('src');
+    $('portraitName').textContent = p.name || '';
+    $('portraitRole').textContent = p.role || '';
+    $('bio1').textContent = p.bio1 || '';
+    $('bio2').textContent = p.bio2 || '';
+    $('intentCard').innerHTML = (p.intent || []).map(function (r) {
+      return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
+    }).join('');
+
+    $('specCards').innerHTML = (CONTENT.specialties || []).map(function (s) {
+      return '<div class="spec-card">' +
+        '<div class="spec-icon-box">' + (ICONS[s.icon] || ICONS.film) + '</div>' +
+        '<div class="spec-body">' +
+        '<div class="spec-name">' + esc(s.name) + '</div>' +
+        '<div class="spec-desc">' + esc(s.desc) + '</div>' +
+        '<div class="spec-tags">' + esc(s.tags || '') + '</div></div></div>';
+    }).join('');
+
+    $('statsRow').innerHTML = (p.stats || []).map(function (s) {
+      return '<div class="stat-cell"><span class="stat-num">' + esc(s.num) + '</span><span class="stat-label">' + esc(s.label) + '</span></div>';
+    }).join('');
+
+    $('worksGrid').innerHTML = (CONTENT.works || []).map(function (w) {
+      return '<a class="work-card" href="#case=' + encodeURIComponent(w.id) + '" aria-label="查看作品：' + esc(w.title) + '">' +
+        '<div class="work-cover">' +
+        imgTag(w.cover, w.title, ' loading="lazy" decoding="async"') +
+        '<span class="play-badge" aria-hidden="true">' + ICONS.play + '</span>' +
+        '<span class="dur-pill">' + esc(w.duration || '') + '</span>' +
+        '</div>' +
+        '<div class="work-meta">' +
+        '<div class="work-meta-top"><span class="work-cat">' + esc(w.category) + '</span><span class="work-year">' + esc(w.year) + '</span></div>' +
+        '<div class="work-title">' + esc(w.title) + '</div>' +
+        '<div class="work-desc">' + esc(w.desc) + '</div>' +
+        '</div></a>';
+    }).join('');
+
+    $('skillsList').innerHTML = (CONTENT.skills || []).map(function (s) {
+      return '<div class="skill-row">' +
+        '<span class="skill-num">' + esc(s.num) + '</span>' +
+        '<div class="skill-mid"><span class="skill-name">' + esc(s.name) + '</span><span class="skill-desc">' + esc(s.desc) + '</span></div>' +
+        '<div class="skill-track"><div class="skill-fill" style="--w:' + Math.max(0, Math.min(100, s.level || 0)) + '%"></div></div>' +
+        '</div>';
+    }).join('');
+
+    $('softGrid').innerHTML = (CONTENT.software || []).map(function (s) {
+      return '<div class="soft-cell"><div class="soft-glyph-box">' + esc(s.glyph) + '</div><div class="soft-name">' + esc(s.name) + '</div><div class="soft-level">' + esc(s.level) + '</div></div>';
+    }).join('');
+    $('softNote').textContent = CONTENT.softwareNote || '';
+
+    var c = CONTENT.contact || {};
+    $('contactTitle').textContent = c.title || '';
+    $('contactSub').textContent = c.sub || '';
+    $('mailtoBtn').href = 'mailto:' + (c.email || '') + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请');
+    var rows = '';
+    if (c.email) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.mail + '</div><div class="contact-mid"><span class="contact-label">邮箱</span><a class="contact-value" href="mailto:' + esc(c.email) + '?subject=' + encodeURIComponent('作品集联系 / 面试邀请') + '">' + esc(c.email) + '</a></div></div>';
+    if (c.phone) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.phone + '</div><div class="contact-mid"><span class="contact-label">电话 / 微信</span><a class="contact-value" href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, '')) + '">' + esc(c.phone) + '</a></div></div>';
+    if (c.location) rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.pin + '</div><div class="contact-mid"><span class="contact-label">所在地</span><span class="contact-value cn">' + esc(c.location) + '</span></div></div>';
+    var socials = (c.socials || []).filter(function (s) { return s && s.url && s.url !== '#'; });
+    if (socials.length) {
+      rows += '<div class="contact-row"><div class="contact-icon-box">' + ICONS.share + '</div><div class="contact-mid"><span class="contact-label">社交媒体</span><div class="social-chips">' +
+        socials.map(function (s) { return '<a class="social-chip" href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer">' + esc(s.name) + ' ↗</a>'; }).join('') +
+        '</div></div></div>';
+    }
+    $('contactCard').innerHTML = rows;
+
+    $('footerBrand').textContent = (CONTENT.footer || {}).brand || '';
+    $('footerNote').textContent = (CONTENT.footer || {}).note || '';
+  }
+
+  /* ============================================================
+     案例详情渲染
+     ============================================================ */
+  function renderCase(id) {
+    var works = CONTENT.works || [];
+    // 找不到对应 id 时不再回退到第一部作品，避免 URL 与内容不一致
+    var work = works.filter(function (w) { return w.id === id; })[0];
+    if (!work) {
+      views.case.innerHTML = '<div style="padding:120px 24px;text-align:center;color:#A3A3A3;">未找到该作品，<a href="#/" style="color:#9EFF00;">返回首页</a></div>';
+      return;
+    }
+    var profileName = (CONTENT.profile || {}).name || '张君睿';
+    document.title = work.title + ' — ' + profileName + ' · 视频剪辑师';
+
+    var meta = (work.detail && work.detail.meta) || [
+      { label: '类别', value: work.category },
+      { label: '年份', value: work.year },
+      { label: '时长', value: work.duration }
+    ];
+    var d = work.detail;
+    var left = '';
+    if (d) {
+      left += '<span class="kicker">项目背景 · BRIEF</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">' + esc(d.bgTitle || '项目背景') + '</h2>' +
+        (d.bgParas || []).map(function (t) { return '<p class="case-para">' + esc(t) + '</p>'; }).join('');
+      if (d.info && d.info.length) {
+        left += '<div class="case-info-card">' + d.info.map(function (r) {
+          return '<div class="intent-row"><span class="l">' + esc(r.label) + '</span><span class="v">' + esc(r.value) + '</span></div>';
+        }).join('') + '</div>';
+      }
+    } else {
+      left += '<span class="kicker">项目背景 · BRIEF</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">项目概述</h2>' +
+        '<p class="case-para">' + esc(work.desc || '') + '</p>' +
+        '<p class="case-para">这部作品以「' + esc(work.category || '视频') + '」为方向，体现了我在节奏控制与叙事结构上的日常训练。完整案例拆解（背景、职责、时间线与成片）可在沟通时展示。</p>';
+    }
+
+    var right = '';
+    if (d) {
+      right += '<span class="kicker">剪辑手法 · APPROACH</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">' + esc(d.techTitle || '剪辑手法') + '</h2>' +
+        (d.techniques || []).map(function (t) {
+          return '<div class="tech-item"><span class="tech-num">' + esc(t.num) + '</span><div class="tech-mid"><span class="tech-name">' + esc(t.name) + '</span><span class="tech-desc">' + esc(t.desc) + '</span></div></div>';
+        }).join('');
+      if (d.tools && d.tools.length) {
+        right += '<div class="tools-block"><span class="tools-label">使用软件</span><div class="tools-chips">' +
+          d.tools.map(function (t) { return '<span class="tool-chip">' + esc(t) + '</span>'; }).join('') + '</div></div>';
+      }
+    } else {
+      right += '<span class="kicker">剪辑思路 · APPROACH</span>' +
+        '<h2 class="case-block-title" style="margin-top:16px;">通用剪辑流程</h2>' +
+        '<div class="tech-item"><span class="tech-num">01</span><div class="tech-mid"><span class="tech-name">素材整理</span><span class="tech-desc">按场景 / 人物 / 空镜分类建库，命名规范，标记可用片段。</span></div></div>' +
+        '<div class="tech-item"><span class="tech-num">02</span><div class="tech-mid"><span class="tech-name">粗剪结构</span><span class="tech-desc">先搭叙事骨架，再填充细节，保证节奏曲线成立。</span></div></div>' +
+        '<div class="tech-item"><span class="tech-num">03</span><div class="tech-mid"><span class="tech-name">精剪与包装</span><span class="tech-desc">卡点、转场、花字、音效分层，最后统一调色输出。</span></div></div>';
+    }
+
+    views.case.innerHTML =
+      '<div class="back-bar"><a href="#/"><svg viewBox="0 0 16 16" fill="none"><path d="M9.5 3L4.5 8L9.5 13" stroke="#A3A3A3" stroke-width="1.8"/></svg>返回精选作品</a></div>' +
+      '<header class="case-header">' +
+      '<div class="case-meta-row">' + meta.map(function (m) {
+        return '<span class="case-meta"><span class="l">' + esc(m.label) + '</span><span class="v">' + esc(m.value) + '</span></span>';
+      }).join('') + '</div>' +
+      '<h1 class="case-title">' + esc(work.title) + '</h1></header>' +
+      '<section class="player-section"><div class="player" id="player">' +
+      imgTag(work.cover, work.title + ' 视频封面', ' class="player-poster" loading="eager" fetchpriority="high"') +
+      '<button class="play-btn" aria-label="播放' + esc(work.title) + '"><svg viewBox="0 0 30 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 2L27 12L3 22V2Z" fill="#000000"/></svg></button>' +
+      '<span class="player-note">' + (work.video ? '点击播放' : '视频整理中') + '</span>' +
+      '<div class="control-bar">' +
+      '<button class="ctrl-ic ctrl-toggle" aria-label="播放/暂停"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false"><path d="M3 2L15 9L3 16V2Z" fill="#FFFFFF"/></svg></button>' +
+      '<span class="ctrl-time">00:00 / ' + esc(work.duration || '00:00') + '</span>' +
+      '<div class="ctrl-track"><div class="ctrl-fill"></div></div>' +
+      '<button class="ctrl-ic ctrl-mute" aria-label="静音切换"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11.5 6C12.8 7.2 12.8 10.8 11.5 12" stroke="#FFFFFF" stroke-width="1.5"/><path d="M14 4C16.2 6 16.2 12 14 14" stroke="#FFFFFF" stroke-width="1.5"/></svg></button>' +
+      '<button class="ctrl-ic ctrl-full" aria-label="全屏"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false"><path d="M1.5 6V1.5H6M12 1.5H16.5V6M16.5 12V16.5H12M6 16.5H1.5V12" stroke="#FFFFFF" stroke-width="1.5"/></svg></button>' +
+      '</div></div></section>' +
+      '<section class="case-content"><div class="case-two-col">' +
+      '<div class="case-col-left">' + left + '</div>' +
+      '<div class="case-col-right">' + right + '</div></div></section>' +
+      '<section class="more-section"><div class="more-title-row"><span class="more-title">更多作品</span><a class="more-link" href="#/">查看全部 →</a></div>' +
+      '<div class="more-row">' + works.filter(function (w) { return w.id !== work.id; }).slice(0, 3).map(function (w) {
+        return '<a class="mini-card" href="#case=' + encodeURIComponent(w.id) + '"><div class="mini-cover">' + imgTag(w.cover, w.title, ' loading="eager" decoding="async"') + '</div><div class="mini-meta"><span class="mini-title">' + esc(w.title) + '</span><span class="mini-cat">' + esc(w.category) + '</span></div></a>';
+      }).join('') + '</div></section>';
+
+    setupCasePlayer(document.getElementById('player'), work.video || '', work.cover || '', work.duration || '');
+  }
+
+  /* ============================================================
+     案例页内联播放器：真实控件 + 可拖动进度条
+     ============================================================ */
+  var PLAYER_SVG = {
+    play: '<svg viewBox="0 0 18 18" fill="none"><path d="M3 2L15 9L3 16V2Z" fill="#FFFFFF"/></svg>',
+    pause: '<svg viewBox="0 0 18 18" fill="none"><path d="M4 2H7V16H4ZM11 2H14V16H11Z" fill="#FFFFFF"/></svg>',
+    vol: '<svg viewBox="0 0 18 18" fill="none"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11.5 6C12.8 7.2 12.8 10.8 11.5 12" stroke="#FFFFFF" stroke-width="1.5"/><path d="M14 4C16.2 6 16.2 12 14 14" stroke="#FFFFFF" stroke-width="1.5"/></svg>',
+    muted: '<svg viewBox="0 0 18 18" fill="none"><path d="M2 6V12H4.5L8.5 15.5V2.5L4.5 6H2Z" stroke="#FFFFFF" stroke-width="1.5"/><path d="M11 6.5L15 11.5M15 6.5L11 11.5" stroke="#FFFFFF" stroke-width="1.5"/></svg>',
+    full: '<svg viewBox="0 0 18 18" fill="none"><path d="M1.5 6V1.5H6M12 1.5H16.5V6M16.5 12V16.5H12M6 16.5H1.5V12" stroke="#FFFFFF" stroke-width="1.5"/></svg>'
+  };
+  function fmtClock(sec) {
+    sec = Math.max(0, Math.round(sec || 0));
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function setupCasePlayer(player, src, posterSrc, fallbackDurationText) {
+    if (!player || player.dataset.playerReady) return;
+    player.dataset.playerReady = '1';
+    var video = document.createElement('video');
+    video.className = 'player-video';
+    video.preload = 'metadata';
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    if (src) video.src = src;
+    player.insertBefore(video, player.firstChild);
+
+    var playBtn = player.querySelector('.play-btn');
+    var toggle = player.querySelector('.ctrl-toggle');
+    var timeEl = player.querySelector('.ctrl-time');
+    var track = player.querySelector('.ctrl-track');
+    var fill = player.querySelector('.ctrl-fill');
+    var muteBtn = player.querySelector('.ctrl-mute');
+    var fullBtn = player.querySelector('.ctrl-full');
+    var duration = 0;
+    var dragging = false;
+    if (!src) player.classList.add('no-video');
+    if (fallbackDurationText) timeEl.textContent = '00:00 / ' + fallbackDurationText;
+
+    track.setAttribute('role', 'slider');
+    track.setAttribute('tabindex', '0');
+    track.setAttribute('aria-label', '播放进度');
+    track.setAttribute('aria-valuemin', '0');
+    track.setAttribute('aria-valuemax', '100');
+    track.setAttribute('aria-valuenow', '0');
+    track.setAttribute('aria-valuetext', '00:00 / ' + (fallbackDurationText || '00:00'));
+
+    function paint(cur) {
+      var pct = duration ? Math.min(100, (cur / duration) * 100) : 0;
+      fill.style.width = pct + '%';
+      timeEl.textContent = fmtClock(cur) + ' / ' + fmtClock(duration);
+      track.setAttribute('aria-valuenow', String(Math.round(pct)));
+      track.setAttribute('aria-valuetext', fmtClock(cur) + ' / ' + fmtClock(duration));
+    }
+    video.addEventListener('loadedmetadata', function () {
+      duration = video.duration || 0;
+      paint(video.currentTime);
+    });
+    video.addEventListener('timeupdate', function () {
+      if (!dragging) paint(video.currentTime);
+    });
+    video.addEventListener('play', function () { toggle.innerHTML = PLAYER_SVG.pause; });
+    video.addEventListener('pause', function () { toggle.innerHTML = PLAYER_SVG.play; });
+    video.addEventListener('ended', function () {
+      player.classList.remove('playing');
+      toggle.innerHTML = PLAYER_SVG.play;
+      video.currentTime = 0;
+    });
+
+    playBtn.addEventListener('click', function () {
+      if (!src) { openVideo('', posterSrc, playBtn); return; }
+      player.classList.add('playing');
+      video.play().catch(function () {});
+    });
+    toggle.addEventListener('click', function () {
+      if (video.paused) video.play().catch(function () {}); else video.pause();
+    });
+    muteBtn.addEventListener('click', function () {
+      video.muted = !video.muted;
+      muteBtn.innerHTML = video.muted ? PLAYER_SVG.muted : PLAYER_SVG.vol;
+    });
+    fullBtn.addEventListener('click', function () {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (player.requestFullscreen) player.requestFullscreen();
+      else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+    });
+
+    // 进度条：点击定位 + 按住拖动（Pointer Events，鼠标/触屏通用），拖动时实时同步播放位置
+    function seekFromEvent(e) {
+      var rect = track.getBoundingClientRect();
+      if (!rect.width) return;
+      var x = (e.clientX - rect.left) / rect.width;
+      x = Math.max(0, Math.min(1, x));
+      fill.style.width = (x * 100) + '%';
+      if (duration) {
+        video.currentTime = x * duration;
+        timeEl.textContent = fmtClock(video.currentTime) + ' / ' + fmtClock(duration);
+      }
+    }
+    track.addEventListener('pointerdown', function (e) {
+      if (!duration) return;
+      dragging = true;
+      track.classList.add('dragging');
+      if (track.setPointerCapture) { try { track.setPointerCapture(e.pointerId); } catch (err) {} }
+      seekFromEvent(e);
+      e.preventDefault();
+    });
+    track.addEventListener('pointermove', function (e) { if (dragging) seekFromEvent(e); });
+    track.addEventListener('pointerup', function () { dragging = false; track.classList.remove('dragging'); });
+    track.addEventListener('pointercancel', function () { dragging = false; track.classList.remove('dragging'); });
+    track.addEventListener('keydown', function (e) {
+      if (!duration) return;
+      var step = e.shiftKey ? 10 : 5;
+      var next = video.currentTime;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next -= step;
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next += step;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = duration;
+      else return;
+      e.preventDefault();
+      video.currentTime = Math.max(0, Math.min(duration, next));
+      paint(video.currentTime);
+    });
+  }
+
+  /* ============================================================
+     后台管理（静态版：localStorage）
+     说明：build_spa.py 默认会裁掉 ADMIN_START / ADMIN_END 之间的整段，
+     使公开发布的静态版不含后台入口（改动本来就只存本地，无法生效）。
+     本地预览需要后台时，用 python scripts/build_spa.py --keep-admin 构建。
+     ============================================================ */
+  /*ADMIN_START*/
+  var LS_CONTENT = 'portfolio_static_content';
+  var LS_PWD = 'portfolio_static_pwd';
+  var DEFAULT_PWD = 'admin123';
+  var adminData = null;
+  var adminInited = false;
+
+  function adminLoadData() {
+    try {
+      var override = localStorage.getItem(LS_CONTENT);
+      if (override) return JSON.parse(override);
+    } catch (e) { /* ignore */ }
+    return JSON.parse(JSON.stringify(CONTENT));
+  }
+  function adminSaveData(d) { localStorage.setItem(LS_CONTENT, JSON.stringify(d)); }
+
+  function initAdmin() {
+    if (adminInited || !ADMIN_ENABLED) return;
+    adminInited = true;
+    if (localStorage.getItem('portfolio_admin_token')) {
+      adminLoadContent();
+    } else {
+      $('loginWrap').style.display = 'flex';
+      $('adminApp').classList.remove('on');
+    }
+  }
+
+  function adminShowLogin() { $('loginWrap').style.display = 'flex'; $('adminApp').classList.remove('on'); }
+  function adminShowApp() {
+    $('loginWrap').style.display = 'none';
+    $('adminApp').classList.add('on');
+    // 提示这是本地预览版，改动不会影响线上页面
+    var note = document.querySelector('.admin-static-note');
+    if (note) note.classList.add('on');
+  }
+
+  $('loginBtn').addEventListener('click', function () {
+    var pwd = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
+    $('loginErr').textContent = '';
+    if ($('loginPwd').value === pwd) {
+      localStorage.setItem('portfolio_admin_token', 'static-session');
+      $('loginPwd').value = '';
+      logActivity('action', '登录后台', '密码验证通过');
+      adminLoadContent();
+    } else {
+      $('loginErr').textContent = '密码错误，请重试';
+    }
+  });
+  $('loginPwd').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('loginBtn').click(); });
+  $('logoutBtn').addEventListener('click', function () {
+    localStorage.removeItem('portfolio_admin_token');
+    logActivity('action', '退出登录', '');
+    adminShowLogin();
+  });
+
+  function adminLoadContent() {
+    adminData = adminLoadData();
+    adminRender();
+    adminShowApp();
+    renderActivity();   // 后台加载时同步渲染访问记录
+  }
+
+  // 选项卡
+  document.querySelectorAll('.admin-tab').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.admin-tab').forEach(function (x) { x.classList.remove('on'); });
+      t.classList.add('on');
+      document.querySelectorAll('.admin-panel').forEach(function (p) { p.classList.remove('on'); });
+      document.querySelector('.admin-panel[data-panel="' + t.getAttribute('data-tab') + '"]').classList.add('on');
+    });
+  });
+
+  function getByPath(obj, path) { return path.split('.').reduce(function (o, k) { return (o || {})[k]; }, obj); }
+  function setByPath(obj, path, val) {
+    var keys = path.split('.'); var o = obj;
+    for (var i = 0; i < keys.length - 1; i++) { o = o[keys[i]] = o[keys[i]] || {}; }
+    o[keys[keys.length - 1]] = val;
+  }
+  function adminFillBinds() {
+    document.querySelectorAll('[data-bind]').forEach(function (el) {
+      var v = getByPath(adminData, el.getAttribute('data-bind'));
+      var type = el.getAttribute('data-type');
+      if (type === 'array') el.value = Array.isArray(v) ? v.join('，') : (v || '');
+      else if (type === 'lines') el.value = Array.isArray(v) ? v.join('\n') : (v || '');
+      else el.value = v == null ? '' : String(v);
+    });
+  }
+  function adminReadBinds() {
+    document.querySelectorAll('[data-bind]').forEach(function (el) {
+      var v = el.value; var type = el.getAttribute('data-type');
+      if (type === 'array') v = v.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      else if (type === 'lines') v = v.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+      setByPath(adminData, el.getAttribute('data-bind'), v);
+    });
+  }
+  function rowField(label, value, attrs) {
+    attrs = attrs || '';
+    return '<div class="admin-field"><label class="admin-label">' + esc(label) + '</label><input class="admin-input" value="' + esc(value) + '" ' + attrs + ' /></div>';
+  }
+
+  function adminRender() {
+    adminFillBinds();
+    $('intentEditor').innerHTML = (adminData.profile.intent || []).map(function (r, i) {
+      return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-intent-l="' + i + '"') + rowField('内容', r.value, 'data-intent-v="' + i + '"') + '</div>';
+    }).join('');
+    $('statsEditor').innerHTML = (adminData.profile.stats || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;">' + rowField('数值', s.num, 'data-stat-n="' + i + '"') + rowField('标签', s.label, 'data-stat-l="' + i + '"') + '</div>';
+    }).join('');
+    $('specEditor').innerHTML = (adminData.specialties || []).map(function (s, i) {
+      return '<div class="admin-card"><div class="admin-grid-2">' +
+        rowField('名称', s.name, 'data-spec-n="' + i + '"') + rowField('图标（mic/film/megaphone）', s.icon, 'data-spec-i="' + i + '"') + '</div>' +
+        '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-spec-d="' + i + '">' + esc(s.desc) + '</textarea></div>' +
+        rowField('底部标签', s.tags, 'data-spec-t="' + i + '"') + '</div>';
+    }).join('');
+    adminRenderWorks();
+    var d = adminData.works[0] && adminData.works[0].detail;
+    // 案例字段不再走 data-bind（否则会被读成顶层孤儿键），改为显式读写
+    var bgEl = document.querySelector('[data-case-bg]');
+    var tlEl = document.querySelector('[data-case-tools]');
+    if (bgEl) bgEl.value = d ? (d.bgParas || []).join('\n') : '';
+    if (tlEl) tlEl.value = d ? (d.tools || []).join('，') : '';
+    if (d) {
+      $('caseInfoEditor').innerHTML = (d.info || []).map(function (r, i) {
+        return '<div class="admin-grid-2">' + rowField('标签', r.label, 'data-ci-l="' + i + '"') + rowField('内容', r.value, 'data-ci-v="' + i + '"') + '</div>';
+      }).join('');
+      $('techEditor').innerHTML = (d.techniques || []).map(function (t, i) {
+        return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
+          rowField('序号', t.num, 'data-te-n="' + i + '"') + rowField('名称', t.name, 'data-te-t="' + i + '"') + '</div>' +
+          '<div class="admin-field"><label class="admin-label">描述</label><textarea class="admin-input" data-te-d="' + i + '">' + esc(t.desc) + '</textarea></div>' +
+          '<div style="text-align:right;"><button class="admin-mini-btn danger" data-tech-del="' + i + '">删除此条</button></div></div>';
+      }).join('');
+    }
+    $('skillEditor').innerHTML = (adminData.skills || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;"><div class="admin-grid-2">' +
+        rowField('序号', s.num, 'data-sk-n="' + i + '"') + rowField('名称', s.name, 'data-sk-t="' + i + '"') + '</div>' +
+        rowField('描述', s.desc, 'data-sk-d="' + i + '"') +
+        rowField('熟练度（0-100）', s.level, 'data-sk-l="' + i + '" type="number"') +
+        '<div style="text-align:right;"><button class="admin-mini-btn danger" data-skill-del="' + i + '">删除此条</button></div></div>';
+    }).join('');
+    $('softEditor').innerHTML = (adminData.software || []).map(function (s, i) {
+      return '<div class="admin-card" style="gap:10px;">' +
+        rowField('角标文字', s.glyph, 'data-so-g="' + i + '"') +
+        rowField('软件名', s.name, 'data-so-n="' + i + '"') +
+        rowField('定位', s.level, 'data-so-l="' + i + '"') + '</div>';
+    }).join('');
+    $('socialEditor').innerHTML = (adminData.contact.socials || []).map(function (s, i) {
+      return '<div class="admin-grid-2">' + rowField('名称', s.name, 'data-sl-n="' + i + '"') + rowField('链接', s.url, 'data-sl-u="' + i + '"') + '</div>';
+    }).join('');
+  }
+
+  function adminRenderWorks() {
+    $('worksEditor').innerHTML = (adminData.works || []).map(function (w, i) {
+      return '<div class="admin-work-item">' +
+        '<div class="thumb">' + (w.cover
+          ? imgTag(w.cover, '', ' onerror="this.style.opacity=0"')
+          : '<span style="font-size:11px;color:#8A8A8A;">无封面</span>') + '</div>' +
+        '<div class="info"><div class="tt">' + esc(w.title) + '</div><div class="cc">' + esc(w.category) + ' · ' + esc(w.year) + ' · ' + esc(w.duration) + '</div></div>' +
+        '<div class="ops"><button class="admin-mini-btn" data-work-edit="' + i + '">编辑</button><button class="admin-mini-btn danger" data-work-del="' + i + '">删除</button></div></div>';
+    }).join('');
+  }
+
+  var editingIndex = -1;
+  function openWorkEditor(i) {
+    editingIndex = i;
+    var w = adminData.works[i];
+    var isNew = !w;
+    if (isNew) {
+      w = { id: 'work-' + Date.now(), title: '新作品', category: '', year: '2026', duration: '00:00', desc: '', cover: '', video: '', detail: null };
+      adminData.works.push(w);
+      editingIndex = adminData.works.length - 1;
+    }
+    document.body.insertAdjacentHTML('beforeend',
+      '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:flex;align-items:center;justify-content:center;padding:24px;" id="workModal">' +
+      '<div style="width:640px;max-width:100%;max-height:90vh;overflow:auto;background:#1A1A1A;border:1px solid #292929;padding:28px;display:flex;flex-direction:column;gap:14px;">' +
+      '<div class="admin-card-title" style="font-size:16px;">' + (isNew ? '新增作品' : '编辑作品') + '</div>' +
+      rowField('作品标题', w.title, 'id="wTitle"') +
+      '<div class="admin-grid-2">' + rowField('分类', w.category, 'id="wCat"') + rowField('年份', w.year, 'id="wYear"') + '</div>' +
+      '<div class="admin-grid-2">' + rowField('时长', w.duration, 'id="wDur"') + rowField('封面路径', w.cover, 'id="wCover"') + '</div>' +
+      rowField('视频地址（mp4/webm，可留空）', w.video, 'id="wVideo"') +
+      '<div class="admin-field"><label class="admin-label">一句话描述</label><textarea class="admin-input" id="wDesc">' + esc(w.desc) + '</textarea></div>' +
+      '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:6px;"><button class="admin-mini-btn" id="wCancel">取消</button><button class="admin-mini-btn primary" id="wSave">保存作品</button></div></div></div>');
+    $('wCancel').addEventListener('click', function () {
+      if (isNew) adminData.works.splice(editingIndex, 1);
+      $('workModal').remove(); adminRenderWorks();
+    });
+    $('wSave').addEventListener('click', function () {
+      var x = adminData.works[editingIndex];
+      x.title = $('wTitle').value; x.category = $('wCat').value; x.year = $('wYear').value;
+      x.duration = $('wDur').value; x.cover = $('wCover').value; x.video = $('wVideo').value;
+      x.desc = $('wDesc').value;
+      logActivity('action', isNew ? '新增作品' : '编辑作品', x.title);
+      $('workModal').remove(); adminRenderWorks();
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t.hasAttribute && t.hasAttribute('data-work-edit')) openWorkEditor(+t.getAttribute('data-work-edit'));
+    if (t.hasAttribute && t.hasAttribute('data-work-del')) {
+      var wi = +t.getAttribute('data-work-del');
+      var wt = (adminData.works || [])[wi];
+      if (wt && confirm('确定删除作品「' + (wt.title || wt.id) + '」？')) {
+        logActivity('action', '删除作品', wt.title || wt.id);
+        adminData.works.splice(wi, 1);
+        adminRender();
+      }
+    }
+    if (t.hasAttribute && t.hasAttribute('data-tech-del')) {
+      var ti = +t.getAttribute('data-tech-del');
+      var cw = adminData.works[0];
+      var techs = cw && cw.detail && Array.isArray(cw.detail.techniques) ? cw.detail.techniques : null;
+      if (techs && techs[ti]) {
+        logActivity('action', '删除剪辑手法条目', techs[ti].name);
+        techs.splice(ti, 1);
+        adminRender();
+      }
+    }
+    if (t.hasAttribute && t.hasAttribute('data-skill-del')) {
+      var si = +t.getAttribute('data-skill-del');
+      if (Array.isArray(adminData.skills) && adminData.skills[si]) {
+        logActivity('action', '删除技能条目', adminData.skills[si].name);
+        adminData.skills.splice(si, 1);
+        adminRender();
+      }
+    }
+  });
+  $('addWorkBtn').addEventListener('click', function () { openWorkEditor(-1); });
+
+  // 按下标回填；数组缺失或越界时跳过，避免保存流程中断
+  function adminCollectRows(selector, arr, key, transform) {
+    if (!Array.isArray(arr)) return;
+    document.querySelectorAll(selector).forEach(function (el) {
+      var i = +el.getAttribute(selector.slice(1, -1));
+      var row = arr[i];
+      if (row) row[key] = transform ? transform(el.value) : el.value;
+    });
+  }
+  function adminCollect() {
+    adminData.profile = adminData.profile || {};
+    adminData.contact = adminData.contact || {};
+    adminReadBinds();
+    adminCollectRows('[data-intent-l]', adminData.profile.intent, 'label');
+    adminCollectRows('[data-intent-v]', adminData.profile.intent, 'value');
+    adminCollectRows('[data-stat-n]', adminData.profile.stats, 'num');
+    adminCollectRows('[data-stat-l]', adminData.profile.stats, 'label');
+    adminCollectRows('[data-spec-n]', adminData.specialties, 'name');
+    adminCollectRows('[data-spec-i]', adminData.specialties, 'icon');
+    adminCollectRows('[data-spec-d]', adminData.specialties, 'desc');
+    adminCollectRows('[data-spec-t]', adminData.specialties, 'tags');
+    var d = adminData.works[0] && adminData.works[0].detail;
+    if (d) {
+      var bg = document.querySelector('[data-case-bg]');
+      if (bg) d.bgParas = bg.value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+      var tl = document.querySelector('[data-case-tools]');
+      if (tl) d.tools = tl.value.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      adminCollectRows('[data-ci-l]', d.info, 'label');
+      adminCollectRows('[data-ci-v]', d.info, 'value');
+      adminCollectRows('[data-te-n]', d.techniques, 'num');
+      adminCollectRows('[data-te-t]', d.techniques, 'name');
+      adminCollectRows('[data-te-d]', d.techniques, 'desc');
+    }
+    adminCollectRows('[data-sk-n]', adminData.skills, 'num');
+    adminCollectRows('[data-sk-t]', adminData.skills, 'name');
+    adminCollectRows('[data-sk-d]', adminData.skills, 'desc');
+    adminCollectRows('[data-sk-l]', adminData.skills, 'level', function (v) { return Math.max(0, Math.min(100, +v || 0)); });
+    adminCollectRows('[data-so-g]', adminData.software, 'glyph');
+    adminCollectRows('[data-so-n]', adminData.software, 'name');
+    adminCollectRows('[data-so-l]', adminData.software, 'level');
+    adminCollectRows('[data-sl-n]', adminData.contact.socials, 'name');
+    adminCollectRows('[data-sl-u]', adminData.contact.socials, 'url');
+  }
+
+  $('saveBtn').addEventListener('click', function () {
+    adminCollect();
+    adminSaveData(adminData);
+    logActivity('action', '保存内容修改', '');
+    var tip = $('saveTip');
+    tip.textContent = '已保存到本浏览器 ✓';
+    tip.classList.add('show');
+    setTimeout(function () { tip.classList.remove('show'); }, 2500);
+  });
+  $('exportBtn').addEventListener('click', function () {
+    adminCollect(); adminSaveData(adminData);
+    logActivity('action', '导出内容', 'portfolio-content.json');
+    var blob = new Blob([JSON.stringify(adminData, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'portfolio-content.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  $('importBtn').addEventListener('click', function () { $('importFile').click(); });
+  $('importFile').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      try {
+        var j = JSON.parse(rd.result);
+        if (!j.profile) throw new Error('bad');
+        adminData = j; adminSaveData(adminData); adminRender();
+        logActivity('action', '导入内容', f.name);
+        alert('导入成功，内容已应用到本浏览器');
+      } catch (e) { alert('导入失败：文件格式不正确'); }
+    };
+    rd.readAsText(f);
+    this.value = '';
+  });
+  $('resetBtn').addEventListener('click', function () {
+    if (!confirm('确定清除本浏览器中的所有修改，恢复为网站默认内容？')) return;
+    localStorage.removeItem(LS_CONTENT);
+    localStorage.removeItem(LS_PWD);
+    adminLoadContent();
+    logActivity('action', '重置为默认内容', '');
+    alert('已恢复默认内容');
+  });
+  $('changePwdBtn').addEventListener('click', function () {
+    var o = $('oldPwd').value, n1 = $('newPwd').value, n2 = $('newPwd2').value;
+    $('pwdErr').textContent = '';
+    var cur = localStorage.getItem(LS_PWD) || DEFAULT_PWD;
+    if (o !== cur) { $('pwdErr').textContent = '原密码错误'; return; }
+    if (n1 !== n2) { $('pwdErr').textContent = '两次输入的新密码不一致'; return; }
+    if (n1.length < 8) { $('pwdErr').textContent = '新密码至少 8 位'; return; }
+    localStorage.setItem(LS_PWD, n1);
+    logActivity('action', '修改后台密码', '');
+    $('oldPwd').value = ''; $('newPwd').value = ''; $('newPwd2').value = '';
+    alert('密码修改成功（仅对本浏览器生效）');
+  });
+  /*ADMIN_END*/
+
+  /* ============================================================
+     启动
+     ============================================================ */
+  renderCommon();
+  initRevealObserver();
+  route();
+
+  // 导航栏滚动态（加深背景 + 毛玻璃）
+  var navEl = document.querySelector('.nav');
+  window.addEventListener('scroll', function () {
+    if (!navEl) return;
+    if (window.scrollY > 8) navEl.classList.add('scrolled');
+    else navEl.classList.remove('scrolled');
+  }, { passive: true });
+})();

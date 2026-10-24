@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--META_TAGS-->
+  <!--PRELOAD_IMAGE-->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%239EFF00'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- 字体异步加载：国内网络下 fonts.googleapis.com 常不可达，不能让它阻塞首屏渲染 -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" /></noscript>
+  <noscript><style>main,.nav,.mobile-menu,.footer,.video-modal,.skip-link{display:none!important}</style></noscript>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <a class="skip-link" href="#top">跳到主要内容</a>
+
+  <!-- 导航栏 -->
+  <nav class="nav">
+    <a class="nav-brand" href="/">
+      <span class="nav-brand-glyph"></span>
+      <span class="nav-brand-text">
+        <span class="nav-brand-name" id="navName">张君睿</span>
+        <span class="nav-brand-role">VIDEO EDITOR</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#top" aria-current="page">首页</a>
+      <a class="nav-link" href="#about">关于</a>
+      <a class="nav-link" href="#works">作品</a>
+      <a class="nav-link" href="#skills">技能</a>
+      <a class="nav-link" href="#contact">联系</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-nav" href="#contact">联系我</a>
+      <button class="nav-menu-btn" id="menuBtn" aria-label="菜单" aria-controls="mobileMenu" aria-expanded="false">
+        <svg viewBox="0 0 20 14" fill="none" aria-hidden="true" focusable="false"><path d="M1 1H19M1 7H19M1 13H19" stroke="#FFFFFF" stroke-width="1.8"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#top" class="active">首页</a>
+    <a href="#about">关于</a>
+    <a href="#works">作品</a>
+    <a href="#skills">技能</a>
+    <a href="#contact">联系</a>
+  </div>
+
+  <noscript>
+    <!--NOSCRIPT_SUMMARY-->
+  </noscript>
+
+  <main id="top" tabindex="-1">
+    <!-- Hero 首屏 -->
+    <section class="hero">
+      <div class="hero-left">
+        <span class="kicker-dot-wrap" id="heroKicker"></span>
+        <h1 class="hero-headline" id="heroHeadline"></h1>
+        <p class="hero-sub" id="heroSub"></p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#works">查看精选作品</a>
+          <a class="btn btn-ghost" href="#contact">联系我</a>
+        </div>
+        <div class="hero-tags" id="heroTags"></div>
+      </div>
+      <div class="hero-right">
+        <div class="showreel" id="showreel">
+          <img id="showreelImg" alt="个人 Showreel 封面" fetchpriority="high" decoding="async" />
+          <button class="play-btn" data-video="" data-poster="" aria-label="播放 Showreel">
+            <svg viewBox="0 0 22 18" fill="none" aria-hidden="true" focusable="false"><path d="M2 1L20 9L2 17Z" fill="#000000"/></svg>
+          </button>
+          <span class="dur-pill" id="showreelDur"></span>
+        </div>
+        <div class="showreel-caption">
+          <span class="cap-l" id="showreelCap"></span>
+          <span class="cap-r" id="showreelHint">点击播放 ▸</span>
+        </div>
+      </div>
+    </section>
+    <div class="scroll-hint">SCROLL — 向下探索</div>
+
+    <!-- 个人简介 -->
+    <section class="about" id="about">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">关于我 · ABOUT</span>
+          <h2 class="sec-title" style="margin-top:16px;">个人简介</h2>
+        </div>
+        <span class="sec-index">SECTION 01</span>
+      </div>
+      <div class="about-body">
+        <div class="portrait-col">
+          <div class="portrait"><img id="portraitImg" alt="张君睿的个人照片" loading="lazy" decoding="async" /></div>
+          <div>
+            <div class="portrait-name" id="portraitName"></div>
+            <div class="portrait-role" id="portraitRole"></div>
+          </div>
+        </div>
+        <div class="about-text-col">
+          <p class="bio" id="bio1"></p>
+          <p class="bio" id="bio2"></p>
+          <div class="intent-card" id="intentCard"></div>
+        </div>
+      </div>
+      <div class="spec-cards" id="specCards"></div>
+      <div class="stats-row" id="statsRow"></div>
+    </section>
+
+    <!-- 精选作品 -->
+    <section class="works" id="works">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">精选作品 · SELECTED WORKS</span>
+          <h2 class="sec-title" style="margin-top:16px;">精选作品</h2>
+        </div>
+        <span class="sec-index">SECTION 02</span>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+    </section>
+
+    <!-- 技能与软件 -->
+    <section class="skills" id="skills">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">技能清单 · SKILLS &amp; TOOLS</span>
+          <h2 class="sec-title" style="margin-top:16px;">技能与常用软件</h2>
+        </div>
+        <span class="sec-index">SECTION 03</span>
+      </div>
+      <div class="skills-body">
+        <div class="skills-list" id="skillsList"></div>
+        <div class="soft-col">
+          <div class="soft-title">常用软件</div>
+          <div class="soft-grid" id="softGrid"></div>
+          <p class="soft-note" id="softNote"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="contact" id="contact">
+      <span class="kicker">联系我 · CONTACT</span>
+      <div class="contact-body">
+        <div class="contact-left">
+          <h2 class="contact-title" id="contactTitle"></h2>
+          <p class="contact-sub" id="contactSub"></p>
+          <div><a class="btn btn-primary" id="mailtoBtn" href="#">发送邮件</a></div>
+        </div>
+        <div class="contact-card" id="contactCard"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-row">
+      <span class="footer-brand" id="footerBrand"></span>
+      <div class="footer-links">
+        <a href="#top">首页</a><a href="#about">关于</a><a href="#works">作品</a><a href="#skills">技能</a><a href="#contact">联系</a>
+      </div>
+      <span class="footer-copy">© 2026 张君睿 · 求职作品集</span>
+    </div>
+    <p class="footer-note" id="footerNote"></p>
+  </footer>
+
+  <!-- 视频播放弹窗 -->
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="视频播放" aria-hidden="true">
+    <div class="video-modal-inner">
+      <button class="video-modal-close" id="videoModalClose" aria-label="关闭视频">✕</button>
+      <div id="videoModalBody"></div>
+      <div class="video-modal-tip" id="videoModalTip"></div>
+    </div>
+  </div>
+
+  <!--CONTENT_INJECT-->
+  <script src="/js/main.js"></script>
+</body>
+</html>
