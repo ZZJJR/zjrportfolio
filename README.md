@@ -31,6 +31,7 @@
 ├── scripts/                   构建 / 发布辅助脚本（Python 3，路径均相对脚本位置解析）
 │   ├── build_spa.py           组装 SPA：内联 CSS + 内容数据 + JS → index.html
 │   ├── build_static.py        生成纯静态多页版（portfolio-static/，不含后台）
+│   ├── deploy_api.ps1         后台「发布上线」：按 blob 差异推送 GitHub main
 │   └── manual_import.py       资料库导入脚本（需设置 WB_TOKEN）
 ├── DEPLOY.md                  ★ 上线清单：环境要求 / 构建命令 / 部署步骤 / 回滚方案
 ├── GITHUB.md                  ★ 上传 GitHub 清单：文件取舍 / .gitignore / git 操作步骤 / 脱敏项
