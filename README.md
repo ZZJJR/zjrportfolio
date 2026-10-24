@@ -67,12 +67,15 @@ node server.js
 | `ADMIN_PASSWORD` | `admin123` | 首次启动写入的初始密码（仅在没有密码哈希时生效）；生产环境务必设置 |
 | `SITE_URL` | 自动推断 | 对外访问地址，用于 canonical / Open Graph |
 | `TRUST_PROXY` | `0` | 在 Nginx 等反向代理后才设为 `1`（否则不信任 `X-Forwarded-For`） |
+| `PYTHON_BIN` | 自动查找 | 后台「发布上线」使用的 Python 路径；Python 不在 PATH 时设置 |
 
 模板见 `portfolio/.env.example`。
 
 ## 后台功能
 
-8 个选项卡：基本信息 / 擅长方向 / 作品管理（增删改）/ 案例详情（可切换作品）/ 技能与软件 / 联系方式 / **访问记录**（服务端日志，持久化于 access-log.json）/ 设置（改密码）。
+9 个选项卡：基本信息 / 擅长方向 / 作品管理（增删改）/ 案例详情（可切换作品）/ 技能与软件 / 联系方式 / **访问记录**（服务端日志，持久化于 access-log.json）/ **发布上线**（构建静态站 + 推送 GitHub main）/ 设置（改密码）。
+
+「发布上线」会先保存当前修改，再运行 `scripts/build_spa.py --strict`，并通过 `scripts/deploy_api.ps1`（GitHub API）推送；需要本机已登录 GitHub CLI（`gh auth status`）。
 
 - 登录态 2 小时有效，连续 5 次密码错误会锁定 15 分钟
 - 「退出登录」会同时作废服务端会话

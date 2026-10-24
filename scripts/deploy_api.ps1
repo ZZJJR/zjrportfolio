@@ -64,6 +64,15 @@ try {
         $i++
     }
 
+    # 保留 GitHub 侧可能存在的自定义域名 / Actions 文件，避免发布时被误删
+    $preserve = @($remote.Keys | Where-Object { $_ -eq 'CNAME' -or $_ -eq '.nojekyll' -or $_ -like '.github/*' })
+    foreach ($p in $preserve) {
+        $localPath = Join-Path $root ($p.Replace('/', '\'))
+        if (-not (Test-Path -LiteralPath $localPath)) {
+            $entries.Add([pscustomobject]@{ path = $p; mode = '100644'; type = 'blob'; sha = $remote[$p] })
+        }
+    }
+
     $treeJson = @{ tree = $entries.ToArray() } | ConvertTo-Json -Depth 6 -Compress
     $treePath = Join-Path $tmpDir 'tree.json'
     [System.IO.File]::WriteAllText($treePath, $treeJson, (New-Object System.Text.UTF8Encoding($false)))

@@ -29,6 +29,7 @@
 | `ADMIN_PASSWORD` | `admin123` | 否 | 首次启动时写入的初始密码。仅当 `portfolio/auth.json` 还不存在（即没有密码哈希）时生效 |
 | `SITE_URL` | 自动推断 | 否 | 对外访问地址，用于 canonical / OG；例如 `https://example.com/` |
 | `TRUST_PROXY` | `0` | 否 | 只有反向代理之后才设为 `1`，才会信任 `X-Forwarded-For`（否则可伪造 IP 绕过限流） |
+| `PYTHON_BIN` | 自动查找 | 否 | 后台「发布上线」使用的 Python；Python 不在 PATH 时设置完整路径 |
 
 > 项目不依赖 `.env` 文件（保持零依赖），请以系统环境变量或进程管理器（systemd / pm2 / Docker）的方式注入。模板见 `portfolio/.env.example`。
 
